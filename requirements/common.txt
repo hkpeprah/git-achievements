@@ -1,0 +1,4 @@
+# Application requiremeents
+Django==1.6.2
+BeautifulSoup==4.3.2
+
