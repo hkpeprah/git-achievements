@@ -10,19 +10,43 @@ class NoQuantifierException(Exception):
     pass
 
 
-class MethodMixin():
+class BaseMixin():
+    """
+    Base Mixin to define functions used throughout mixins.
+    """
+    def get_methods(self):
+        """
+        Returns the methods this supports.
+        """
+        return self.methods
+
+
+class MethodMixin(BaseMixin):
     """
     Method Mixin is a class meant to be inherited by other classes
     The goal of the mixin is to provide method called `method` that
     can be used to apply a binary/unary operator to item.
     """
-    binary_operators = dict(
+    methods = (
+        ('contains', 'string contains'),
+        ('>', '>'),
+        ('<', '<'),
+        ('>=', '>='),
+        ('<=', '<='),
+        ('==', '=='),
+        ('!=', '!='),
+        ('divides', 'divisible by'),
+        ('begins_with', 'begins with'),
+        ('ends_with', 'ends with'),
+    )
+    binary_operators = dict((
         (">", "gt"),
         ("<", "lt"),
         (">=", "ge"),
         ("<=", "le"),
         ("==", "eq"),
-        ("!=", "ne"))
+        ("!=", "ne")
+    ))
 
     def set(self, m):
         """
@@ -90,13 +114,17 @@ class MethodMixin():
         return value.endswith(other)
 
 
-class QualifierMixin():
+class QualifierMixin(BaseMixin):
     """
     Mixin for qualifiers that apply the given sublacss method
     to the passed data.
     """
-    built_ins = dict(
-        ("length", len))
+    methods = (
+        ('length', 'length'),
+    )
+    built_ins = dict((
+        ("length", len),
+    ))
 
     def apply(self, m, obj):
         """
@@ -115,11 +143,15 @@ class QualifierMixin():
         return func(self, obj)
 
 
-class QuantifierMixin():
+class QuantifierMixin(BaseMixin):
     """
     Mixin for quantifiers that apply the given function to an
     interable.
     """
+    methods = (
+        ('one', 'atleast one contains'),
+        ('all', 'all contains'),
+    )
     def apply(self, m, obj):
         """
         Applies the quantifier to the object.

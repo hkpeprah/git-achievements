@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Git Achievements{% endblock %}</title>
+        <meta name="application-name" content="Git Achievements">
+        <meta name="author" content="{% block author %}Ford Peprah (http://github.com/hkpeprah){% endblock %}">
+        <meta name="keywords" content="{% block keywords %}git github achievements bitbucket{% endblock %}">
+        <meta name="description" content="{% block description %}Earn achievements while using Github{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="{% static 'achievement/css/site.css' %}" type="text/css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        <!-- Add additional content to the head tag here -->
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="content fill sticky">
+            {% include "achievement/base/navigation.html" %}
+            <!-- Add content here -->
+            {% block content %}
+            {% endblock %}
+        </div>
+        {% include "achievement/base/footer.html" %}
+    </body>
+</html>

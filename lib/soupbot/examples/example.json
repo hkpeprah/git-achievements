@@ -1,0 +1,114 @@
+{
+    'web': [
+        {
+            "GsearchResultClass": "GwebSearch",
+            "cacheUrl": "http://www.google.com/search?q=cache:dIBIpaJI7JgJ:en.wikipedia.org",
+            "content": "The domestic <b>dog</b> (Canis lupus familiaris) is a subspecies of the gray wolf (Canis \nlupus), a member of the Canidae family of the mammalian order Carnivora.",
+            "title": "<b>Dog</b> - Wikipedia, the free encyclopedia",
+            "titleNoFormatting": "Dog - Wikipedia, the free encyclopedia",
+            "unescapedUrl": "http://en.wikipedia.org/wiki/Dog",
+            "url": "http://en.wikipedia.org/wiki/Dog",
+            "visibleUrl": "en.wikipedia.org"
+        },
+        {
+            "GsearchResultClass": "GwebSearch",
+            "cacheUrl": "http://www.google.com/search?q=cache:CSVmxyR9L4IJ:www.youtube.com",
+            "content": "Dec 29, 2013 <b>...</b> EXTREME FUNNY <b>DOGS</b> COMPILATION 2014! <b>...</b> Cute <b>dogs</b> feel jealous - \nFunny jealous <b>dogs</b> compilation by Tiger Productions Featured\u00a0<b>...</b>",
+            "title": "EXTREME FUNNY <b>DOGS</b> COMPILATION 2014! - YouTube",
+            "titleNoFormatting": "EXTREME FUNNY DOGS COMPILATION 2014! - YouTube",
+            "unescapedUrl": "http://www.youtube.com/watch?v=zmIxovkV3Ro",
+            "url": "http://www.youtube.com/watch%3Fv%3DzmIxovkV3Ro",
+            "visibleUrl": "www.youtube.com"
+        },
+        {
+            "GsearchResultClass": "GwebSearch",
+            "cacheUrl": "http://www.google.com/search?q=cache:J2KsxkQ93u4J:www.petfinder.com",
+            "content": "<b>Dog</b> breeds: Browse our list of 152 <b>dog</b> breeds to find the perfect <b>dog</b> breed for \nyou, and then find adoptable <b>dogs</b> and <b>dog</b> shelters close to you.",
+            "title": "<b>Dog</b> Breeds | Browse 151 <b>dog</b> breeds | Petfinder",
+            "titleNoFormatting": "Dog Breeds | Browse 151 dog breeds | Petfinder",
+            "unescapedUrl": "http://www.petfinder.com/dog-breeds/",
+            "url": "http://www.petfinder.com/dog-breeds/",
+            "visibleUrl": "www.petfinder.com"
+        },
+        {
+            "GsearchResultClass": "GwebSearch",
+            "cacheUrl": "http://www.google.com/search?q=cache:Rht9y0MbwZEJ:www.petfinder.com",
+            "content": "Everything you need to know about <b>dogs</b>, including <b>dog</b> breeds,\u00a0<b>...</b>",
+            "title": "<b>Dog</b>: <b>Dog</b> Breeds, Adoption, Bringing a <b>Dog</b> Home and Care",
+            "titleNoFormatting": "Dog: Dog Breeds, Adoption, Bringing a Dog Home and Care",
+            "unescapedUrl": "http://www.petfinder.com/dogs/",
+            "url": "http://www.petfinder.com/dogs/",
+            "visibleUrl": "www.petfinder.com"
+        }
+    ],
+    'images': [
+        {
+            "GsearchResultClass": "GimageSearch",
+            "content": "<b>Dogs</b> more racist towards",
+            "contentNoFormatting": "Dogs more racist towards",
+            "height": "768",
+            "imageId": "ANd9GcSMs-8bRX-7jTqcQauH1Md1uKIHNqXRXsnrdKUEyDBZ6XHNvSfuIeYTB9IP",
+            "originalContextUrl": "http://davidfeldmanshow.com/dogs-racist/",
+            "tbHeight": "113",
+            "tbUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcSMs-8bRX-7jTqcQauH1Md1uKIHNqXRXsnrdKUEyDBZ6XHNvSfuIeYTB9IP",
+            "tbWidth": "150",
+            "title": "50 Years After Passage of Civil Rights Act, Some <b>Dogs</b> Still Racist <b>...</b>",
+            "titleNoFormatting": "50 Years After Passage of Civil Rights Act, Some Dogs Still Racist ...",
+            "unescapedUrl": "http://davidfeldmanshow.com/wp-content/uploads/2014/01/dogs-wallpaper.jpg",
+            "url": "http://davidfeldmanshow.com/wp-content/uploads/2014/01/dogs-wallpaper.jpg",
+            "visibleUrl": "davidfeldmanshow.com",
+            "width": "1024"
+        },
+        {
+            "GsearchResultClass": "GimageSearch",
+            "content": "GTY yawning <b>dog</b> dm 130807",
+            "contentNoFormatting": "GTY yawning dog dm 130807",
+            "height": "1728",
+            "imageId": "ANd9GcTgO1qNCJNHt1-SNdFsRrSRr9a6vmuR9YNCmELY0MyaLT1nc-GXasxCV8M",
+            "originalContextUrl": "http://abcnews.go.com/blogs/lifestyle/2013/08/yawns-are-contagious-in-dogs-too/",
+            "tbHeight": "100",
+            "tbUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcTgO1qNCJNHt1-SNdFsRrSRr9a6vmuR9YNCmELY0MyaLT1nc-GXasxCV8M",
+            "tbWidth": "150",
+            "title": "Yawns Are Contagious in <b>Dogs</b>, Too - ABC News",
+            "titleNoFormatting": "Yawns Are Contagious in Dogs, Too - ABC News",
+            "unescapedUrl": "http://abcnews.go.com/images/Lifestyle/GTY_yawning_dog_dm_130807.jpg",
+            "url": "http://abcnews.go.com/images/Lifestyle/GTY_yawning_dog_dm_130807.jpg",
+            "visibleUrl": "abcnews.go.com",
+            "width": "2592"
+        },
+        {
+            "GsearchResultClass": "GimageSearch",
+            "content": "Pretty-<b>Dogs</b>-in-Garden-<b>dogs</b>-",
+            "contentNoFormatting": "Pretty-Dogs-in-Garden-dogs-",
+            "height": "1200",
+            "imageId": "ANd9GcR8DWn0ALPj_9XAB8N29bMw-uhMAulBpo8tb38upppYkxiFVKjlxcXbUyw",
+            "originalContextUrl": "http://dogsworldafterall.com/",
+            "tbHeight": "94",
+            "tbUrl": "http://t3.gstatic.com/images?q=tbn:ANd9GcR8DWn0ALPj_9XAB8N29bMw-uhMAulBpo8tb38upppYkxiFVKjlxcXbUyw",
+            "tbWidth": "150",
+            "title": "It&#39;s a <b>Dog&#39;s</b> World After All",
+            "titleNoFormatting": "It&#39;s a Dog&#39;s World After All",
+            "unescapedUrl": "http://kp-dev.com/wp-content/uploads/2013/08/Pretty-Dogs-in-Garden-dogs-13905929-1920-1200.jpg",
+            "url": "http://kp-dev.com/wp-content/uploads/2013/08/Pretty-Dogs-in-Garden-dogs-13905929-1920-1200.jpg",
+            "visibleUrl": "dogsworldafterall.com",
+            "width": "1920"
+        },
+        {
+            "GsearchResultClass": "GimageSearch",
+            "content": "meaning \u201cpuffy-lion <b>dog</b>.",
+            "contentNoFormatting": "meaning \u201cpuffy-lion dog.",
+            "height": "433",
+            "imageId": "ANd9GcQ1zWDvT7HMzUy8875CnbPYt4cxynmw5L_FipDKKAQFB42cEe0a4SKsnw9r",
+            "originalContextUrl": "http://news.discovery.com/animals/pets/dogs-not-as-close-kin-to-wolves-as-thought-140116.htm",
+            "tbHeight": "91",
+            "tbUrl": "http://t0.gstatic.com/images?q=tbn:ANd9GcQ1zWDvT7HMzUy8875CnbPYt4cxynmw5L_FipDKKAQFB42cEe0a4SKsnw9r",
+            "tbWidth": "138",
+            "title": "<b>Dogs</b> Not as Close Kin to Wolves as Thought : Discovery News",
+            "titleNoFormatting": "Dogs Not as Close Kin to Wolves as Thought : Discovery News",
+            "unescapedUrl": "http://static.ddmcdn.com/gif/earliest-dogs-660x433-130306-chow-chow-660x433.jpg",
+            "url": "http://static.ddmcdn.com/gif/earliest-dogs-660x433-130306-chow-chow-660x433.jpg",
+            "visibleUrl": "news.discovery.com",
+            "width": "660"
+        }
+    ]
+}

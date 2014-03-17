@@ -1,2 +1,5 @@
 # Python Files
 *.py[co]
+
+# Sass/Less
+*.\.sass-cache

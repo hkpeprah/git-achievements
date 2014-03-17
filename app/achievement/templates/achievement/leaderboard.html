@@ -1,0 +1,131 @@
+{% extends "achievement/base/base.html" %}
+{% load staticfiles %}
+{% load stringmethods %}
+
+{% block head %}
+    <script type="text/javascript">
+        $(function() {
+            // save tab state on click
+            $('[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+                var id = $(e.target).attr("tabnumber");
+                window.location.hash = id;
+            });
+
+            // on load of the page, switch to currently selected tab based on hash
+            var hash = window.location.hash.substr(1);
+            if (hash.length) $('a[tabnumber="' + hash + '"]').tab('show');
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- Sub-navigation for the leaderboard page -->
+        <div class="row sub-nav">
+            <ul class="list-inline">
+                <li class="dropdown active col-xs-4 col-sm-4 col-md-4 col-lg-4 pull-left">
+                    <a id="leaderboard-tables" class="dropdown-toggle btn btn-default" data-toggle="dropdown" href="#">
+                        <span>Select Leaderboard &nbsp;&nbsp;</span><span class="caret"></span>
+                    </a>
+                    <ul data-toggle="tab" class="dropdown-menu" role="menu" aria-labelledby="#leaderboard-tables">
+                        <li class="active"><a href="#users" tabnumber="0" tabindex="-1" data-toggle="tab">Users</a></li>
+                        <li><a href="#achievements" tabnumber="1" tabindex="-1" data-toggle="tab">Achievements</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8 pull-right">
+                <form class="navbar-form" role="search"><!-- Search bar -->
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Filter"
+                               name="srch-term" id="srch-term">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br/>
+        <div class="tab-content"><!-- Leaderboard tables -->
+            <div class="tab-pane fade in active" id="users"><!-- User leaderboard -->
+                <div class="table-responsive white padded">
+                    <table class="table table-condensed table-hover">
+                        <colgroup>
+                            <col class="col-xs-8" span="1">
+                            <col class="col-xs-2" span="1">
+                            <col class="col-xs-1" span="1">
+                            <col class="col-xs-1" span="1">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Web Service</th>
+                                <th>Rank</th>
+                                <th>Points</th>
+                        </thead>
+                        <tbody>
+                            {% for user in users|default:examples.users %}
+                                <tr>
+                                    <td>{% include "achievement/leaderboard/user.html" with user=user %}</td>
+                                    <td>{{ user.service }}</td>
+                                    <td>{{ user.rank }}</td>
+                                    <td>{{ user.points }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="achievements"><!-- Achievement leaderboard -->
+                <div class="table-responsive white padded">
+                    <table class="table table-condensed">
+                        <colgroup>
+                            <col class="col-xs-8" span="1">
+                            <col class="col-xs-2" span="1">
+                            <col class="col-xs-2" span="1">
+                        </colgroup>                        
+                        <thead>
+                            <tr>
+                                <th>Achievement</th>
+                                <th>Difficulty</th>
+                                <th>Achievers Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for achievement in achievements|default:examples.achievements %}
+                                <tr>
+                                    <td>
+                                        <div class="panel panel-default achievement-table-item">
+                                            <a data-toggle="collapse" href="#achievement{{ forloop.counter }}" class="collapsed">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">{{ achievement.name }}</div>
+                                                </div>
+                                            </a>
+                                            <div id="achievement{{ forloop.counter}}" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <p>{{ achievement.description }}</p>
+                                                    <span><b>Title Unlocked: </b>
+                                                        {% if achievement.title %}
+                                                            {% include "achievement/achievement/title.html" with title=achievement.title %}
+                                                        {% else %}
+                                                            None
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{% stringmethod "replace" achievement.difficulty|title "-" " " %}</td>
+                                    <td>{{ achievement.count }}</td>
+                                </tr>
+                            {% endfor %}
+                            <script type="text/javascript">$('[data-toggle="popover"]').popover();</script>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

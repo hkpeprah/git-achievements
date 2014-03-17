@@ -1,0 +1,72 @@
+{% load staticfiles %}
+
+<nav class="navbar navbar-static-top white" id="top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#site-navigation">
+                <span class="sr-only">Toggle navigation</span>
+                {% for i in "123" %}
+                    <span class="icon-bar"></span>
+                {% endfor %}
+            </button>
+            <!-- <a href="/" class="navbar-brand">Git <span class="lighter">Achievements</span></a>-->
+            <a href="/" class="navbar-brand">
+                <img class="white-logo" src="{% static 'img/logo-white.png' %}" alt="logo" />
+                <img class="black-logo" src="{% static 'img/logo.png' %}" alt="logo" />
+            </a>
+        </div>
+        <div id="site-navigation" class="collapse navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li><a href="/leaderboard">Leaderboard</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="#">Add Achievement</a></li>
+                    <li><a href="#">Community</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="/login">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                {% endif %}
+                <li><a href="#" data-toggle="modal" data-target="#contribute">Contribute</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- container -->
+</nav><!-- nav(header) bar -->
+<!-- Modal -->
+<div class="modal fade contribute" id="contribute" tabindex="-1" role="dialog" aria-labelledby="contribute" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Contribute</h2>
+            </div>
+            <div class="modal-body">
+                <p class="">
+                    Feel like contributing to the project?  Check out the issues on Github, fork, and submit a pull request.
+                    If you've found an issue while using the service, open a ticket on Github to give us a chance to fix it,
+                    and we'll add you to the Contributors list.  Don't know how to code, but still want to help us out?  Donate
+                    some bitcoin or shoot us a friendly email.
+                </p>
+                <img src="" class="mobile-only qr-code" /><!-- scannable qr code for mobile donations -->
+            </div>
+            <div class="modal-footer">
+                <a href="//github.com/git-achievements">
+                    <button type="button" class="btn btn-lg btn-primary">
+                        <span><img src="{% static 'img/octocat.png' %}" /></span>
+                        <span>Fork us on Github</span>
+                    </button>
+                </a>
+                <a href="#">
+                    <button type="button" class="desktop-only btn btn-lg btn-warning">
+                        <span><img src="{% static 'img/bitcoin.png' %}" /></span>
+                        <span>Donate some Bitcoin</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
