@@ -153,7 +153,7 @@ class AttributeCondition(Condition):
     attributes = PickledObjectField()
     qualifiers = models.ManyToManyField('Qualifier', blank=True, null=True)
 
-    def __call__t(self, event):
+    def __call__(self, event):
         """
         Tests the condition by checking the two attributes; returning
         True if the condition succeeds, otherwise False.
