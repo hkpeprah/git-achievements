@@ -1,0 +1,50 @@
+[
+    {
+        "pk": 1,
+        "model": "assets.ConditionType",
+        "fields": {
+            "name": "Non-Custom",
+            "description": "",
+            "custom": false,
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.ConditionType",
+        "fields": {
+            "name": "Custom",
+            "description": "",
+            "custom": true,
+        }
+    }
+    {
+        "pk": 1,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "name": ""
+            "description": "",
+            "method": ,
+            "condition_type": ,
+            "achievement": ,
+            "qualifier": ,
+            "quantifier": ,
+            "attribute": "",
+            "value": ""
+        }
+    },
+    {
+        "pk": 1,
+        "model": "assets.AttributeCondition",
+        "fields": {
+            "name": ""
+            "description": "",
+            "method": ,
+            "condition_type": ,
+            "achievement": ,
+            "attributes": "",
+            "qualifiers": [
+
+            ]
+        }
+    }
+]

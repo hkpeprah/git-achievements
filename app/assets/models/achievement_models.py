@@ -151,7 +151,7 @@ class AttributeCondition(Condition):
     attributes in the returned event are tested against each other.
     """
     attributes = PickledObjectField()
-    qualifiers = models.ForeignKey('Qualifier', blank=True, null=True)
+    qualifiers = models.ManyToManyField('Qualifier', blank=True, null=True)
 
     def __call__t(self, event):
         """
@@ -209,7 +209,7 @@ class Achievement(BaseModel):
     )
 
     # Achievement fields
-    creator = models.ForeignKey('UserProfile', related_name='achievements')
+    creator = models.ForeignKey('UserProfile', related_name='achievements', blank=True, null=True)
     achievement_type = models.ForeignKey('AchievementType')
     difficulty = models.CharField(max_length=50, choices=ACHIEVEMENT_DIFFICULTY_LEVELS)
     grouping = models.CharField(max_length=10, choices=CONDITION_GROUPING, default=DEFAULT_GROUPING)

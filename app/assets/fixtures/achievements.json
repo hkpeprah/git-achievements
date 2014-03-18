@@ -1,0 +1,38 @@
+[
+    {
+        "pk": 1,
+        "model": "assets.AchievementType",
+        "fields": {
+            "name": "NON",
+            "description": "",
+            "custom": false
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.AchievementType",
+        "fields": {
+            "name": "SPC",
+            "description": "",
+            "custom": true
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.AchievementType",
+        "fields": {
+            "name": "CUS",
+            "description": "",
+            "custom": true
+        }
+    },
+    {
+        "pk": 1,
+        "model": "assets.Achievement",
+        "fields": {
+            "achievement_type": ,
+            "difficulty": "",
+            "grouping": ""
+        }
+    }
+]
