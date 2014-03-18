@@ -27,6 +27,30 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Fixture directions, where Django looks for initial data to populate
+# the database with
+FIXTURE_DIRS = (
+    'app/assets/fixtures/',
+)
+
+# Paths for the loaddata script to load in data to populate the database
+# Loads in order to allow dependencies be satisfied
+FIXTURE_PATHS = (
+    'app/assets/fixtures/badges.json',
+    'app/assets/fixtures/qualifiers.json',
+    'app/assets/fixtures/quantifiers.json',
+    'app/assets/fixtures/methods.json',
+)
+
+# Authentication backends
+# Provides the means by which users can authenticate and login
+AUTHENTICATION_BACKENDS = (
+    'social.backends.github.GithubOAuth2',
+    'achievements.auth_backends.UserProfileModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+CUSTOM_USER_MODEL = 'app.assets.models.UserProfile'
 
 # Template specifications
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -37,22 +61,32 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
+    # Third party processors
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+    # Request proccessor
     'django.core.context_processors.request',
 )
 
 # Application definition
 INSTALLED_APPS = (
+    'django_admin_bootstrapped.bootstrap3',
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third party applications
+    'social.apps.django_app.default',
     # Add custom apps here
     'app.assets',
+    'app.shared',
     'app.achievement',
 )
 
+# Middleware
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -139,7 +173,7 @@ ACHIEVEMENTS = (
         'description': "Submit a pull request that fails to pass Jenkins unit tests at least once.",
         'difficulty': "easy",
         'count': 3,
-        'title': {
+        'badge': {
             'name': "Homer",
             'difficulty': "easy"
         }
@@ -149,7 +183,7 @@ ACHIEVEMENTS = (
         'description': "Submit your first pull request.",
         'difficulty': "easy",
         'count': 3,
-        'title': {
+        'badge': {
             'name': "Look at me mom!",
             'difficulty': "easy"
         }
@@ -166,7 +200,7 @@ ACHIEVEMENTS = (
         'description': "Submit a pull request with over 9000 changes made, additions or deletions, and have it merged into the development branch.",
         'difficulty': "very-hard",
         'count': 0,
-        'title': {
+        'badge': {
             'name': "Goku",
             'difficulty': "very-hard"
         }
@@ -192,7 +226,7 @@ CAROUSEL = (
 )
 
 BASIC_EXAMPLE_CONFIG = {
-    'titles': (
+    'badges': (
         {
             'name': "Homer",
             'difficulty': "easy"

@@ -19,15 +19,14 @@
             <ul class="nav navbar-nav">
                 <li><a href="/leaderboard">Leaderboard</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="#">Add Achievement</a></li>
-                    <li><a href="#">Community</a></li>
+                    <li><a href="/achievement/create">Add Achievement</a></li>
+                    <li><a href="/community">Community</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="/login">Logout</a></li>
+                    <li><a href="/users/{{ user.pk }}">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
                 {% else %}
                     <li><a href="/login">Login</a></li>
                 {% endif %}

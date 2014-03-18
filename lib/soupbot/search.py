@@ -65,9 +65,13 @@ class GoogleSearch(object):
         data = response.read()
         data = json.loads(data)
         # Get the results from the json object
-        results = data['responseData']['results']
-        cls = results[0].get('GsearchResultClass', None) if len(results) \
-                  else None
+
+        try:
+            results = data['responseData']['results']
+            cls = results[0].get('GsearchResultClass', None) if len(results) \
+                      else None
+        except TypeError:
+            return [], None
 
         return results, cls
 

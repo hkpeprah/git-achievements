@@ -4,13 +4,13 @@ from django.contrib import admin
 from app.assets.models import *
 
 
-class TitleAdmin(admin.ModelAdmin):
+class BadgeAdmin(admin.ModelAdmin):
     """
     Admin for Title model.
     """
     pass
 
-admin.site.register(Title, TitleAdmin)
+admin.site.register(Badge, BadgeAdmin)
 
 
 class MethodAdmin(admin.ModelAdmin):
@@ -76,15 +76,6 @@ class ConditionInline(admin.TabularInline):
     extra = 1
 
 
-class ConditionGroupAdmin(admin.ModelAdmin):
-    """
-    Admin for condition groups.
-    """
-    inlines = [ConditionInline]
-
-admin.site.register(ConditionGroup, ConditionGroupAdmin)
-
-
 class AttributeConditionAdmin(admin.ModelAdmin):
     """
     Admin for creating Conditions.
@@ -92,11 +83,6 @@ class AttributeConditionAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(AttributeCondition, ConditionAdmin)
-
-
-class ConditionGroupInline(admin.TabularInline):
-    model = ConditionGroup
-    extra = 1
 
 
 class AchievementTypeAdmin(admin.ModelAdmin):
@@ -112,6 +98,6 @@ class AchievementAdmin(admin.ModelAdmin):
     """
     Admin for creating achievements.
     """
-    inlines = [ConditionGroupInline]
+    pass
 
 admin.site.register(Achievement, AchievementAdmin)

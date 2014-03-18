@@ -1,4 +1,5 @@
 import json
+import random
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -6,6 +7,7 @@ from django.contrib import messages
 from django.template import RequestContext, loader
 from django.shortcuts import render, render_to_response, redirect
 
+from app.assets.models import Badge
 
 
 def index_view(request):
@@ -17,12 +19,17 @@ def index_view(request):
     @return: HttpResponse
     """
     conf = settings.BASIC_EXAMPLE_CONFIG
+    badges = sorted(Badge.objects.all().order_by('pk'),
+                    key = lambda x: random.random())
+
+    if len(badges) == 0:
+        badges = conf['badges']
 
     return render_to_response('achievement/index.html', 
         context_instance=RequestContext(request, {
             'contributors': settings.CONTRIBUTORS,
             'carousel': settings.CAROUSEL,
-            'titles': conf['titles']
+            'badges': badges[:5]
         })
     )
 
@@ -58,3 +65,32 @@ def leaderboard_view(request):
             'examples': examples
         })
     )
+
+def create_achievement(request):
+    """
+    """
+    pass
+
+
+def approve_achievement(request, achievement_id):
+    """
+    """
+    pass
+
+
+def edit_achievement(request, achievement_id):
+    """
+    """
+    pass
+
+
+def view_achievement(request, achievement_id):
+    """
+    """
+    pass
+
+
+def view_profile(request, user_id):
+    """
+    """
+    pass

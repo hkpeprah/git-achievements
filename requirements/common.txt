@@ -1,6 +1,17 @@
 # Application requiremeents
+# Main requirements for the application
 Django==1.6.2
+python-social-auth
+django-picklefield==0.3.1
+
+# Web scraping and parsing
 beautifulsoup4==4.3.2
-django-static-precompiler==0.3
 mechanize==0.2.5
+
+# Image Processing
 Pillow==2.3.0
+
+# Static flies and styling
+django-static-precompiler==0.3
+django-crispy-forms==1.4.0
+django-admin-bootstrapped==1.6.2

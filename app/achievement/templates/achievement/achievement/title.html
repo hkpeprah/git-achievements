@@ -1,8 +1,0 @@
-{# expects to be passed a title object to use #}
-<div class="achievement-title"
-     {% if tooltip %}data-toggle="tooltip" data-placement="top" title="Difficulty: {{ title.difficulty|title }}"{% endif %}>
-    <div class="name">
-        <span class="glyphicon glyphicon-star icon {{ title.difficulty }}"></span>
-        <span>{{ title.name }}</span>
-    </div>
-</div>

@@ -1,0 +1,22 @@
+[
+    {
+        "pk": 1,
+        "model": "assets.Quantifier",
+        "fields": {
+            "name": "all",
+            "description": "All the values satisfy the condition.",
+            "callablemethod": "__all__",
+            "argument_type": "list"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.Quantifier",
+        "fields": {
+            "name": "any",
+            "description": "Any of the value satisfy the condition.",
+            "callablemethod": "__any__",
+            "argument_type": "list"
+        }
+    }
+]

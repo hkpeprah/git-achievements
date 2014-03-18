@@ -1,0 +1,12 @@
+[
+    {
+        "pk": 1,
+        "model": "assets.Qualifier",
+        "fields": {
+            "name": "string length",
+            "description": "Length of the string.",
+            "callablemethod": "__len__",
+            "argument_type": "str"
+        }
+    }
+]

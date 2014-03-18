@@ -1,0 +1,66 @@
+[
+    {
+        "pk": 1,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "Homer Simpson",
+            "description": "The sum of the square roots of any two sides of an isosceles triangle is equal to the square root of the remaining side."
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "Kakarot",
+            "description": "What does the scouter say about his power level, Vegeta?"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "No Flash Photography",
+            "description": "Please, no flash photography."
+        }
+    },
+    {
+        "pk": 4,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "My name is...",
+            "description": "My name is, what?  My name is, who?  My name is, chka-chka..."
+        }
+    },
+    {
+        "pk": 5,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "IT Support",
+            "description": "Have you tried turning it off and on again?"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "Baby Steps",
+            "description": "One step it a time.  We're all gonna make it, brah."
+        }
+    },
+    {
+        "pk": 7,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "Such wow",
+            "description": "Many progress, much code."
+        }
+    },
+    {
+        "pk": 8,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "The Wally",
+            "description": "\"When I was your age Asok, I too sought the thrill of victory and the pleasures of the flesh. But after twenty years of not getting either one, I made convenience my new mistress.\" - Wally"
+        }
+    }
+]

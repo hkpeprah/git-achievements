@@ -71,15 +71,15 @@
                 </div>
             </div>
         </section>
-        <section id="titles">
+        <section id="badges">
             <div class="container hero-alternate">
-                <h1 style="margin-bottom: 10px;">What are some Titles?</h1>
-                <div class="achievement-title-list">
-                    {% for title in titles %}
-                        {% include "achievement/achievement/title.html" with title=title tooltip="true" %}
+                <h1 style="margin-bottom: 10px;">What are some Badges?</h1>
+                <div class="achievement-badge-list">
+                    {% for badge in badges %}
+                        {% include "shared/badge.html" with badge=badge tooltip="true" %}
                     {% endfor %}
                     {# We enable tooltips just because it's nice here.  They aren't enabled by default for performance. #}
-                    <script type="text/javascript">$('.achievement-title').tooltip();</script>
+                    <script type="text/javascript">$('.achievement-badge').tooltip();</script>
                 </div>
             </div>
         </section>

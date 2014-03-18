@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load stringmethods %}
 
+{% block title %}Leaderboard | Git Achievements{% endblock %}
+
 {% block head %}
     <script type="text/javascript">
         $(function() {
@@ -37,7 +39,7 @@
                 <form class="navbar-form" role="search"><!-- Search bar -->
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Filter"
-                               name="srch-term" id="srch-term">
+                               name="q" id="q">
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -68,7 +70,7 @@
                         <tbody>
                             {% for user in users|default:examples.users %}
                                 <tr>
-                                    <td>{% include "achievement/leaderboard/user.html" with user=user %}</td>
+                                    <td>{% include "shared/user.html" with user=user %}</td>
                                     <td>{{ user.service }}</td>
                                     <td>{{ user.rank }}</td>
                                     <td>{{ user.points }}</td>
@@ -106,9 +108,9 @@
                                             <div id="achievement{{ forloop.counter}}" class="panel-collapse collapse">
                                                 <div class="panel-body">
                                                     <p>{{ achievement.description }}</p>
-                                                    <span><b>Title Unlocked: </b>
-                                                        {% if achievement.title %}
-                                                            {% include "achievement/achievement/title.html" with title=achievement.title %}
+                                                    <span><b>Badge Unlocked: </b>
+                                                        {% if achievement.badge %}
+                                                            {% include "shared/badge.html" with badge=achievement.badge %}
                                                         {% else %}
                                                             None
                                                         {% endif %}

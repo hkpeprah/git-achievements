@@ -1,0 +1,9 @@
+{# expects to be passed a badge object to use #}
+{% with badge.difficulty as difficulty %}
+<div class="achievement-badge" {% if tooltip %}data-toggle="tooltip" data-placement="top" title="Difficulty: {{ difficulty|title }}"{% endif %}>
+    <div class="name">
+        <span class="glyphicon glyphicon-star icon {{ difficulty|lower }}"></span>
+        <span>{{ badge.name }}</span>
+    </div>
+</div>
+{% endwith %}
