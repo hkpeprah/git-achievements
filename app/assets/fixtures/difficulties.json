@@ -1,0 +1,56 @@
+[
+    {
+        "pk": 1,
+        "model": "assets.Difficulty",
+        "fields": {
+            "name": "easy",
+            "description": "Awarded for completing an easy level achievement that promotes using git, and active participation in pull requests and issues.",
+            "points": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.Difficulty",
+        "fields": {
+            "name": "medium",
+            "description": "Harder to get than easy badges, but no so hard.  These achievements require patience and perservarence.",
+            "points": 2
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.Difficulty",
+        "fields": {
+            "name": "hard",
+            "description": "These badges recognize achievements that show heavy use and knowledge of git, and active contribution to coding projects.",
+            "points": 4
+        }
+    },
+    {
+        "pk": 4,
+        "model": "assets.Difficulty",
+        "fields": {
+            "name": "very-hard",
+            "description": "These badges recognize major contributions to open-source and in-house projects, and wild use of git with full diresgard for your code base.",
+            "points": 7
+        }
+    },
+    {
+        "pk": 5,
+        "model": "assets.Difficulty",
+        "fields": {
+            "name": "impossible",
+            "description": "These badges are awarded for wild and crazy horse play.",
+            "points": 11
+        }
+    },
+    {
+        "pk": 6,
+        "model": "assets.Difficulty",
+        "fields": {
+            "name": "legendary",
+            "description": "Contributing to the code source, or going above and beyond the call to action.",
+            "points": 20
+        }
+    }
+]

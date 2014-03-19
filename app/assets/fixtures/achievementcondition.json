@@ -1,0 +1,26 @@
+[
+    {
+        "pk": 1, 
+        "model": "assets.achievementcondition", 
+        "fields": {
+            "content_type": [
+                "assets", 
+                "valuecondition"
+            ],
+            "object_id": 1, 
+            "achievement": 1
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "assets.achievementcondition", 
+        "fields": {
+            "content_type": [
+                "assets", 
+                "valuecondition"
+            ],
+            "object_id": 2, 
+            "achievement": 1
+        }
+    }
+]
