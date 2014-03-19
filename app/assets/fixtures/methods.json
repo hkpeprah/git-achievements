@@ -45,8 +45,7 @@
         "fields": {
             "name": "equal",
             "description": "Returns true if the values are equal.",
-            "callablemethod": "__eq__",
-            "argument_type": "int"
+            "callablemethod": "__eq__"
         }
     },
     {
@@ -55,8 +54,7 @@
         "fields": {
             "name": "not equal",
             "description": "Returns true if the values are not equal.",
-            "callablemethod": "__ne__",
-            "argument_type": "int"
+            "callablemethod": "__ne__"
         }
     },
     {

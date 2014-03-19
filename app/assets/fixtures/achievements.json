@@ -4,7 +4,7 @@
         "model": "assets.AchievementType",
         "fields": {
             "name": "NON",
-            "description": "",
+            "description": "Normal achievement that can be achieved through events alone.",
             "custom": false
         }
     },
@@ -13,7 +13,7 @@
         "model": "assets.AchievementType",
         "fields": {
             "name": "SPC",
-            "description": "",
+            "description": "Special events and circumstances can earn you this achievement through a moderator.",
             "custom": true
         }
     },
@@ -22,7 +22,7 @@
         "model": "assets.AchievementType",
         "fields": {
             "name": "CUS",
-            "description": "",
+            "description": "This achievement can be awarded by a project/repository manager.",
             "custom": true
         }
     },
@@ -30,9 +30,14 @@
         "pk": 1,
         "model": "assets.Achievement",
         "fields": {
-            "achievement_type": ,
-            "difficulty": "",
-            "grouping": ""
+            "name": "Number 1!",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 6,
+            "description": "Submit the first pull request ofor a repository."
         }
     }
 ]

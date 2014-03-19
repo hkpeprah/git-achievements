@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.template import RequestContext, loader
 from django.shortcuts import render, render_to_response, redirect
 
-from app.assets.models import Badge
+from app.assets.models import Achievement, Condition, Badge, UserProfile
 
 
 def index_view(request):
@@ -56,13 +56,18 @@ def leaderboard_view(request):
     @param request: Django request object
     @return: HttpResponse
     """
-    examples = {}
-    examples['users'] = settings.CONTRIBUTORS
-    examples['achievements'] = settings.ACHIEVEMENTS
+    examples = {
+        'users': settings.CONTRIBUTORS,
+        'achievements': settings.ACHIEVEMENTS
+    }
+
+    # Collect and filter the DB data
+    achievements = Achievement.objects.all()
 
     return render_to_response('achievement/leaderboard.html',
         context_instance=RequestContext(request, {
-            'examples': examples
+            'examples': examples,
+            'achievements': achievements
         })
     )
 

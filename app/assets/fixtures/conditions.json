@@ -5,7 +5,7 @@
         "fields": {
             "name": "Non-Custom",
             "description": "",
-            "custom": false,
+            "custom": false
         }
     },
     {
@@ -14,36 +14,260 @@
         "fields": {
             "name": "Custom",
             "description": "",
-            "custom": true,
+            "custom": true
         }
-    }
+    },
     {
         "pk": 1,
         "model": "assets.ValueCondition",
         "fields": {
-            "name": ""
-            "description": "",
-            "method": ,
-            "condition_type": ,
-            "achievement": ,
-            "qualifier": ,
-            "quantifier": ,
-            "attribute": "",
-            "value": ""
+            "description": "Pull request was opened.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "action",
+            "event_type": 17,
+            "value": "opened"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is one (1).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "1"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is two (2).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "2"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is four (4).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "4"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is one-hundred and one (101).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "101"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is one-hundred and fifty (150).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "150"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is three hundred and sixty (360).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "360"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is four hundred and four (404).",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "404"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is 1337.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "1337"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request number is greater than 9000.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "number",
+            "event_type": 17,
+            "value": "9000"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Commit comment contains the string \"DOH\".",
+            "method": 10,
+            "condition_type": 1,
+            "attribute": "comment.body",
+            "event_type": 1,
+            "value": "DOH"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request has over 200,000 deletions.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "deletions",
+            "event_type": 17,
+            "value": "200000"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request has less than 100 additions.",
+            "method": 2,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "100"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request has over 100 deletions.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "deletions",
+            "event_type": 17,
+            "value": "100"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request has no additions.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "0"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Pull request has deletions.",
+            "method": 6,
+            "condition_type": 1,
+            "attribute": "deletions",
+            "event_type": 17,
+            "value": "0"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Fork Octocat's demonstration repository \"Spoon-Knife\".",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "forkee.parent.full_name",
+            "event_type": 8,
+            "value": "octocat/Spoon-Knife"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Create a repository.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "ref_type",
+            "event_type": 2,
+            "value": "repository"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Push to a repository.",
+            "method": 3,
+            "condition_type": 1,
+            "attribute": "size",
+            "event_type": 19,
+            "value": "1"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Make a release.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "action",
+            "event_type": 20,
+            "value": "published"
         }
     },
     {
         "pk": 1,
         "model": "assets.AttributeCondition",
         "fields": {
-            "name": ""
-            "description": "",
-            "method": ,
-            "condition_type": ,
-            "achievement": ,
-            "attributes": "",
-            "qualifiers": [
-
+            "description": "Number of additions == number of deletions.",
+            "method": 5,
+            "condition_type": 1,
+            "event_type": 17,
+            "attributes": [
+                "additions",
+                "deletions"
             ]
         }
     }

@@ -119,7 +119,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{% stringmethod "replace" achievement.difficulty|title "-" " " %}</td>
+                                    <td>{% stringmethod "replace" achievement.difficulty.name|title "-" " " %}</td>
                                     <td>{{ achievement.count }}</td>
                                 </tr>
                             {% endfor %}

@@ -1,5 +1,9 @@
+import sys
+
 from django.db import models
 
+
+BUILT_IN = sys.modules['__builtin__']
 
 ARGUMENT_TYPES = (
     ("None", "Any"),
@@ -34,15 +38,14 @@ class BaseCallableModel(models.Model):
 
     # Default to built in module
     modules = (
-        __builtins__
+        BUILT_IN,
     )
 
     # Base fields
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     callablemethod = models.CharField(max_length=50)
-    argument_type = models.CharField(max_length=50, choices=ARGUMENT_TYPES,
-        default=ARGUMENT_TYPES[0][0])
+    argument_type = models.CharField(max_length=50, choices=ARGUMENT_TYPES, null=True, blank=True)
 
     def __call__(self, *args):
         """
@@ -53,19 +56,31 @@ class BaseCallableModel(models.Model):
         @param args: List of arguments
         @return: Boolean
         """
+        args = list(args)
+
         try: # attempt to coerce type
-            cls = getattr(__builtins__, self.argument_type)
-            if cls is not None:
+            if self.argument_type is not None and \
+               getattr(BUILT_IN, self.argument_type, None) is not None:
+
+                cls = getattr(BUILT_IN, self.argument_type)
                 for index, arg in enumerate(args[:]):
                     args[index] = cls(arg)
-        except AttributeError, ValueError:
+
+            else:
+                cls = type(args[0])
+                args = list(cls(arg) for arg in args)
+
+        except (AttributeError, ValueError) as e:
             return None
 
         method = self.get_callable_method()
 
         for module in self.modules: # iterate over the supported modules
-            if getattr(module, method, None) is not None:
-                return getattr(module, self.method)(*args)
+            try:
+                if getattr(module, method, None) is not None:
+                    return getattr(module, method)(*args)
+            except TypeError:
+                pass
 
         return None
 
@@ -74,7 +89,7 @@ class BaseCallableModel(models.Model):
         Should be overrided by the subclasses to determine which field
         to get the method name to use.
         """
-        raise callablemethod
+        return self.callablemethod
 
     def __unicode__(self):
         """

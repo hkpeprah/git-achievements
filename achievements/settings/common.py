@@ -40,6 +40,14 @@ FIXTURE_PATHS = (
     'app/assets/fixtures/qualifiers.json',
     'app/assets/fixtures/quantifiers.json',
     'app/assets/fixtures/methods.json',
+    'app/assets/fixtures/difficulties.json',
+    'app/assets/fixtures/events.json',
+    'app/assets/fixtures/badges.json',
+    'app/assets/fixtures/conditions.json',
+    'app/assets/fixtures/achievements.json',
+    # Must be the last one as it depends on everything preceding
+    # it
+    'app/assets/fixtures/achievementcondition.json',
 )
 
 # Authentication backends

@@ -1,6 +1,8 @@
-from django import forms
 from django.contrib import admin
+from django.contrib.contenttypes.generic import (GenericTabularInline, GenericStackedInline,
+                                                    GenericInlineModelAdmin)
 
+from app.assets.forms import *
 from app.assets.models import *
 
 
@@ -23,16 +25,12 @@ class MethodAdmin(admin.ModelAdmin):
 admin.site.register(Method, MethodAdmin)
 
 
-class QualifierAdminForm(forms.ModelForm):
-    class Meta:
-        model = Qualifier
-
 
 class QualifierAdmin(admin.ModelAdmin):
     """
     Admin for defining qualifiers.
     """
-    form = QualifierAdminForm
+    pass
 
 admin.site.register(Qualifier, QualifierAdmin)
 
@@ -71,7 +69,7 @@ class ValueConditionAdmin(admin.ModelAdmin):
 admin.site.register(ValueCondition, ConditionAdmin)
 
 
-class ConditionInline(admin.TabularInline):
+class ConditionInline(GenericInlineModelAdmin):
     model = Condition
     extra = 1
 
@@ -92,6 +90,15 @@ class AchievementTypeAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(AchievementType, AchievementTypeAdmin)
+
+
+class AchievementConditionAdmin(admin.ModelAdmin):
+    """
+    The generic relation between Achievements and Conditions.
+    """
+    form = AchievementConditionForm
+
+admin.site.register(AchievementCondition, AchievementConditionAdmin)
 
 
 class AchievementAdmin(admin.ModelAdmin):
