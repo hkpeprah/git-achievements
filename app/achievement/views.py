@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.contrib import messages
 from django.template import RequestContext, loader
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
 from app.assets.models import Achievement, Condition, Badge, UserProfile
 
@@ -91,8 +91,20 @@ def edit_achievement(request, achievement_id):
 
 def view_achievement(request, achievement_id):
     """
+    Doesn't require authentication, but returns the page for viewiing an achievement,
+    and the information relevant to that achievement.
     """
-    pass
+    achievement = get_object_or_404(Achievement, pk=achievement_id)
+    conditions = list(genericcondition.condition.description for genericcondition in \
+        achievement.conditions.all())
+
+    return render_to_response('achievement/achievements/view.html',
+        context_instance=RequestContext(request, {
+            'achievement': achievement,
+            'unsatisfied_conditions': conditions,
+            'satisfied_conditions': []
+        })
+    )
 
 
 def view_profile(request, user_id):

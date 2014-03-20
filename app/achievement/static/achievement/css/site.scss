@@ -464,9 +464,13 @@ section {
 }
 
 .achievement-badge-list {
-    .achievement-badge {
+    .achievement-badge, .achievement-badge-v2 {
         margin: 5px;
         display: inline-table;
+    }
+
+    .achievement-badge-v2 {
+        float: left;
     }
 }
 
@@ -520,6 +524,77 @@ section {
         &.impossible {
             color: #FDD017;
         }
+
+        &.legendary {
+            color:transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-image: gradient(linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22));
+            background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22));
+        }
+    }
+}
+
+.achievement-badge-v2 {
+    width: 100px;
+    padding: 10px;
+    height: 100px;
+    display: table;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 1px solid #3D3D3D;
+    -webkit-border-radius: 50%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: "Lucida Console", "Trebuchet MS", sans-serif;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &.easy {
+        background-color: #3D9140;
+    }
+
+    &.medium {
+        background-color: #1874CD;
+    }
+
+    &.hard {
+        background-color: #FF2400;
+    }
+
+    &.very-hard {
+        background-color: #F87217;
+    }
+
+    &.impossible {
+        background-color: #FDD017;
+    }
+
+    &.legendary {
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+        background-image: gradient(linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22));
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22));
+    }
+
+    .inner {
+        margin: 1%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: table-cell;
+        box-sizing: border-box;
+        vertical-align: middle;
+        background-color: #FFFFFF;
+        border: 1px solid #3D3D3D;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
     }
 }
 
@@ -542,6 +617,28 @@ section {
 
     .list-inline {
         display: inline-block;
+    }
+}
+
+.achievement-board {
+    .table {
+        thead {
+            th {
+                &:nth-child(1), &:nth-child(3),
+                &:nth-child(4) {
+                    text-align: center;
+                }
+            }
+        }
+
+        tr {
+            td {
+                &:nth-child(1), &:nth-child(3),
+                &:nth-child(4) {
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 
@@ -594,6 +691,10 @@ section {
             }
         }
     }
+
+    .table {
+        border-bottom: 2px solid rgb(221, 221, 221);
+    }
 }
 
 .achievement-table-item {
@@ -642,7 +743,17 @@ section {
         border: 1px solid #E5E5E5;
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
-    
+
+        a {
+            color: #428bca;
+            font-size: 13px;
+
+            &:hover {
+                opacity: 0.9;
+                text-decoration: underline;
+            }
+        }
+
         .achievement-badge {
             border: 0px;
 
@@ -661,5 +772,55 @@ section {
 
     &.sticky {
         padding-bottom: 7em;
+        > .container {
+            &:last-child {
+                margin-bottom: 7em;
+            }
+        }
+    }
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.achievement {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+
+    .title {
+        display: inline-block;
+
+        h2 {
+            margin: 1px;
+        }
+    }
+
+    .details {
+        float: right;
+        display: inline-block;
+    }
+
+    .conditions {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        li {
+            margin-bottom: 5px;
+
+            .glyphicon {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    ul {
+        list-style-type: none;
+
+        li {
+        }
     }
 }

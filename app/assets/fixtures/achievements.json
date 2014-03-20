@@ -37,7 +37,203 @@
             "active": true,
             "grouping": "__and__",
             "badge": 6,
-            "description": "Submit the first pull request ofor a repository."
+            "description": "Submit the first pull request for a repository."
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "To the power of 1",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": null,
+            "description": "Submit the second pull request for a repository."
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Ambassador to Planet Neutral",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": null,
+            "description": "Open a pull request where the number of additions and deletions are equal and greater than 10."
+        }
+    },
+    {
+        "pk": 4,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Neutralized Citizen",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 2,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 9,
+            "description": "What makes a man turn neutral?"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Neutral Mayor",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 3,
+            "active": true,
+            "grouping": "__and__",
+            "badge": null,
+            "description": ""
+        }
+    },
+    {
+        "pk": 6,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Neutral Minister",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 4,
+            "active": true,
+            "grouping": "__and__",
+            "badge": null,
+            "description": "Born with a heart full of neutrality."
+        }
+    },
+    {
+        "pk": 7,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Neutral President",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 5,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 10,
+            "description": "I have no strong feelings one way or the other."
+        }
+    },
+    {
+        "pk": 8,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "It's Over 9000!",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 3,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 2,
+            "description": "What does the scouter say about his power level, Vegeta?"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Catch a dumb mistake.",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 1,
+            "description": "Trying is the first step towards failure."
+        }
+    },
+    {
+        "pk": 10,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Doge 10^5",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 4,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 7,
+            "description": "Such code, many lines, much wow."
+        }
+    },
+    {
+        "pk": 11,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "I've been forked.",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 3,
+            "description": "You've finally made and have your code forked."
+        }
+    },
+    {
+        "pk": 12,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "One name, one repository, one dream.",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 2,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 4,
+            "description": "You've found it; a repository with your name in it.  You know what to do."
+        }
+    },
+    {
+        "pk": 13,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Simplest solutions are the best.",
+            "creator": null,
+            "achievement_type": 2,
+            "difficulty": 2,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 5,
+            "description": "Solve a problem by turning the server on and off again."
+        }
+    },
+    {
+        "pk": 14,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "It's just looks like I'm doing nothing.",
+            "creator": null,
+            "achievement_type": 2,
+            "difficulty": 4,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 8,
+            "description": "Solve a problem by doing absolutely no work."
+        }
+    },
+    {
+        "pk": 15,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Meet the Heavy",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 11,
+            "description": "Push little branch!"
         }
     }
 ]

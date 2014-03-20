@@ -62,5 +62,29 @@
             "name": "The Wally",
             "description": "\"When I was your age Asok, I too sought the thrill of victory and the pleasures of the flesh. But after twenty years of not getting either one, I made convenience my new mistress.\" - Wally"
         }
+    },
+    {
+        "pk": 9,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "Planet Neutral Citizenship",
+            "description": "What makes a man turn neutral?  Lust for gold?  Power?  All I know is my gut says <i>maybe</i>."
+        }
+    },
+    {
+        "pk": 10,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "True Neutral",
+            "description": ""
+        }
+    },
+    {
+        "pk": 11,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "The Heavy",
+            "description": "Puny branch is no match for me."
+        }
     }
 ]

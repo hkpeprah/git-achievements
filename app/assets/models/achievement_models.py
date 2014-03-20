@@ -236,14 +236,18 @@ class AchievementCondition(models.Model):
     """
     class Meta:
         app_label = 'assets'
-        unique_together = (
-            ('object_id', 'content_type'),
-        )
 
-    achievement = models.ForeignKey('Achievement', related_name='conditions')
+    achievements = models.ManyToManyField('Achievement', related_name='conditions')
     object_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+    @property
+    def condition(self):
+        """
+        Returns the condition this points to.
+        """
+        return self.content_object
 
 
 class Achievement(BaseModel):
@@ -277,6 +281,21 @@ class Achievement(BaseModel):
         Number of points won by completing this achievement.
         """
         return self.difficulty.points
+
+    @property
+    def earned_count(self):
+        """
+        Returns the number of users who earned this achievement.
+        """
+        return self.users.count()
+
+    @property
+    def get_conditions(self):
+        """
+        Returns a list of the condition objects attached to this achievement.
+        """
+        conditions = list(condition.content_object for condition in self.conditions.all())
+        return conditions
 
     def is_custom(self):
         """

@@ -214,7 +214,7 @@
         "model": "assets.ValueCondition",
         "fields": {
             "description": "Fork Octocat's demonstration repository \"Spoon-Knife\".",
-            "method": 5,
+            "method": 10,
             "condition_type": 1,
             "attribute": "forkee.parent.full_name",
             "event_type": 8,
@@ -258,6 +258,78 @@
         }
     },
     {
+        "pk": 21,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Number of additions > 10.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "10"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Number of additions > 100.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "100"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Number of additions > 1000.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "1000"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Number of additions > 10,000.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "10000"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Number of additions > 100,000.",
+            "method": 1,
+            "condition_type": 1,
+            "attribute": "additions",
+            "event_type": 17,
+            "value": "100000"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "assets.ValueCondition",
+        "fields": {
+            "description": "Branch was forced pushed.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "",
+            "event_type": 19,
+            "value": "forced"
+        }
+    },
+    {
         "pk": 1,
         "model": "assets.AttributeCondition",
         "fields": {
@@ -268,6 +340,34 @@
             "attributes": [
                 "additions",
                 "deletions"
+            ]
+        }
+    },
+    {
+        "pk": 2,
+        "model": "assets.AttributeCondition",
+        "fields": {
+            "description": "Have your repository forked.",
+            "method": 10,
+            "condition_type": 1,
+            "event_type": 8,
+            "attributes": [
+                "forkee.source.full_name",
+                "forkee.owner.login"
+            ]
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.AttributeCondition",
+        "fields": {
+            "description": "Repository contains your name.",
+            "method": 10,
+            "condition_type": 1,
+            "event_type": 17,
+            "attributes": [
+                "repo.name",
+                "user.login"
             ]
         }
     }

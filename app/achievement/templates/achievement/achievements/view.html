@@ -1,0 +1,49 @@
+{% extends "achievement/base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ achievement.name }} | Git Achievements{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="achievement">
+            <div class="title">
+                <h2>{{ achievement.name }}</h2>
+                <span><b>Difficulty:</b> {{ achievement.difficulty|title }}</span>
+            </div>
+            <div class="details">
+                {% if achievement.badge %}
+                    {% include "shared/badge.html" with badge=achievement.badge %}
+                {% endif %}
+            </div>
+            <div class="description">
+                <p>{{ achievement.badge.description|safe|default:achievement.description|safe }}</p>
+            </div>
+            <div class="conditions">
+                {% if satisfied_conditions|length > 0 or unsatisfied_conditions|length > 0 %}
+                    <h4>Conditions</h4>
+                {% endif %}
+                <ul>
+                    {% for condition in satisfied_conditions %}
+                        <li><i class="glyphicon glyphicon-ok" style="color:green;"></i>{{ condition }}</li>
+                    {% endfor %}
+                    {% for condition in unsatisfied_conditions %}
+                        <li><i class="glyphicon glyphicon-remove" style="color:red;"></i>{{ condition }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <h3>{{ achievement.earned_count }} users have earned this achievement.</h3>
+        </div>
+        <div class="user-profile-list">
+            {% for user in achievement.users.all %}
+                <div class="user-profile">
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

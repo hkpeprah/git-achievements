@@ -1,26 +1,212 @@
 [
     {
         "pk": 1, 
-        "model": "assets.achievementcondition", 
+        "model": "assets.AchievementCondition",
         "fields": {
             "content_type": [
                 "assets", 
                 "valuecondition"
             ],
             "object_id": 1, 
-            "achievement": 1
+            "achievements": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                10,
+                12
+            ]
         }
     },
     {
         "pk": 2, 
-        "model": "assets.achievementcondition", 
+        "model": "assets.AchievementCondition", 
         "fields": {
             "content_type": [
                 "assets", 
                 "valuecondition"
             ],
             "object_id": 2, 
-            "achievement": 1
+            "achievements": [
+                1
+            ]
+        }
+    },
+    {
+        "pk": 3,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 3,
+            "achievements": [
+                2
+            ]
+        }
+    },
+    {
+        "pk": 4,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "attributecondition"
+            ],
+            "object_id": 1,
+            "achievements": [
+                3,
+                4,
+                5,
+                6,
+                7
+            ]
+        }
+    },
+    {
+        "pk": 5,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 21,
+            "achievements": [
+                3
+            ]
+        }
+    },
+    {
+        "pk": 6,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 22,
+            "achievements": [
+                4
+            ]
+        }
+    },
+    {
+        "pk": 7,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 23,
+            "achievements": [
+                5
+            ]
+        }
+    },
+    {
+        "pk": 8,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 24,
+            "achievements": [
+                6
+            ]
+        }
+    },
+    {
+        "pk": 9,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 25,
+            "achievements": [
+                7,
+                10
+            ]
+        }
+    },
+    {
+        "pk": 10,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 10,
+            "achievements": [
+                8
+            ]
+        }
+    },
+    {
+        "pk": 11,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 11,
+            "achievements": [
+                9
+            ]
+        }
+    },
+    {
+        "pk": 12,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "attributecondition"
+            ],
+            "object_id": 2,
+            "achievements": [
+                11
+            ]
+        }
+    },
+    {
+        "pk": 13,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "attributecondition"
+            ],
+            "object_id": 3,
+            "achievements": [
+                12
+            ]
+        }
+    },
+    {
+        "pk": 14,
+        "model": "assets.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "assets",
+                "valuecondition"
+            ],
+            "object_id": 26,
+            "achievements": [
+                15
+            ]
         }
     }
 ]

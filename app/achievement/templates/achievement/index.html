@@ -17,7 +17,6 @@
     </style>
 {% endblock %}
 
-
 {% block content %}
     <!-- Carousel.  TODO: Have Django set this up. -->
     <div id="index-carousel" class="carousel slide no-margin no-fill" data-ride="carousel" data-interval="5000">
@@ -79,7 +78,7 @@
                         {% include "shared/badge.html" with badge=badge tooltip="true" %}
                     {% endfor %}
                     {# We enable tooltips just because it's nice here.  They aren't enabled by default for performance. #}
-                    <script type="text/javascript">$('.achievement-badge').tooltip();</script>
+                    <script type="text/javascript">$('.achievement-badge,.achievement-badge-v2').tooltip();</script>
                 </div>
             </div>
         </section>
