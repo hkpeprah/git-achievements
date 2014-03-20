@@ -11,8 +11,9 @@ Git Achievements is a service-based hook for Github and Bitbucket that allows de
 
 ## Local Setup
 1. Download the project and deploy it to your local server.
-2. Run `python manage.py`
-3. Follow the steps in the [Getting Started](#getting-started) section, but put the endpoint as `your-local-server/hook/web`
+2. Run `pip install -r requirements.txt`, in a [virtual environment](http://www.virtualenv.org/en/latest/virtualenv.html) or otherwise
+3. Run `python manage.py runserver 0.0.0.0:3000`
+4. Follow the steps in the [Getting Started](#getting-started) section, but put the endpoint as `your-local-server/hook/web`
 
 ## Contributing
 Will add guidelines and best practices eventually.
