@@ -1,9 +1,16 @@
 # Python Files
 *.py[co]
 
+# Database Files
+*.sqlite
+*.sqlite3
+
 # Sass/Less
 */**/.sass-cache
 
 # Emacs Temporary files and folders
 *~
 \#*\#
+
+# Custom files and settings
+achievements/settings/custom.py

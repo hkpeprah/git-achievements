@@ -9,4 +9,4 @@ if __name__ == "__main__":
     from django.core.management import call_command
 
     for fixture in getattr(settings, 'FIXTURE_PATHS', []):
-            call_command('loaddata', fixture)
+        call_command('loaddata', fixture)

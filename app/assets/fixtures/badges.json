@@ -86,5 +86,13 @@
             "name": "The Heavy",
             "description": "Puny branch is no match for me."
         }
+    },
+    {
+        "pk": 12,
+        "model": "assets.Badge",
+        "fields": {
+            "name": "Contributor",
+            "description": "This user has contributed to Git Achievements."
+        }
     }
 ]

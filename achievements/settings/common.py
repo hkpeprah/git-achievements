@@ -45,22 +45,24 @@ FIXTURE_PATHS = (
     'app/assets/fixtures/badges.json',
     'app/assets/fixtures/conditions.json',
     'app/assets/fixtures/achievements.json',
-    # Must be the last one as it depends on everything preceding
-    # it
+    # These two must come in this order and be the
+    # last in the tuple
     'app/assets/fixtures/achievementcondition.json',
+    'app/assets/fixtures/users.json',
 )
 
 # Authentication backends
 # Provides the means by which users can authenticate and login
 AUTHENTICATION_BACKENDS = (
+    'social.backends.open_id.OpenIdAuth',
+    'social.backends.bitbucket.BitbucketOAuth',
     'social.backends.github.GithubOAuth2',
-    'achievements.auth_backends.UserProfileModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-CUSTOM_USER_MODEL = 'app.assets.models.UserProfile'
-
 # Template specifications
+# Process and set settings for templates, as well as load
+# templates.
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -72,9 +74,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     # Third party processors
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
+    # Custom processors
+    'achievements.context_processors.hosting_services',
     # Request proccessor
     'django.core.context_processors.request',
 )
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
 
 # Application definition
 INSTALLED_APPS = (
@@ -90,14 +100,14 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     # Add custom apps here
     'app.assets',
-    'app.shared',
+    'app.services',
     'app.achievement',
 )
 
 # Middleware
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -139,121 +149,35 @@ STATICFILES_DIRS = (
 )
 
 
-# Example project settings
-# Override this attributes with your own as needed or make use of
-# the various applications that provide functionality for these things
-CONTRIBUTORS = (
-    {
-        'username': "hkpeprah",
-        'name': "Ford",
-        'email': "ford.peprah@uwaterloo.ca",
-        'image': "https://2.gravatar.com/avatar/a5c900cba2a92e5a715a8e37c5827860?d=https%3A%2F%2F \
-            identicons.github.com%2F79a82506f16a92c3970e02229005157f.png",
-        'rank': 1,
-        'service': "Github",
-        'points': 9001
-    },
-    {
-        'username': "nt3rp",
-        'name': "Nicholas Terwoord",
-        'email': "nicholas.terwoord+code@gmail.com",
-        'image': "https://1.gravatar.com/avatar/b6cb96321f0d40e7d2aecce9f6037335?d=https%3A%2F%2F \
-            identicons.github.com%2F8231e02ad9e8519dd31182f2d6a68fa2.png",
-        'rank': 2,
-        'service': "Github",
-        'points': 8999
-    },
-    {
-        'username': "1337",
-        'name': "Brian L",
-        'email': "brian@ohai.ca",
-        'image': "https://1.gravatar.com/avatar/22439d590eb5c6a3f191fff4f4d655fc?d=https%3A%2F%2F \
-            identicons.github.com%2F03800e8f5cc22057868bfa9b2e9b3571.png",
-        'rank': 3,
-        'service': "Github",
-        'points': 1337
-    },
+# Social Authentication Settings
+# Settings for the Django Pipeline
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/leaderboard/'
+URL_PATH = ''
+SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
+SOCIAL_AUTH_USERNAME_FORM_HTML = 'services/auth/signup.html'
+# The pipeline determins how a user is processed after having
+# authenticated with OAuth
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'example.app.pipeline.require_email',
+    'social.pipeline.mail.mail_validation',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details'
 )
+# Github application settings
+SOCIAL_AUTH_GITHUB_KEY = ''
+SOCIAL_AUTH_GITHUB_SECRET = ''
 
-ACHIEVEMENTS = (
-    {
-        'name': "Homer Simpson",
-        'description': "Submit a pull request that fails to pass Jenkins unit tests at least once.",
-        'difficulty': "easy",
-        'count': 3,
-        'badge': {
-            'name': "Homer",
-            'difficulty': "easy"
-        }
-    },
-    {
-        'name': "Baby Steps",
-        'description': "Submit your first pull request.",
-        'difficulty': "easy",
-        'count': 3,
-        'badge': {
-            'name': "Look at me mom!",
-            'difficulty': "easy"
-        }
-    },
-    {
-        'name': "Push Level 1",
-        'description': "Push five(5) or more commits to a single branch.",
-        'difficulty': "easy",
-        'count': 3,
-        'tilte': None
-    },
-    {
-        'name': "Over 9000",
-        'description': "Submit a pull request with over 9000 changes made, additions or deletions, and have it merged into the development branch.",
-        'difficulty': "very-hard",
-        'count': 0,
-        'badge': {
-            'name': "Goku",
-            'difficulty': "very-hard"
-        }
-    }
+# This tuple should contain a list of the services that you wish
+# to have support for.
+HOSTING_API_SERVICES = (
+    'Github',
 )
-
-CAROUSEL = (
-    {
-        'image': "http://lorempixel.com/1920/1080/technics/",
-        'title': "First Slide",
-        'text': "Sample text for the first slide."
-    },
-    {
-        'image': "http://lorempixel.com/1920/1079/technics/",
-        'title': "Second Slide",
-        'text': "Sample text for the second slide."
-    },
-    {
-        'image': "http://lorempixel.com/1920/1078/technics/",
-        'title': "Third Slide",
-        'text': "Sample text for the third slide."
-    },
-)
-
-BASIC_EXAMPLE_CONFIG = {
-    'badges': (
-        {
-            'name': "Homer",
-            'difficulty': "easy"
-        },
-        {
-            'name': "The Pusher",
-            'difficulty': "medium"
-        },
-        {
-            'name': "Stan Darsh",
-            'difficulty': "hard"
-        },
-        {
-            'name': "The Nuker",
-            'difficulty': "very-hard"
-        },
-        {
-            'name': "Open-Source Champ",
-            'difficulty': "impossible"
-        },
-    )
-}

@@ -1,71 +1,59 @@
 {% load staticfiles %}
 
-<nav class="navbar navbar-static-top white" id="top" role="navigation">
+<div class="navbar navbar-inverse navbar-static-top white" role="navigation"> <!-- Fixed navigation bar -->
     <div class="container">
-        <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#site-navigation">
+        <div class="navbar-header"> <!-- Brand and mobile -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 {% for i in "123" %}
                     <span class="icon-bar"></span>
                 {% endfor %}
             </button>
-            <!-- <a href="/" class="navbar-brand">Git <span class="lighter">Achievements</span></a>-->
-            <a href="/" class="navbar-brand">
-                <img class="white-logo" src="{% static 'img/logo-white.png' %}" alt="logo" />
+            <a class="navbar-brand" href="/">
                 <img class="black-logo" src="{% static 'img/logo.png' %}" alt="logo" />
+                <img class="white-logo" src="{% static 'img/logo-white.png' %}" alt="logo" />
             </a>
         </div>
-        <div id="site-navigation" class="collapse navbar-collapse" role="navigation">
+        <div class="vertical-divider"></div>
+        <div class="navbar-collapse collapse"> <!-- Main menu -->
             <ul class="nav navbar-nav">
-                <li><a href="/leaderboard">Leaderboard</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="/achievement/create">Add Achievement</a></li>
-                    <li><a href="/community">Community</a></li>
-                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Achievements <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'view_achievements' %}">View All</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'create_achievement' %}">Add</a></li>
+                            <li><a href="{% url 'approve_achievement' %}">Vote</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <li><a href="/users/{{ user.pk }}">Profile</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="{% url 'view_profile' username=user.username %}">Profile</a></li>
                 {% endif %}
-                <li><a href="#" data-toggle="modal" data-target="#contribute">Contribute</a></li>
+                <li><a href="{% url 'view_profiles' %}">Users</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        About <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'faq' %}">FAQ</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Services</li>
+                        {% for service in HOSTING_API_SERVICES %}
+                            <li><a href="{% url 'service_events' service=service|lower %}">{{ service|title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- container -->
-</nav><!-- nav(header) bar -->
-<!-- Modal -->
-<div class="modal fade contribute" id="contribute" tabindex="-1" role="dialog" aria-labelledby="contribute" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">Contribute</h2>
-            </div>
-            <div class="modal-body">
-                <p class="">
-                    Feel like contributing to the project?  Check out the issues on Github, fork, and submit a pull request.
-                    If you've found an issue while using the service, open a ticket on Github to give us a chance to fix it,
-                    and we'll add you to the Contributors list.  Don't know how to code, but still want to help us out?  Donate
-                    some bitcoin or shoot us a friendly email.
-                </p>
-                <img src="" class="mobile-only qr-code" /><!-- scannable qr code for mobile donations -->
-            </div>
-            <div class="modal-footer">
-                <a href="//github.com/git-achievements">
-                    <button type="button" class="btn btn-lg btn-primary">
-                        <span><img src="{% static 'img/octocat.png' %}" /></span>
-                        <span>Fork us on Github</span>
-                    </button>
-                </a>
-                <a href="#">
-                    <button type="button" class="desktop-only btn btn-lg btn-warning">
-                        <span><img src="{% static 'img/bitcoin.png' %}" /></span>
-                        <span>Donate some Bitcoin</span>
-                    </button>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+        </div> <!-- end collapse -->
+    </div> <!-- end container -->
+</div> <!-- end navbar -->

@@ -15,7 +15,7 @@
             </div>
             <div class="details">
                 {% if achievement.badge %}
-                    {% include "shared/badge.html" with badge=achievement.badge %}
+                    {% include "achievement/achievements/badge.html" with badge=achievement.badge %}
                 {% endif %}
             </div>
             <div class="description">
@@ -27,21 +27,32 @@
                 {% endif %}
                 <ul>
                     {% for condition in satisfied_conditions %}
-                        <li><i class="glyphicon glyphicon-ok" style="color:green;"></i>{{ condition }}</li>
+                        <li><i class="glyphicon glyphicon-ok-sign" style="color:green;"></i>{{ condition }}</li>
                     {% endfor %}
                     {% for condition in unsatisfied_conditions %}
-                        <li><i class="glyphicon glyphicon-remove" style="color:red;"></i>{{ condition }}</li>
+                        <li><i class="glyphicon glyphicon-chevron-right {# glpyhicon-remove-sign #}" style="{# color:red; #}"></i>{{ condition }}</li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
         <div style="text-align:center;">
-            <h3>{{ achievement.earned_count }} users have earned this achievement.</h3>
+            {% if achievement.earned_count == 0 %}
+                <h3>No user has earned this achievement.</h3>
+            {% elif achievement.earned_count == 1 %}
+                <h3>1 user has earned this achievement.</h3>
+            {% else %}
+                <h3>{{ achievement.earned_count }} users have earned this achievement.</h3>
+            {% endif %}
         </div>
         <div class="user-profile-list">
             {% for user in achievement.users.all %}
-                <div class="user-profile">
-
+                <div class="user">
+                    <a href="{% url 'view_profile' username=user.username %}">
+                        <img src="{{ user.attributes.gravatar }}" />
+                        <div class="overlay">
+                            <span>{{ user.username }}</span>
+                        </div>
+                    </a>
                 </div>
             {% endfor %}
         </div>

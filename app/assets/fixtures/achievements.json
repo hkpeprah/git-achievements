@@ -156,7 +156,7 @@
         "pk": 10,
         "model": "assets.Achievement",
         "fields": {
-            "name": "Doge 10^5",
+            "name": "To the Moon",
             "creator": null,
             "achievement_type": 1,
             "difficulty": 4,
@@ -234,6 +234,20 @@
             "grouping": "__and__",
             "badge": 11,
             "description": "Push little branch!"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "assets.Achievement",
+        "fields": {
+            "name": "Helping Hand",
+            "creator": null,
+            "achievement_type": 3,
+            "difficulty": 6,
+            "active": true,
+            "grouping": "__and__",
+            "badge": 12,
+            "description": "Contribute to Git Achievements"
         }
     }
 ]

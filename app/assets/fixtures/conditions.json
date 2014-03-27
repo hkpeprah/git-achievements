@@ -324,9 +324,9 @@
             "description": "Branch was forced pushed.",
             "method": 5,
             "condition_type": 1,
-            "attribute": "",
+            "attribute": "forced",
             "event_type": 19,
-            "value": "forced"
+            "value": "true"
         }
     },
     {

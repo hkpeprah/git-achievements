@@ -1,8 +1,8 @@
 # Application requiremeents
 # Main requirements for the application
 Django==1.6.2
-python-social-auth
-django-picklefield==0.3.1
+python-social-auth==0.1.22
+django-jsonfield==0.9.12
 
 # Web scraping and parsing
 beautifulsoup4==4.3.2

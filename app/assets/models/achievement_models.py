@@ -2,9 +2,10 @@ import re
 import json
 import random
 import operator
-from picklefield.fields import PickledObjectField
+import jsonfield
 
 from django.db import models
+from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, UserManager
 from django.contrib.contenttypes import generic
@@ -30,11 +31,11 @@ class Difficulty(models.Model):
     """
     class Meta:
         app_label = "assets"
+        ordering = ['points']
 
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True)
-    # TODO: Why not negative?
-    points = models.PositiveIntegerField()
+    points = models.PositiveIntegerField() # TODO: Why not negative?
 
     def __unicode__(self):
         return self.name
@@ -185,7 +186,7 @@ class AttributeCondition(Condition):
     Defines an attribute condition; an attribute condition is one where the two
     attributes in the returned event are tested against each other.
     """
-    attributes = PickledObjectField()
+    attributes = jsonfield.JSONField()
     qualifiers = models.ManyToManyField('Qualifier', blank=True, null=True)
 
     def __call__(self, event):
@@ -297,6 +298,12 @@ class Achievement(BaseModel):
         conditions = list(condition.content_object for condition in self.conditions.all())
         return conditions
 
+    def is_active(self):
+        """
+        Not needed, returns if achievement is active.
+        """
+        return self.active
+
     def is_custom(self):
         """
         Returns if the achievement is custom.
@@ -350,7 +357,7 @@ class Achievement(BaseModel):
         return "%s: %s"%(self.name, self.achievement_type)
 
 
-class UserProfile(User):
+class UserProfile(models.Model):
     """
     Defines a user's profile which inherits form the Django User Auth model to
     add additional fields and allow for social auth to satisfy as requirements for
@@ -359,10 +366,66 @@ class UserProfile(User):
     class Meta:
         app_label = "assets"
 
+    # TODO: Add social auth for Github
+    user = models.OneToOneField(User, related_name='profile')
     moderator = models.BooleanField(default=False)
+    points = models.PositiveIntegerField(default=0)
     badges = models.ManyToManyField('Badge', related_name='users', blank=True, null=True)
     achievements = models.ManyToManyField('Achievement', related_name='users', blank=True, null=True)
+    attributes = jsonfield.JSONField()
 
-    # TODO: Add social auth for Github
-    # Use UserManager to get the create_user method, etc.
-    objects = UserManager()
+    @property
+    def username(self):
+        """
+        Convenience method for getting the username.
+        """
+        return self.user.username
+
+    @property
+    def rank(self):
+        """
+        Performs a filtter to eliminate all the players higher in rank than
+        the current user, orders them by the points in decreasing order, and
+        counts to get the player's rank.
+        """
+        position = UserProfile.objects.all().filter(
+            points__lte=self.points).order_by('-points').count()
+
+        return position
+
+    @property
+    def service(self):
+        """Temporary"""
+        return "Github"
+
+    @property
+    def ordered_badges(self):
+        """
+        Gets the badges ordered by their difficulty in ascending
+        order.
+        """
+        badges = self.badges.all()
+        badges = sorted(badges, key=lambda b: b.achievement.points)
+        return badges
+
+    def as_dict(self):
+        """
+        Gets the model as dictionary by calling the base class
+        dict method to convert to a dictionary object.
+
+        @param self: UserProfile
+        @return: dict
+        """
+        return self.__dict__
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+    """
+    When a regular user is created, we also want to create a
+    user profile.
+    """
+    if created:
+        profile, created = UserProfile.objects.get_or_create(user=instance)
+        profile.save()
+
+post_save.connect(create_user_profile, sender=User) # Add post-save hook to create profile when user is made

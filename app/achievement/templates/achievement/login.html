@@ -1,9 +1,44 @@
 {% extends "achievement/base/base.html" %}
+{% load url from future %}
 {% load staticfiles %}
 
 {% block title %}Login | Git Achievements{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container center">
+        <div class="rounded-box">
+            <h2>OAuth Login</h2>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <hr style="margin-top: 2px; margin-bottom: 2px;">
+            <br/>
+            <div class="col-xs-11 col-sm-11 col-md-8 inline-block" style="float:none; text-align:left;">
+                <p> What information we collect from you:
+                    <ul>
+                        <li>Your Github username.</li>
+                        <li>Your Github email.</li>
+                        <li>Your Github avatar.</li>
+                        <li>Names of repositories you own or are a member of.</li>
+                    </ul>
+                </p>
+                <br/>
+                <div class="btn btn-default btn-auth">
+                    <a href="{% url 'social:begin' 'github' %}">
+                        <img class="inline-block" src="{% static 'img/authbuttons/github/256.png' %}" />
+                        <span>Authenticate with Github</span>
+                    </a>
+                </div>
+                <div class="btn btn-default btn-auth">
+                    <a href="">
+                        <span>This button does nothing</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
