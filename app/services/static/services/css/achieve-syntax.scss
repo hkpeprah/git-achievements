@@ -1,0 +1,21 @@
+pre {
+    font-size: 12px;
+    font-family: monospace, "Courier New";
+
+    code {
+        overflow-x: scroll;
+        background-color: transparent !important;
+    }
+}
+
+ul {
+    margin-left: 20px;
+
+    .list-roman {
+        list-style-type: upper-roman;
+
+        a {
+            color: black;
+        }
+    }
+}

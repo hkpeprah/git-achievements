@@ -1,0 +1,76 @@
+{% extends "achievement/base/base.html" %}
+{% load staticfiles %}
+{% load stringmethods %}
+
+{% block title %}Users | Git Achievements{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-xs-6 col-sm-4">
+    </div>
+    <div class="col-xs-6 col-sm-8 pull-right">
+        <form class="navbar-form filter" role="search"><!-- Search bar -->
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Filter"
+                       name="q" id="q">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive white padded">
+        <table class="table table-condensed table-hover">
+            <colgroup>
+                <col class="col-xs-1" span="1">
+                <col class="col-xs-7" span="1">
+                <col class="col-xs-2" span="1">
+                <col class="col-xs-2" span="1">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Achievement</th>
+                    <th>Difficulty</th>
+                    <th>Achievers Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for achievement in achievements %}
+                    <tr>
+                        <td>{{ achievement.id }}</td>
+                        <td>
+                            <div class="panel panel-default achievement-table-item">
+                                <a data-toggle="collapse" href="#achievement{{ forloop.counter }}" class="collapsed">
+                                    <div class="panel-heading">
+                                        <div class="panel-title">{{ achievement.name }}</div>
+                                    </div>
+                                </a>
+                                <div id="achievement{{ forloop.counter}}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <p>{{ achievement.description|safe }}</p>
+                                        <p>
+                                            <b>Achievement Page:</b> <a href="{% url 'view_achievement' achievement_id=achievement.id %}">View Page</a><br/>
+                                            {% if achievement.badge %}
+                                                <b>Badge Unlocked: </b>
+                                            {% endif %}
+                                        </p>
+                                        {% if achievement.badge %}
+                                            {% include "achievement/achievements/badge.html" with badge=achievement.badge %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{% stringmethod "replace" achievement.difficulty.name|title "-" " " %}</td>
+                        <td>{{ achievement.earned_count }}</td>
+                    </tr>
+                    {% endfor %}
+                    <script type="text/javascript">$('[data-toggle="popover"]').popover();</script>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

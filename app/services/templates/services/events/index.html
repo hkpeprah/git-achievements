@@ -1,0 +1,32 @@
+{% extends "achievement/base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ service }} Events | Git Achievements{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/highlight.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'services/css/achieve-syntax.css' %}">
+    <script src="{% static 'js/highlight.pack.js' %}" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Supported {{ service }} Events</h1>
+        <div class="row">
+            <ul>
+                {% for event in events %}
+                <li class="list-roman">
+                    <a href="#{{ event.name }}">{{ event.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <br/>
+        {% for event in events %}
+            <h3 id="{{ event.name }}">{{ event.title }}Event</h3>
+            <pre class="prettyprint"><code>{{ event.payload }}</code></pre>
+            <br/>
+        {% endfor %}
+    </div>
+{% endblock %}

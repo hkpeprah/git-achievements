@@ -1,0 +1,10 @@
+<div class="user">
+    <div class="details fixed-80">
+        <img src="{{ user.attributes.gravatar }}" alt="{{ user.username }}'s gravatar" />
+    </div>
+    <div class="details">
+        <a href="{% url 'view_profile' username=user.username %}" class="name">{{ user.username }}</a>
+        <br/>
+        <a href="{{ user.attributes.url }}">View {{ user.service }} page</a>
+    </div>
+</div>
