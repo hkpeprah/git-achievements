@@ -73,6 +73,7 @@ class BaseScraper(mechanize.Browser):
 
 class GithubScraper(BaseScraper):
     """
+    Scraper for Github.
     """
     root = "https://developer.github.com/v3/activity/events/types/"
 
@@ -219,6 +220,7 @@ class GithubScraper(BaseScraper):
 
 class BitbucketScraper(BaseScraper):
     """
+    Scraper for Bitbucket.
     TODO: Write this.
     """
     pass

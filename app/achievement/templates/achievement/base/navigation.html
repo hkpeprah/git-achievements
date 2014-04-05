@@ -1,6 +1,6 @@
 {% load staticfiles %}
 
-<div class="navbar navbar-inverse navbar-static-top white" role="navigation"> <!-- Fixed navigation bar -->
+<div class="navbar navbar-default navbar-static-top white" role="navigation"> <!-- Fixed navigation bar -->
     <div class="container">
         <div class="navbar-header"> <!-- Brand and mobile -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,33 +22,26 @@
                         Achievements <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'view_achievements' %}">View All</a></li>
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'create_achievement' %}">Add</a></li>
+                            <li><a href="{% url 'create_achievement' %}">Create</a></li>
                             <li><a href="{% url 'approve_achievement' %}">Vote</a></li>
                         {% endif %}
+                        <li><a href="{% url 'view_achievements' %}">View All</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'view_profile' username=user.username %}">Profile</a></li>
-                {% endif %}
-                <li><a href="{% url 'view_profiles' %}">Users</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         About <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{% url 'faq' %}">FAQ</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">Services</li>
-                        {% for service in HOSTING_API_SERVICES %}
-                            <li><a href="{% url 'service_events' service=service|lower %}">{{ service|title }}</a></li>
-                        {% endfor %}
                     </ul>
                 </li>
+                <li><a href="{% url 'view_profiles' %}">Users</a></li>
                 {% if user.is_authenticated %}
+                    <li><a href="{% url 'view_profile' username=user.username %}">Profile</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>

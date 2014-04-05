@@ -1,0 +1,82 @@
+.achievement-form {
+  text-align: center; }
+  .achievement-form #div_id_grouping,
+  .achievement-form #div_id_difficulty,
+  .achievement-form #div_id_achievement_type,
+  .achievement-form .selectboxit-container {
+    margin-top: 5px;
+    display: inline-block; }
+    .achievement-form #div_id_grouping .control-label,
+    .achievement-form #div_id_difficulty .control-label,
+    .achievement-form #div_id_achievement_type .control-label,
+    .achievement-form .selectboxit-container .control-label {
+      margin-right: 15px; }
+      .achievement-form #div_id_grouping .control-label:after,
+      .achievement-form #div_id_difficulty .control-label:after,
+      .achievement-form #div_id_achievement_type .control-label:after,
+      .achievement-form .selectboxit-container .control-label:after {
+        content: ":"; }
+    .achievement-form #div_id_grouping .control-label, .achievement-form #div_id_grouping .controls,
+    .achievement-form #div_id_difficulty .control-label,
+    .achievement-form #div_id_difficulty .controls,
+    .achievement-form #div_id_achievement_type .control-label,
+    .achievement-form #div_id_achievement_type .controls,
+    .achievement-form .selectboxit-container .control-label,
+    .achievement-form .selectboxit-container .controls {
+      display: inline-block; }
+    .achievement-form #div_id_grouping .dropdown-menu,
+    .achievement-form #div_id_difficulty .dropdown-menu,
+    .achievement-form #div_id_achievement_type .dropdown-menu,
+    .achievement-form .selectboxit-container .dropdown-menu {
+      left: auto; }
+    .achievement-form #div_id_grouping .selectboxit,
+    .achievement-form #div_id_difficulty .selectboxit,
+    .achievement-form #div_id_achievement_type .selectboxit,
+    .achievement-form .selectboxit-container .selectboxit {
+      outline: none;
+      border: 1px solid #CCC; }
+  .achievement-form #div_id_difficulty,
+  .achievement-form #div_id_achievement_type {
+    margin-right: 30px; }
+  .achievement-form .selectboxit {
+    display: inline-block; }
+  .achievement-form .dropdown-menu {
+    min-width: inherit; }
+  .achievement-form .form-group {
+    text-align: left; }
+  .achievement-form .form-actions {
+    margin-top: 20px;
+    text-align: center; }
+    .achievement-form .form-actions #submit-id-submit {
+      color: #333;
+      font-size: 18px;
+      line-height: 1.33;
+      border-color: #CCC;
+      padding: 10px 36px;
+      border-radius: 6px;
+      background-color: #FFF; }
+      .achievement-form .form-actions #submit-id-submit:hover {
+        border-color: #ADADAD;
+        background-color: #EBEBEB; }
+
+.selectboxit-container, .selectboxit {
+  display: inline-block; }
+
+.badge-form .multiField .controls .textarea {
+  height: 34px;
+  padding-top: 5px; }
+.badge-form .multiField .control-label {
+  margin-right: 30px; }
+  .badge-form .multiField .control-label:after {
+    content: ":"; }
+  .badge-form .multiField .control-label:first-child {
+    display: inline-block; }
+.badge-form .multiField :first-child .controls {
+  min-width: 400px;
+  display: inline-block; }
+.badge-form .multiField :not(:last-child) .form-group {
+  margin-right: 30px; }
+
+.row .btn {
+  margin-left: 10px;
+  margin-right: 10px; }

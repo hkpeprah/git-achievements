@@ -11,7 +11,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
+from app.services.utils import get_contributors
 from app.assets.models import Achievement, Condition, Badge, UserProfile
+from app.achievement.forms import AchievementForm, BadgeForm, BadgeFormset
 
 
 @require_http_methods(["GET"])
@@ -31,7 +33,7 @@ def index_view(request):
 
     return render_to_response('achievement/index.html', 
         context_instance=RequestContext(request, {
-            'contributors': settings.CONTRIBUTORS,
+            'contributors': get_contributors(),
             'carousel': settings.CAROUSEL,
             'badges': badges[:5]
         })
@@ -62,12 +64,24 @@ def login_view(request):
 @require_http_methods(["GET", "POST"])
 def create_achievement(request):
     """
-    Returns the page with the form for creating an achievement.
+    Returns the page for creating an achievement on GET, otherwise creates the
+    achievement and redirects on POST.
 
     @param request: HttpRequest object
     @return: HttpResponse
     """
-    return HttpResponse("Create achievement.")
+    if request.method == 'POST':
+        return HttpResponse("Created Achievement")
+
+    form = AchievementForm()
+    badge_formset = BadgeFormset()
+
+    return render_to_response('achievement/achievements/create.html',
+        context_instance=RequestContext(request, {
+            'form': form,
+            'badge_formset': badge_formset
+        })
+    )
 
 
 @login_required

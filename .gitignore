@@ -6,6 +6,7 @@
 *.sqlite3
 
 # Sass/Less
+*.sass-cache
 */**/.sass-cache
 
 # Emacs Temporary files and folders

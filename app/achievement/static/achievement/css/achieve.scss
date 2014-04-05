@@ -3,17 +3,17 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Bitter', serif;
 }
 
 body {
     /* background-color: rgba(124, 151, 172, 0.10); */
     /* background-color: rgb(247, 247, 247); */
     background-color: rgb(250, 250, 250);
-}
-
-img {
-    max-width: 100%;
-    max-height: 100%;
 }
 
 footer {
@@ -45,6 +45,15 @@ footer {
             }
         }
     }
+}
+
+h1, h2, h3 {
+    margin-top: 10px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 @media screen and (min-width: 768px) {
@@ -103,7 +112,8 @@ footer {
 
 .navbar-static-top {
     min-height: 60px;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    /* font-family: "Comic Sans MS", cursive, sans-serif; */
+    font-family: "Bitter", serif;
 
     .navbar-brand {
         min-height: 60px;
@@ -188,6 +198,7 @@ footer {
 
 section {
     width: 100%;
+    padding-bottom: 30px;
 
     &:last-child {
         padding-bottom: 60px;
@@ -199,7 +210,6 @@ section {
 
     h1, h2, h3 {
         color: rgb(51, 51, 51);
-        font-family: "Lucida Console", "Trebuchet MS", sans-serif;
     }
 
     h1 {
@@ -212,7 +222,6 @@ section {
     p {
         color: #666;
         font-size: 16px;
-        font-family: Helvetica, Arial, sans-serif;
     }
 
     .col {
@@ -233,7 +242,7 @@ section {
 }
 
 .hero-alternate {
-    padding-top: 5px;
+    padding-top: 10px;
     min-height: 100px;
     margin-bottom: 40px;
 
@@ -253,7 +262,6 @@ section {
         margin-bottom: 20px;
         padding-bottom: 10px;
         color: rgb(51, 51, 51);
-        font-family: "Lucida Console", "Trebuchet MS", sans-serif;
     }
 
     .list {
@@ -314,7 +322,6 @@ section {
         font-size: 22px;
         text-decoration: none;
         color: rgb(51, 51, 51);
-        font-family: "Lucida Console", "Trebuchet MS", sans-serif;
 
         &:hover {
             color: #08c;
@@ -349,7 +356,6 @@ section {
     -webkit-border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.95);
     /* background-color: rgb(51, 51, 51); */
-    font-family: "Lucida Console", "Trebuchet MS", sans-serif;
 
     &:hover {
         opacity: 0.9;
@@ -617,9 +623,7 @@ section {
     &.sticky {
         padding-bottom: 7em;
         > .container {
-            &:last-child {
-                margin-bottom: 7em;
-            }
+            margin-bottom: 7em;
         }
     }
 }

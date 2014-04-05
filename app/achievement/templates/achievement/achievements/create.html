@@ -1,0 +1,47 @@
+{% extends "achievement/base/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% crispy example_form example_form.helper %}
+
+{% block title %}Create New Achievement | Git Achievements{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'achievement/css/achieve-form.css' %}" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.selectBoxIt.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container rounded-box">
+        <h2>Create a new achievement</h2>
+        <hr>
+        <form action="{% url 'create_achievement' %}" method="POST" enctype="multipart/form-data" class="achievement-form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <hr>
+            <div id="add-badge" class="form-group badge-form collapse">
+                {{ badge_formset|crispy }}
+            </div>
+            <br/>
+            <div class="row">
+                <div class="container">
+                    <div class="pull-left">
+                        <h5 class="inline-block">Add additional: </h5>
+                        <a class="btn btn-sm btn-default" data-toggle="collapse" data-target="#add-badge">Badge (Optional)</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <input type="submit" value="Submit" class="btn btn-lg btn-default">
+            </div>
+        </form>
+        {# crispy form #}
+    </div>
+    <script type="text/javascript">
+        $("select").selectBoxIt({
+            // Uses the Twitter Bootstrap theme for the drop down
+            theme: "bootstrap"
+        });
+    </script>
+{% endblock %}

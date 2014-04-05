@@ -2,8 +2,26 @@
 
 {% block title %}FAQ | Git Achievements{% endblock %}
 
+{% block head %}
+    <style type="text/css">
+        .rounded-box { padding-top: 15px; }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-        
+    <div class="container rounded-box">
+        <h2>Frequently Asked Questions</h2>
+        <hr>
+        <h4>Something's broken</h4>
+        <p>We always love to hear about broken things so submit an issue to our <a href="//github.com/git-achievements/git-achievements/issues">
+           Github issues</a>.</p>
+        <br/>
+        <h4>What services are supported?</h4>
+        <p><a href="//developer.github.com/v3/activity/events/types/">Github:</a> All events listed on this page are supported by the service.<br/>
+            <a href="//confluence.atlassian.com/display/BITBUCKET/events+Resources">Bitbucket:</a> Support coming soon!</p>
+        <br/>
+        <h4>How do I contribute?</h4>
+        <p>Submit code/styles/etc. to our Github project.  Or you can give us Bitcoin.  That would be cool too.</p>
+        <br/>
     </div>
 {% endblock %}

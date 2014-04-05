@@ -1,0 +1,113 @@
+.achievement-form {
+    text-align: center;
+
+    #div_id_grouping,
+    #div_id_difficulty,
+    #div_id_achievement_type,
+    .selectboxit-container {
+        margin-top: 5px;
+        display: inline-block;
+
+        .control-label {
+            margin-right: 15px;
+
+            &:after {
+                content: ":";
+            }
+        }
+
+        .control-label, .controls {
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            left: auto;
+        }
+
+        .selectboxit {
+            outline: none;
+            border: 1px solid #CCC;
+        }
+    }
+
+    #div_id_difficulty,
+    #div_id_achievement_type {
+        margin-right: 30px;
+    }
+
+    .selectboxit {
+        display: inline-block;
+    }
+
+    .dropdown-menu {
+        min-width: inherit;
+    }
+
+    .form-group {
+        text-align: left;
+    }
+
+    .form-actions {
+        margin-top: 20px;
+        text-align: center;
+
+        #submit-id-submit {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.33;
+            border-color: #CCC;
+            padding: 10px 36px;
+            border-radius: 6px;
+            background-color: #FFF;
+
+            &:hover {
+                border-color: #ADADAD;
+                background-color: #EBEBEB;
+            }
+        }
+    }
+}
+
+.selectboxit-container, .selectboxit {
+    display: inline-block;
+}
+
+.badge-form {
+    .multiField {
+        .controls {
+            .textarea {
+                height: 34px;
+                padding-top: 5px;
+            }
+        }
+
+        .control-label {
+            margin-right: 30px;
+
+            &:after {
+                content: ":";
+            }
+
+            &:first-child {
+                display: inline-block;
+            }
+        }
+
+        :first-child .controls {
+            min-width: 400px;
+            display: inline-block;
+        }
+
+
+        :not(:last-child) .form-group {
+            margin-right: 30px;
+        }
+    }
+}
+
+.row {
+    .btn {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}

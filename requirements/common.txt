@@ -3,6 +3,7 @@
 Django==1.6.2
 python-social-auth==0.1.22
 django-jsonfield==0.9.12
+django-tastypie==0.11.0
 
 # Web scraping and parsing
 beautifulsoup4==4.3.2

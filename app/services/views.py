@@ -6,10 +6,13 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, render_to_response, redirect
+from django.contrib.auth.decorators import user_passes_test, login_required
 
 from app.services.models import Event
 
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def service_events(request, service):
     """
     Renders a page displaying the various supported events and payloads
