@@ -391,12 +391,18 @@ class UserProfile(models.Model):
         position = UserProfile.objects.all().filter(
             points__lte=self.points).order_by('-points').count()
 
-        return position
+        total = len(UserProfile.objects.all())
+
+        # Add one as we implicit include the user themselves
+        return (total - position) + 1
 
     @property
     def service(self):
-        """Temporary"""
-        return "Github"
+        """
+        Service is stored in attributes.
+        Defaults to Github for some reason.
+        """
+        return self.attributes.get('service', "Github").title()
 
     @property
     def ordered_badges(self):
@@ -418,6 +424,9 @@ class UserProfile(models.Model):
         """
         return self.__dict__
 
+    def __unicode__(self):
+        return self.username
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     """
@@ -427,5 +436,30 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = UserProfile.objects.get_or_create(user=instance)
         profile.save()
+
+
+def populate_profile_fields(strategy, details, response, uid, user, *args, **kwargs):
+    """
+    Populates additional fields (the JSON field) for a user object.
+
+    @param strategy: Django social auth strategy
+    @param details:  Dictionary of data passed through the oauth
+    @param response:  OAuth response
+    @param uid: The user id
+    @param user: The django.contrib.auth.User model
+    @param *args: List of additional arguments
+    @param **kwargs:  Dictionary of keyword arguments
+    """
+    attributes = response.copy()
+    attributes['url'] = attributes['html_url']
+    attributes['username'] = details['username']
+
+    path = kwargs['request'].path
+    service = re.match(r'(?:/complete/(.*)/)', path).group(1)
+    attributes['service'] = service
+
+    user.profile.attributes = attributes
+    user.profile.save()
+
 
 post_save.connect(create_user_profile, sender=User) # Add post-save hook to create profile when user is made

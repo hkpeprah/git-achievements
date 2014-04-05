@@ -156,9 +156,10 @@ STATICFILES_DIRS = (
 
 # Social Authentication Settings
 # Settings for the Django Pipeline
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/leaderboard/'
-URL_PATH = ''
+SOCIAL_AUTH_LOGIN_URL = '/login/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/about/faq/'
+SOCIAL_AUTH_ENABLED_BACKENDS = ('github', )
 SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
 SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
 SOCIAL_AUTH_USERNAME_FORM_HTML = 'services/auth/signup.html'
@@ -170,9 +171,12 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',
     'social.pipeline.user.get_username',
-    'example.app.pipeline.require_email',
     'social.pipeline.mail.mail_validation',
     'social.pipeline.user.create_user',
+    # Custom method for populating data fields for the
+    # user.  At this point it's assumed we have a user object.
+    'app.assets.models.populate_profile_fields',
+    # Continue normal pipeline
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details'

@@ -1,6 +1,6 @@
 <div class="user">
     <div class="details fixed-80">
-        <img src="{{ user.attributes.gravatar }}" alt="{{ user.username }}'s gravatar" />
+        <img src="{{ user.attributes.avatar_url }}" alt="{{ user.username }}'s gravatar" />
     </div>
     <div class="details">
         <a href="{% url 'view_profile' username=user.username %}" class="name">{{ user.username }}</a>

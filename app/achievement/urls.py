@@ -10,6 +10,7 @@ urlpatterns = patterns('app.achievement.views',
     url(r'^achievements/?$', 'view_achievements', name='view_achievements'),
     url(r'^achievement/view/(?P<achievement_id>\d+)/?$', 'view_achievement', name='view_achievement'),
     url(r'^users/?$', 'view_profiles', name='view_profiles'),
+    url(r'^profile/?$', 'view_own_profile', name='view_own_profile'),
     url(r'^users/(?P<username>\w+)/?$', 'view_profile', name='view_profile'),
 
     # Information related urls

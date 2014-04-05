@@ -48,7 +48,7 @@
             {% for user in achievement.users.all %}
                 <div class="user">
                     <a href="{% url 'view_profile' username=user.username %}">
-                        <img src="{{ user.attributes.gravatar }}" />
+                        <img src="{{ user.attributes.avatar_url }}" />
                         <div class="overlay">
                             <span>{{ user.username }}</span>
                         </div>

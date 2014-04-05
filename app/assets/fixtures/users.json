@@ -38,7 +38,7 @@
                 15,
                 16
             ],
-            "attributes": "{ \"gravatar\":\"https://avatars1.githubusercontent.com/1425020?s=460\", \"url\":\"http://github.com/root\" }"
+            "attributes": "{ \"avatar_url\":\"https://avatars1.githubusercontent.com/1425020?s=460\", \"url\":\"http://github.com/root\" }"
         }
     }
 ]

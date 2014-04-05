@@ -194,6 +194,21 @@ def view_profile(request, username):
 
 
 @require_http_methods(["GET"])
+def view_own_profile(request):
+    """
+    Views the user's own profile.  Doesn't require a username parameter as
+    we get the user from the request.user object.
+
+    @param request: HttpRequest object
+    @return HttpResponse
+    """
+    if request.user.is_authenticated():
+        username = request.user.username
+        return view_profile(request, username)
+    return redirect('/users')
+
+
+@require_http_methods(["GET"])
 def view_profiles(request):
     """
     Doesn't require authentication.  Lists the users in decreasing order of score
