@@ -604,13 +604,13 @@ $inlines: block, table;
         > .points {
             min-width: 20px;
             padding: 2px 0px;
-            margin-right: 5px;
+            margin-right: 10px;
             text-align: center;
             display: inline-block;
             background-color: #DDD;
         }
         &:hover {
-            text-decoration: none;
+            text-decoration: underline;
             > .points {
                 color: #2F2F2F;
             }

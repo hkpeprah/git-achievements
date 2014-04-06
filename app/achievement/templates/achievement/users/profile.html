@@ -40,8 +40,7 @@
                             {% for achievement in profile.achievements.all %}
                                 <li class="achievement-list-item">
                                     <a class="unstyled" href="{% url 'view_achievement' achievement_id=achievement.id %}">
-                                        <span class="points">{{ achievement.points }}</span>
-                                        <span>{{ achievement.name }}</span>
+                                        <span class="points">{{ achievement.points }}</span><span>{{ achievement.name }}</span>
                                     </a>
                                 </li>
                             {% endfor %}

@@ -12,6 +12,7 @@
             <div class="pull-left title">
                 <h2>{{ achievement.name }}</h2>
                 <span><b>Difficulty:</b> {{ achievement.difficulty|title }}</span>
+                <p>{{ achievement.badge.description|safe|default:achievement.description|safe }}</p>
             </div>
             <div class="pull-right clearfix">
                 {% if achievement.badge %}
@@ -19,8 +20,8 @@
                 {% endif %}
             </div>
         </div>
+        <br/>
         <div class="row">
-            <p>{{ achievement.badge.description|safe|default:achievement.description|safe }}</p>
             {% if satisfied_conditions|length > 0 or unsatisfied_conditions|length > 0 %}
                 <h4>Conditions</h4>
                 <ul class="unstyled">
