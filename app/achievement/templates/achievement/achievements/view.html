@@ -8,34 +8,34 @@
 
 {% block content %}
     <div class="container">
-        <div class="achievement">
-            <div class="title">
+        <div class="row">
+            <div class="pull-left title">
                 <h2>{{ achievement.name }}</h2>
                 <span><b>Difficulty:</b> {{ achievement.difficulty|title }}</span>
             </div>
-            <div class="details">
+            <div class="pull-right clearfix">
                 {% if achievement.badge %}
                     {% include "achievement/achievements/badge.html" with badge=achievement.badge %}
                 {% endif %}
             </div>
-            <div class="description">
-                <p>{{ achievement.badge.description|safe|default:achievement.description|safe }}</p>
-            </div>
-            <div class="conditions">
-                {% if satisfied_conditions|length > 0 or unsatisfied_conditions|length > 0 %}
-                    <h4>Conditions</h4>
-                {% endif %}
-                <ul>
-                    {% for condition in satisfied_conditions %}
-                        <li><i class="glyphicon glyphicon-ok-sign" style="color:green;"></i>{{ condition }}</li>
-                    {% endfor %}
+        </div>
+        <div class="row">
+            <p>{{ achievement.badge.description|safe|default:achievement.description|safe }}</p>
+            {% if satisfied_conditions|length > 0 or unsatisfied_conditions|length > 0 %}
+                <h4>Conditions</h4>
+                <ul class="unstyled">
+                    {# TODO: Eventually we'll have the ability to have satisfied and unsatisfied conditions...probably.. #}
                     {% for condition in unsatisfied_conditions %}
-                        <li><i class="glyphicon glyphicon-chevron-right {# glpyhicon-remove-sign #}" style="{# color:red; #}"></i>{{ condition }}</li>
+                        <li>
+                            <i class="glyphicon glyphicon-chevron-right"></i>
+                            {{ condition }}
+                        </li>
                     {% endfor %}
                 </ul>
-            </div>
+            {% endif %}
         </div>
-        <div style="text-align:center;">
+        <hr>
+        <div class="row text-center">
             {% if achievement.earned_count == 0 %}
                 <h3>No user has earned this achievement.</h3>
             {% elif achievement.earned_count == 1 %}
@@ -44,10 +44,10 @@
                 <h3>{{ achievement.earned_count }} users have earned this achievement.</h3>
             {% endif %}
         </div>
-        <div class="user-profile-list">
+        <div class="row">
             {% for user in achievement.users.all %}
                 <div class="user">
-                    <a href="{% url 'view_profile' username=user.username %}">
+                    <a class="img-overlay" href="{% url 'view_profile' username=user.username %}">
                         <img src="{{ user.attributes.avatar_url }}" />
                         <div class="overlay">
                             <span>{{ user.username }}</span>
