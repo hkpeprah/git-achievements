@@ -5,7 +5,8 @@
 *.sqlite
 *.sqlite3
 
-# Sass/Less
+# Sass/Less/CSS
+**/*.css
 *.sass-cache
 */**/.sass-cache
 

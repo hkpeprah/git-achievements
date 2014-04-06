@@ -4,37 +4,32 @@
 {% block title %}{{ profile.username }} | Git Achievements{% endblock %}
 
 {% block content %}
-    <div class="container rounded-box profile">
-        <div class="row">
-            <div class="col-xs-6 section">
-                <div class="row">
-                    <div class="col col-xs-6">
-                        <img src="{{ profile.attributes.avatar_url }}" />
-                    </div>
-                    <div class="col col-xs-6">
-                        <h3><a href="{{ profile.attributes.url }}">{{ profile.username }}</a></h3>
-                        <h5>Ranked #{{ profile.rank }}</h5>
-                    </div>
+    <div class="container rounded-box">
+        <div class="container">
+            <div class="col col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-md-8">
+                    <img class="rounded-corners" src="{{ profile.attributes.avatar_url }}" />
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <h3>
+                        <a href="{{ profile.attributes.url }}">{{ profile.username }}</a>
+                    </h3>
+                    <h5>Ranked #{{ profile.rank }}</h5>
                 </div>
             </div>
-            <div class="col-xs-6 section">
-            </div>
-        </div>
-        <div class="row center">
-            <div class="col col-xs-11">
-                <div>
-                    <h4 class="inline-block"> Achievements Unlocked</h4>
-                    <h6 class="inline-block">({{ profile.achievements.all|length }} Total)</h6>
+            <div class="col col-xs-12 col-sm-6 centered">
+                <div class="col col-xs-11">
+                    <div>
+                        <h4 class="inline-block"> Achievements Unlocked</h4>
+                        <h6 class="inline-block">({{ profile.achievements.all|length }} Total)</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="col col-xs-12">
-                <div class="achievement-list">
-                    <ul>
+                <div class="col col-xs-12">
+                    <ul class="unstyled fixed-height-4">
                         {% for achievement in profile.achievements.all %}
                             <li>
-                                <a href="{% url 'view_achievement' achievement_id=achievement.id %}">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                    {{ achievement.name }}
+                                <a class="list-block-item unstyled" href="{% url 'view_achievement' achievement_id=achievement.id %}">
+                                    <i class="glyphicon glyphicon-ok"></i>{{ achievement.name }}
                                 </a>
                             </li>
                         {% endfor %}
@@ -42,11 +37,21 @@
                 </div>
             </div>
         </div>
-        <div class="row badge-list">
-            <h4>Badges Earned</h4>
-            {% for badge in profile.ordered_badges %}
-                {% include "achievement/achievements/badge.html" with badge=badge %}
-            {% endfor %}
+        <hr>
+        <div class="container text-center">
+            <h3>Badges Earned</h3>
         </div>
+        <br>
+        {% if profile.badges.all|length == 0 %}
+            <div class="container text-center">
+                <p><b>{{ profile.username }}</b> hasn't earned any badges yet.</p>
+            </div>
+        {% else %}
+            <div class="container inline-table-list">
+                {% for badge in profile.ordered_badges %}
+                    {% include "achievement/achievements/badge.html" with badge=badge %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

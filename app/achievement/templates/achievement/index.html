@@ -1,82 +1,16 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
 
-{% block head %}
-    <!-- Fix the navbar for this page only -->
-    <style type="text/css">
-        .navbar-static-top {
-            top: 0;
-            left: 0;
-            right: 0;
-            position: fixed;
-        }
-
-        .carousel {
-            margin-top: 60px;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
-    <div id="index-carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-        <!-- Indicators, show what the current slide is -->
-        <ol class="carousel-indicators">
-            {% for c in carousel %}
-                <li data-target="#index-carousel" data-slide-to="{{ forloop.counter0 }}"
-                    {% if forloop.counter0 == 0 %}class="active"{% endif %}></li>
-            {% endfor %}
-        </ol>
-        <div class="overlay no-events"></div>
-        <div class="carousel-inner">
-            {# Add slides here #}
-            {% for slide in carousel %}
-                <div class="item {% if forloop.first %}active{% endif %}">
-                    <a href="{{ slide.url }}" target="_blank">
-                        <img src="{{ slide.image }}" alt="{{ slide.title }}" />
-                    </a>
-                    <div class="carousel-caption">
-                        <h3>{{ slide.title }}</h3>
-                        <p>{{ slide.text }}</p>
-                    </div>
+    <hr>
+    <section id="contributors">
+        <div class="container hero-alternate border center">
+            <h1>Contributors List</h1>
+            {% for contributor in contributors %}
+                <div class="col-xs-12 col-sm-6 col-lg-4 clearfix">
+                    {% include "achievement/users/contributor.html" with contributor=contributor %}
                 </div>
             {% endfor %}
         </div>
-        <!-- Carousel Controls -->
-        <a class="pull-left carousel-control" href="#index-carousel" data-slide="prev"></a>
-        <a class="pull-right carousel-control" href="#index-carousel" data-slide="next"></a>
-    </div>
-    {% with "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" as indent %}
-        <section id="about">
-            <div class="container hero center">
-                <h1>What is Git Achievements?</h1>
-                <div class="row">
-                    <div class="col center col-xs-12 col-sm-7 col-md-8">
-                        <img src="{% static 'img/sample.png' %}" />
-                    </div>
-                    <div class="col col-xs-12 col-sm-5 col-md-4">
-                        <p>
-                            {{ indent }}Git Achievements is a service-based hook for Github and Bitbucket that allows developers, designers and program 
-                            managers alike to record all the achievements they acquire, their colleagues, or just random strangers whom they're secretly
-                            stalking.  Compete against friend and foe alike, or just have fun using the service.
-                        </p>
-                        <p>
-                            {{ indent }}Achievements can be added by anyone at anytime, providing a limitless bank of possible achievements to unlock 
-                            and badges to be won.  If you prefer privacy, you can set up a local service for your business or startup and just point the 
-                            endpoint to that.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="contributors">
-            <div class="container hero-alternate border center">
-                <h1>Contributors List</h1>
-                {% for contributor in contributors %}
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 clearfix">
-                        {% include "achievement/users/contributor.html" with contributor=contributor %}
-                    </div>
-                {% endfor %}
-            </div>
-        </sectioN>
-    {% endwith %}
+    </sectioN>
 {% endblock %}

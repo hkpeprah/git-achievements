@@ -25,17 +25,9 @@ def index_view(request):
     @param request: Djagno request object
     @return: HttpResponse
     """
-    badges = sorted(Badge.objects.all().order_by('pk'),
-                    key = lambda x: random.random())
-
-    if len(badges) == 0:
-        badges = conf['badges']
-
     return render_to_response('achievement/index.html', 
         context_instance=RequestContext(request, {
-            'contributors': get_contributors(),
-            'carousel': settings.CAROUSEL,
-            'badges': badges[:5]
+            'contributors': get_contributors()
         })
     )
 

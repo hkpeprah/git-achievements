@@ -12,9 +12,9 @@ cause Django to check all the paths within that application.
 """
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls), name='admin'),
-    url(r'^api/', include('app.assets.urls'), name='api'),
     url(r'^services/', include('app.services.urls'), name='services'),
-    url('', include('social.apps.django_app.urls', namespace='social'), name='social'),
+    url(r'', include('social.apps.django_app.urls', namespace='social'), name='social'),
+    url(r'', include('app.assets.urls'), name='assets'),
     # If all else fails, delegate to the achievements application
     # as that is most likely where the url is pointing.
     url(r'', include('app.achievement.urls', app_name='achievements')),

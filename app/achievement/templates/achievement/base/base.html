@@ -24,11 +24,11 @@
         {% endblock %}
     </head>
     <body>
-        <div class="content fill sticky">
-            {% include "achievement/base/navigation.html" %}
-            <!-- Add content here -->
-            {% block content %}
-            {% endblock %}
+        <div class="content">
+            <div class="sticky-wrapper">
+                {% include "achievement/base/navigation.html" %}
+                {% block content %}{% endblock %}
+            </div>
         </div>
         {% include "achievement/base/footer.html" %}
     </body>
