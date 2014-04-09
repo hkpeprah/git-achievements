@@ -3,7 +3,7 @@
 
 # Database Files
 *.sqlite
-*.sqlite3
+*.sqlite[123]
 
 # Sass/Less/CSS
 **/*.css
