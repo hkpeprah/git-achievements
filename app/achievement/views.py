@@ -12,8 +12,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
 from app.services.utils import get_contributors
-from app.assets.models import Achievement, Condition, Badge, UserProfile
-from app.achievement.forms import AchievementForm, BadgeForm, BadgeFormset
+from app.achievement.models import Achievement, Condition, Badge, UserProfile
 
 
 @require_http_methods(["GET"])
@@ -64,16 +63,7 @@ def create_achievement(request):
     """
     if request.method == 'POST':
         return HttpResponse("Created Achievement")
-
-    form = AchievementForm()
-    badge_formset = BadgeFormset()
-
-    return render_to_response('achievement/achievements/create.html',
-        context_instance=RequestContext(request, {
-            'form': form,
-            'badge_formset': badge_formset
-        })
-    )
+    return HttpResponse("Not Implemented")
 
 
 @login_required

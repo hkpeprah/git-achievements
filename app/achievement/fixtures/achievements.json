@@ -1,7 +1,7 @@
 [
     {
         "pk": 1,
-        "model": "assets.AchievementType",
+        "model": "achievement.AchievementType",
         "fields": {
             "name": "NON",
             "description": "Normal achievement that can be achieved through events alone.",
@@ -10,7 +10,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.AchievementType",
+        "model": "achievement.AchievementType",
         "fields": {
             "name": "SPC",
             "description": "Special events and circumstances can earn you this achievement through a moderator.",
@@ -19,7 +19,7 @@
     },
     {
         "pk": 3,
-        "model": "assets.AchievementType",
+        "model": "achievement.AchievementType",
         "fields": {
             "name": "CUS",
             "description": "This achievement can be awarded by a project/repository manager.",
@@ -28,7 +28,7 @@
     },
     {
         "pk": 1,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Number 1!",
             "creator": null,
@@ -42,7 +42,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "To the power of 1",
             "creator": null,
@@ -56,7 +56,7 @@
     },
     {
         "pk": 3,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Ambassador to Planet Neutral",
             "creator": null,
@@ -70,7 +70,7 @@
     },
     {
         "pk": 4,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Neutralized Citizen",
             "creator": null,
@@ -84,7 +84,7 @@
     },
     {
         "pk": 5,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Neutral Mayor",
             "creator": null,
@@ -98,7 +98,7 @@
     },
     {
         "pk": 6,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Neutral Minister",
             "creator": null,
@@ -112,7 +112,7 @@
     },
     {
         "pk": 7,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Neutral President",
             "creator": null,
@@ -126,7 +126,7 @@
     },
     {
         "pk": 8,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "It's Over 9000!",
             "creator": null,
@@ -140,7 +140,7 @@
     },
     {
         "pk": 9,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Catch a dumb mistake.",
             "creator": null,
@@ -154,7 +154,7 @@
     },
     {
         "pk": 10,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "To the Moon",
             "creator": null,
@@ -168,7 +168,7 @@
     },
     {
         "pk": 11,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "I've been forked.",
             "creator": null,
@@ -182,7 +182,7 @@
     },
     {
         "pk": 12,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "One name, one repository, one dream.",
             "creator": null,
@@ -196,7 +196,7 @@
     },
     {
         "pk": 13,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Simplest solutions are the best.",
             "creator": null,
@@ -210,7 +210,7 @@
     },
     {
         "pk": 14,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "It's just looks like I'm doing nothing.",
             "creator": null,
@@ -224,7 +224,7 @@
     },
     {
         "pk": 15,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Meet the Heavy",
             "creator": null,
@@ -238,7 +238,7 @@
     },
     {
         "pk": 16,
-        "model": "assets.Achievement",
+        "model": "achievement.Achievement",
         "fields": {
             "name": "Helping Hand",
             "creator": null,

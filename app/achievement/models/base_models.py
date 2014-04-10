@@ -4,7 +4,6 @@ from django.db import models
 
 
 BUILT_IN = sys.modules['__builtin__']
-
 ARGUMENT_TYPES = (
     ("None", "Any"),
     ("int", "Integer"),
@@ -19,7 +18,7 @@ class BaseModel(models.Model):
     """
     class Meta:
         abstract = True
-        app_label = "assets"
+        app_label = "achievement"
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -34,7 +33,7 @@ class BaseCallableModel(models.Model):
     """
     class Meta:
         abstract = True
-        app_label = "assets"
+        app_label = "achievement"
 
     # Default to built in module
     modules = (
@@ -105,7 +104,7 @@ class BaseTypeModel(models.Model):
     """
     class Meta:
         abstract = True
-        app_label = "assets"
+        app_label = "achievement"
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)

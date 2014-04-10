@@ -30,25 +30,24 @@ ALLOWED_HOSTS = []
 # Fixture directions, where Django looks for initial data to populate
 # the database with
 FIXTURE_DIRS = (
-    'app/assets/fixtures/',
+    'app/achievement/fixtures/',
 )
 
 # Paths for the loaddata script to load in data to populate the database
 # Loads in order to allow dependencies be satisfied
 FIXTURE_PATHS = (
-    'app/assets/fixtures/badges.json',
-    'app/assets/fixtures/qualifiers.json',
-    'app/assets/fixtures/quantifiers.json',
-    'app/assets/fixtures/methods.json',
-    'app/assets/fixtures/difficulties.json',
-    'app/assets/fixtures/events.json',
-    'app/assets/fixtures/badges.json',
-    'app/assets/fixtures/conditions.json',
-    'app/assets/fixtures/achievements.json',
+    'app/achievement/fixtures/badges.json',
+    'app/achievement/fixtures/qualifiers.json',
+    'app/achievement/fixtures/quantifiers.json',
+    'app/achievement/fixtures/methods.json',
+    'app/achievement/fixtures/difficulties.json',
+    'app/achievement/fixtures/badges.json',
+    'app/achievement/fixtures/conditions.json',
+    'app/achievement/fixtures/achievements.json',
     # These two must come in this order and be the
     # last in the tuple
-    'app/assets/fixtures/achievementcondition.json',
-    'app/assets/fixtures/users.json',
+    'app/achievement/fixtures/achievementcondition.json',
+    'app/achievement/fixtures/users.json',
 )
 
 # Authentication backends
@@ -101,7 +100,6 @@ INSTALLED_APPS = (
     'crispy_forms',
     'tastypie',
     # Add custom apps here
-    'app.assets',
     'app.services',
     'app.achievement',
 )
@@ -175,7 +173,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.create_user',
     # Custom method for populating data fields for the
     # user.  At this point it's assumed we have a user object.
-    'app.assets.models.populate_profile_fields',
+    'app.achievement.utils.populate_profile_fields',
     # Continue normal pipeline
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',

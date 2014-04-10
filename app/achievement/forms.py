@@ -1,60 +1,29 @@
-from collections import namedtuple
-from crispy_forms.layout import Submit
-from crispy_forms.helper import FormHelper
-
-import django.forms as forms
+from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
+from django.contrib.contenttypes.models import ContentType
 
-from app.assets.models import Achievement, Condition, Badge
+from app.achievement.models import *
 
 
+class AchievementConditionForm(ModelForm):
+    class Meta:
+        model = AchievementCondition
+
+    def __init__(self, *args, **kwargs):
+        super(AchievementConditionForm, self).__init__(*args, **kwargs)
+        self.fields['content_type'].choices = (
+            (ContentType.objects.get_for_model(ValueCondition), 'Value Condition'),
+            (ContentType.objects.get_for_model(AttributeCondition), 'Attribute Condition'),
+        )
 
 
-class AchievementForm(forms.ModelForm):
+class AchievementForm(ModelForm):
     """
+    Form for creating/editing achievements.
     """
     class Meta:
         model = Achievement
-        fields = ['name', 'description', 'difficulty', 'achievement_type', 'grouping']
-        labels = {
-            'name': 'Achievement Name',
-            'description': 'Achievement Description',
-            'achievement_type': 'Type of Achievement',
-            'grouping': 'Condition Grouping'
-        }
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 2})
-        }
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        """
-        @param self: AchievementForm instance
-        @param args: List of arguments
-        @param kwargs: List of keyword arguments
-        @return: AchievementForm
-        """
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_class = 'achievement-form'
-        self.helper.form_action = 'achievement_create'
-        self.helper.add_input(Submit('submit', 'Submit'))
         super(AchievementForm, self).__init__(*args, **kwargs)
-
-        Difficulty = namedtuple('Difficulty', ('id', 'name'))
-
-        self.fields['difficulty'].choices = filter(lambda d: not Difficulty(*d).name == "legendary",
-            self.fields['difficulty'].choices)
-
-
-class BadgeForm(forms.ModelForm):
-    """
-    """
-    class Meta:
-        model = Badge
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 2})
-        }
-
-
-BadgeFormset = inlineformset_factory(Badge, Achievement,
-    fields=('name', 'description'), can_delete=False)

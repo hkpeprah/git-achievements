@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
-from app.assets.models import Achievement, AchievementCondition, UserProfile
+from app.achievement.models import Achievement, AchievementCondition, UserProfile
 
 
 class UserResource(ModelResource):

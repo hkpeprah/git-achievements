@@ -41,3 +41,27 @@ def find_nested_json(obj, keys):
         return None
 
     return results
+
+
+def populate_profile_fields(strategy, details, response, uid, user, *args, **kwargs):
+    """
+    Populates additional fields (the JSON field) for a user object.
+
+    @param strategy: Django social auth strategy
+    @param details:  Dictionary of data passed through the oauth
+    @param response:  OAuth response
+    @param uid: The user id
+    @param user: The django.contrib.auth.User model
+    @param *args: List of additional arguments
+    @param **kwargs:  Dictionary of keyword arguments
+    """
+    attributes = response.copy()
+    attributes['url'] = attributes['html_url']
+    attributes['username'] = details['username']
+
+    path = kwargs['request'].path
+    service = re.match(r'(?:/complete/(.*)/)', path).group(1)
+    attributes['service'] = service
+
+    user.profile.attributes = attributes
+    user.profile.save()

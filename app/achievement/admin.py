@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.contrib.contenttypes.generic import (GenericTabularInline, GenericStackedInline,
                                                     GenericInlineModelAdmin)
 
-from app.assets.forms import *
-from app.assets.models import *
+from app.achievement.forms import *
+from app.achievement.models import *
 
 
 class BadgeAdmin(admin.ModelAdmin):

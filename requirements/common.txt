@@ -9,9 +9,6 @@ django-tastypie==0.11.0
 beautifulsoup4==4.3.2
 mechanize==0.2.5
 
-# Image Processing
-Pillow==2.3.0
-
 # Static flies and styling
 django-static-precompiler==0.3
 django-crispy-forms==1.4.0

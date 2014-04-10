@@ -1,7 +1,7 @@
 [
     {
         "pk": 1,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "greater than",
             "description": "Returns true if the first value is greater than the second.",
@@ -11,7 +11,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "less than",
             "description": "Returns true if the first value is less than the second.",
@@ -21,7 +21,7 @@
     },
     {
         "pk": 3,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "greater than or equal to",
             "description": "Returns true if the first value is greater than or equal to the second.",
@@ -31,7 +31,7 @@
     },
     {
         "pk": 4,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "less than or equal to",
             "description": "Returns true if the first value is less than or equal to the second.",
@@ -41,7 +41,7 @@
     },
     {
         "pk": 5,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "equal",
             "description": "Returns true if the values are equal.",
@@ -50,7 +50,7 @@
     },
     {
         "pk": 6,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "not equal",
             "description": "Returns true if the values are not equal.",
@@ -59,7 +59,7 @@
     },
     {
         "pk": 7,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "starts with",
             "description": "Returns true if the the string is the prefix of the other.",
@@ -69,7 +69,7 @@
     },
     {
         "pk": 8,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "ends with",
             "description": "Returns true if the string is the suffix of the other.",
@@ -79,7 +79,7 @@
     },
     {
         "pk": 9,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "match",
             "description": "Returns true if the string matches the pattern.",
@@ -89,7 +89,7 @@
     },
     {
         "pk": 10,
-        "model": "assets.Method",
+        "model": "achievement.Method",
         "fields": {
             "name": "contains",
             "description": "Returns true if the string contains the other string.",

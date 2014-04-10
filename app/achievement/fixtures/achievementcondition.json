@@ -1,10 +1,10 @@
 [
     {
         "pk": 1, 
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets", 
+                "achievement", 
                 "valuecondition"
             ],
             "object_id": 1, 
@@ -24,10 +24,10 @@
     },
     {
         "pk": 2, 
-        "model": "assets.AchievementCondition", 
+        "model": "achievement.AchievementCondition", 
         "fields": {
             "content_type": [
-                "assets", 
+                "achievement", 
                 "valuecondition"
             ],
             "object_id": 2, 
@@ -38,10 +38,10 @@
     },
     {
         "pk": 3,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 3,
@@ -52,10 +52,10 @@
     },
     {
         "pk": 4,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "attributecondition"
             ],
             "object_id": 1,
@@ -70,10 +70,10 @@
     },
     {
         "pk": 5,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 21,
@@ -84,10 +84,10 @@
     },
     {
         "pk": 6,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 22,
@@ -98,10 +98,10 @@
     },
     {
         "pk": 7,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 23,
@@ -112,10 +112,10 @@
     },
     {
         "pk": 8,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 24,
@@ -126,10 +126,10 @@
     },
     {
         "pk": 9,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 25,
@@ -141,10 +141,10 @@
     },
     {
         "pk": 10,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 10,
@@ -155,10 +155,10 @@
     },
     {
         "pk": 11,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 11,
@@ -169,10 +169,10 @@
     },
     {
         "pk": 12,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "attributecondition"
             ],
             "object_id": 2,
@@ -183,10 +183,10 @@
     },
     {
         "pk": 13,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "attributecondition"
             ],
             "object_id": 3,
@@ -197,10 +197,10 @@
     },
     {
         "pk": 14,
-        "model": "assets.AchievementCondition",
+        "model": "achievement.AchievementCondition",
         "fields": {
             "content_type": [
-                "assets",
+                "achievement",
                 "valuecondition"
             ],
             "object_id": 26,

@@ -1,10 +1,17 @@
+from tastypie.api import Api
 from django.conf.urls import patterns, include, url
 
+from app.achievements.resources import UserResource
+
+
+api = Api(api_name='v1')
+api.register(UserResource())
 
 urlpatterns = patterns('app.achievement.views',
     # Main application pages.  These pages don't require the
     # user to be authenticated.
     url(r'^/?$', 'index_view', name='index'),
+    url(r'^api/', include(api.urls)),
     url(r'^login/?$', 'login_view', name='login'),
     url(r'^logout/?$', 'login_view', name='logout'),
     url(r'^achievements/?$', 'view_achievements', name='view_achievements'),

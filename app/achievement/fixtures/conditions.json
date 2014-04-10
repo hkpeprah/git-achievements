@@ -1,7 +1,7 @@
 [
     {
         "pk": 1,
-        "model": "assets.ConditionType",
+        "model": "achievement.ConditionType",
         "fields": {
             "name": "Non-Custom",
             "description": "",
@@ -10,7 +10,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.ConditionType",
+        "model": "achievement.ConditionType",
         "fields": {
             "name": "Custom",
             "description": "",
@@ -19,7 +19,7 @@
     },
     {
         "pk": 1,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request was opened.",
             "method": 5,
@@ -31,7 +31,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is one (1).",
             "method": 5,
@@ -43,7 +43,7 @@
     },
     {
         "pk": 3,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is two (2).",
             "method": 5,
@@ -55,7 +55,7 @@
     },
     {
         "pk": 4,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is four (4).",
             "method": 5,
@@ -67,7 +67,7 @@
     },
     {
         "pk": 5,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is one-hundred and one (101).",
             "method": 5,
@@ -79,7 +79,7 @@
     },
     {
         "pk": 6,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is one-hundred and fifty (150).",
             "method": 5,
@@ -91,7 +91,7 @@
     },
     {
         "pk": 7,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is three hundred and sixty (360).",
             "method": 5,
@@ -103,7 +103,7 @@
     },
     {
         "pk": 8,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is four hundred and four (404).",
             "method": 5,
@@ -115,7 +115,7 @@
     },
     {
         "pk": 9,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is 1337.",
             "method": 5,
@@ -127,7 +127,7 @@
     },
     {
         "pk": 10,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request number is greater than 9000.",
             "method": 1,
@@ -139,7 +139,7 @@
     },
     {
         "pk": 11,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Commit comment contains the string \"DOH\".",
             "method": 10,
@@ -151,7 +151,7 @@
     },
     {
         "pk": 12,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request has over 200,000 deletions.",
             "method": 1,
@@ -163,7 +163,7 @@
     },
     {
         "pk": 13,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request has less than 100 additions.",
             "method": 2,
@@ -175,7 +175,7 @@
     },
     {
         "pk": 14,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request has over 100 deletions.",
             "method": 1,
@@ -187,7 +187,7 @@
     },
     {
         "pk": 15,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request has no additions.",
             "method": 5,
@@ -199,7 +199,7 @@
     },
     {
         "pk": 16,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Pull request has deletions.",
             "method": 6,
@@ -211,7 +211,7 @@
     },
     {
         "pk": 17,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Fork Octocat's demonstration repository \"Spoon-Knife\".",
             "method": 10,
@@ -223,7 +223,7 @@
     },
     {
         "pk": 18,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Create a repository.",
             "method": 5,
@@ -235,7 +235,7 @@
     },
     {
         "pk": 19,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Push to a repository.",
             "method": 3,
@@ -247,7 +247,7 @@
     },
     {
         "pk": 20,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Make a release.",
             "method": 5,
@@ -259,7 +259,7 @@
     },
     {
         "pk": 21,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Number of additions > 10.",
             "method": 1,
@@ -271,7 +271,7 @@
     },
     {
         "pk": 22,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Number of additions > 100.",
             "method": 1,
@@ -283,7 +283,7 @@
     },
     {
         "pk": 23,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Number of additions > 1000.",
             "method": 1,
@@ -295,7 +295,7 @@
     },
     {
         "pk": 24,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Number of additions > 10,000.",
             "method": 1,
@@ -307,7 +307,7 @@
     },
     {
         "pk": 25,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Number of additions > 100,000.",
             "method": 1,
@@ -319,7 +319,7 @@
     },
     {
         "pk": 26,
-        "model": "assets.ValueCondition",
+        "model": "achievement.ValueCondition",
         "fields": {
             "description": "Branch was forced pushed.",
             "method": 5,
@@ -331,7 +331,7 @@
     },
     {
         "pk": 1,
-        "model": "assets.AttributeCondition",
+        "model": "achievement.AttributeCondition",
         "fields": {
             "description": "Number of additions == number of deletions.",
             "method": 5,
@@ -345,7 +345,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.AttributeCondition",
+        "model": "achievement.AttributeCondition",
         "fields": {
             "description": "Have your repository forked.",
             "method": 10,
@@ -359,7 +359,7 @@
     },
     {
         "pk": 3,
-        "model": "assets.AttributeCondition",
+        "model": "achievement.AttributeCondition",
         "fields": {
             "description": "Repository contains your name.",
             "method": 10,

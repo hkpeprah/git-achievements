@@ -1,7 +1,7 @@
 [
     {
         "pk": 1,
-        "model": "assets.Qualifier",
+        "model": "achievement.Qualifier",
         "fields": {
             "name": "string length",
             "description": "Length of the string.",

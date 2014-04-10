@@ -11,17 +11,10 @@ from django.contrib.auth.models import User, UserManager
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
-from app.assets.utils import find_nested_json
-from app.assets.models.base_models import BaseModel, BaseCallableModel, BaseTypeModel
-from app.assets.models.local_settings import (CUSTOM_ACHIEVEMENT_TYPES,
+from app.achievement.utils import find_nested_json
+from app.achievement.models.base_models import BaseModel, BaseCallableModel, BaseTypeModel
+from app.achievement.models.local_settings import (CUSTOM_ACHIEVEMENT_TYPES,
     ACHIEVEMENT_DIFFICULTY_LEVELS)
-
-
-class Event(BaseModel):
-    """
-    Generic event model.
-    """
-    pass
 
 
 class Difficulty(models.Model):
@@ -30,7 +23,7 @@ class Difficulty(models.Model):
     with the model.
     """
     class Meta:
-        app_label = "assets"
+        app_label = "achievement"
         ordering = ['points']
 
     name = models.CharField(max_length=30)
@@ -46,7 +39,7 @@ class Badge(models.Model):
     Generic Badge model.  Badges can be won by users.
     """
     class Meta:
-        app_label = "assets"
+        app_label = "achievement"
 
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
@@ -118,10 +111,10 @@ class Condition(models.Model):
     """
     class Meta:
         abstract = True
-        app_label = "assets"
+        app_label = "achievement"
 
     method = models.ForeignKey('Method')
-    event_type = models.ForeignKey('Event')
+    event_type = models.ForeignKey('services.Event')
     description = models.TextField(blank=True)
     condition_type = models.ForeignKey('ConditionType')
 
@@ -236,7 +229,7 @@ class AchievementCondition(models.Model):
     Forces uniqueness w.r.t. the relationship.  The relationship is generic in nature.
     """
     class Meta:
-        app_label = 'assets'
+        app_label = 'achievement'
 
     achievements = models.ManyToManyField('Achievement', related_name='conditions')
     object_id = models.PositiveIntegerField()
@@ -364,7 +357,7 @@ class UserProfile(models.Model):
     logging in.
     """
     class Meta:
-        app_label = "assets"
+        app_label = "achievement"
 
     # TODO: Add social auth for Github
     user = models.OneToOneField(User, related_name='profile')
@@ -436,30 +429,5 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = UserProfile.objects.get_or_create(user=instance)
         profile.save()
-
-
-def populate_profile_fields(strategy, details, response, uid, user, *args, **kwargs):
-    """
-    Populates additional fields (the JSON field) for a user object.
-
-    @param strategy: Django social auth strategy
-    @param details:  Dictionary of data passed through the oauth
-    @param response:  OAuth response
-    @param uid: The user id
-    @param user: The django.contrib.auth.User model
-    @param *args: List of additional arguments
-    @param **kwargs:  Dictionary of keyword arguments
-    """
-    attributes = response.copy()
-    attributes['url'] = attributes['html_url']
-    attributes['username'] = details['username']
-
-    path = kwargs['request'].path
-    service = re.match(r'(?:/complete/(.*)/)', path).group(1)
-    attributes['service'] = service
-
-    user.profile.attributes = attributes
-    user.profile.save()
-
 
 post_save.connect(create_user_profile, sender=User) # Add post-save hook to create profile when user is made

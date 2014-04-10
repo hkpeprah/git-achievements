@@ -1,7 +1,7 @@
 [
     {
         "pk": 1,
-        "model": "assets.Quantifier",
+        "model": "achievement.Quantifier",
         "fields": {
             "name": "all",
             "description": "All the values satisfy the condition.",
@@ -11,7 +11,7 @@
     },
     {
         "pk": 2,
-        "model": "assets.Quantifier",
+        "model": "achievement.Quantifier",
         "fields": {
             "name": "any",
             "description": "Any of the value satisfy the condition.",
