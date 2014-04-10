@@ -1,7 +1,7 @@
 from tastypie.api import Api
 from django.conf.urls import patterns, include, url
 
-from app.achievements.resources import UserResource
+from app.achievement.resources import UserResource
 
 
 api = Api(api_name='v1')

@@ -1,5 +1,5 @@
 """
-Django settings for achievements project.
+Django settings for Git-Achievements project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -74,7 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
     # Custom processors
-    'achievements.context_processors.hosting_services',
+    'gitachievements.context_processors.hosting_services',
     # Request proccessor
     'django.core.context_processors.request',
 )
@@ -115,8 +115,8 @@ MIDDLEWARE_CLASSES = (
 )
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-ROOT_URLCONF = 'achievements.urls'
-WSGI_APPLICATION = 'achievements.wsgi.application'
+ROOT_URLCONF = 'gitachievements.urls'
+WSGI_APPLICATION = 'gitachievements.wsgi.application'
 
 
 # Database
