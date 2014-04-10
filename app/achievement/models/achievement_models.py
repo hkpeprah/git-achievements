@@ -13,8 +13,6 @@ from django.contrib.contenttypes.models import ContentType
 
 from app.achievement.utils import find_nested_json
 from app.achievement.models.base_models import BaseModel, BaseCallableModel, BaseTypeModel
-from app.achievement.models.local_settings import (CUSTOM_ACHIEVEMENT_TYPES,
-    ACHIEVEMENT_DIFFICULTY_LEVELS)
 
 
 class Difficulty(models.Model):
@@ -28,7 +26,8 @@ class Difficulty(models.Model):
 
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True)
-    points = models.PositiveIntegerField() # TODO: Why not negative?
+    # TODO: Why not negative?
+    points = models.PositiveIntegerField()
 
     def __unicode__(self):
         return self.name
@@ -51,14 +50,14 @@ class Badge(models.Model):
         the badge is attached to.  Defaults to randomly selected level.
         """
         difficulty = None
-
         if self.achievement is not None:
             difficulty = self.achievement.difficulty
-        
-        else: # Randomly assign a difficulty for viewing purposes
-            difficulty = random.sample(ACHIEVEMENT_DIFFICULTY_LEVELS, 1)[0][1]
+        # Randomly assign a difficulty for viewing purposes
+        else:
+            choices = random.sample(['Easy', 'Medium', 'Hard'], 1)
+            difficulty = choices[0]
 
-        difficulty = difficulty.lower()
+        difficulty = difficulty.name.lower()
         return difficulty
 
     def __unicode__(self):
@@ -212,14 +211,21 @@ class AttributeCondition(Condition):
         return passed
 
 
-class AchievementType(BaseTypeModel):
+class AchievementType(models.Model):
     """
     Generic achievement type.
     """
-    types = dict(CUSTOM_ACHIEVEMENT_TYPES)
+    class Meta:
+        app_label = 'achievement'
+
+    name = models.CharField(max_length=50)
+    custom = models.BooleanField(default=True)
+
+    def is_custom(self):
+        return self.custom
 
     def __unicode__(self):
-        return self.types.get(self.name)
+        return self.name
 
 
 class AchievementCondition(models.Model):
@@ -325,22 +331,22 @@ class Achievement(BaseModel):
                 satisfied.append(condition)
         return satisfied
 
-    def unlocked(self, event, satisfied=[]):
+    def unlocked(self, event, payload, satisfied=[]):
         """
         Returns true if the event satisfies all the conditions of the
         achievement.  Otherwise False.
 
-        @param event: Object
+        @param event: Name of the event
+        @param payload: The event payload
         @param satisfied: Array of satisfied condition ids
         @return: Boolean
         """
         passed = True
         grouping = getattr(bool, self.grouping)
-        event_type, payload = event['type'], event['payload']
 
         for cond in self.conditions:
             if cond.id not in satisfied:
-                if not cond.type == event_type:
+                if not cond.type == event:
                     return False
                 passed = grouping(passed, cond(payload))
 

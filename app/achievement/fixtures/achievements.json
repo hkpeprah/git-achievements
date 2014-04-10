@@ -3,8 +3,7 @@
         "pk": 1,
         "model": "achievement.AchievementType",
         "fields": {
-            "name": "NON",
-            "description": "Normal achievement that can be achieved through events alone.",
+            "name": "Non-custom",
             "custom": false
         }
     },
@@ -12,8 +11,7 @@
         "pk": 2,
         "model": "achievement.AchievementType",
         "fields": {
-            "name": "SPC",
-            "description": "Special events and circumstances can earn you this achievement through a moderator.",
+            "name": "Special",
             "custom": true
         }
     },
@@ -21,8 +19,15 @@
         "pk": 3,
         "model": "achievement.AchievementType",
         "fields": {
-            "name": "CUS",
-            "description": "This achievement can be awarded by a project/repository manager.",
+            "name": "Custom",
+            "custom": true
+        }
+    },
+    {
+        "pk": 4,
+        "model": "achievement.AchievementType",
+        "fields": {
+            "name": "Event",
             "custom": true
         }
     },
