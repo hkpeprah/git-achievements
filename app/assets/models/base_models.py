@@ -75,7 +75,8 @@ class BaseCallableModel(models.Model):
 
         method = self.get_callable_method()
 
-        for module in self.modules: # iterate over the supported modules
+        # iterate over the supported modules
+        for module in self.modules:
             try:
                 if getattr(module, method, None) is not None:
                     return getattr(module, method)(*args)
