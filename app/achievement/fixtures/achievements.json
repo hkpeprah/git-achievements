@@ -252,7 +252,21 @@
             "active": true,
             "grouping": "__and__",
             "badge": 12,
-            "description": "Contribute to Git Achievements"
+            "description": "Contribute to Git Achievements!"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "achievement.Achievement",
+        "fields": {
+            "name": "Word of Mouth",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 1,
+            "active": true,
+            "grouping": "__and__",
+            "badge": null,
+            "description": "Speak up."
         }
     }
 ]

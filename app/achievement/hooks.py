@@ -26,14 +26,15 @@ def check_for_unlocked_achievements(event, payload, user):
     else:
         raise ValueError("Expected a string, User or UserProfile object, found %s" % type(user))
 
-    achievements = Achievement.objects.exclude(id__in
-        profile.achievements.values_list('id', flat=True))
-    achievements = achievements[:]
+    achievements = Achievement.objects.exclude(pk__in=
+        map(lambda u: u.pk, user.achievements.all()))
     unlocked_achievements = []
 
     for achievement in achievements:
         if achievement.unlocked(event, payload):
-            profile.achievements.add(achievement)
-            unlocked_achievements.append(achievement)
+            user.achievements.add(achievement)
+            user.points = user.points + achievement.points
+            unlocked_achievements.append(achievement.name)
 
-    return unlocked_achievemetns
+    user.save()
+    return unlocked_achievements

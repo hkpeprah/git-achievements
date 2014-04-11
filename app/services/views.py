@@ -1,17 +1,22 @@
 import re
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 
 from app.services.models import Event
+from app.services.hooks import GithubHook
+from app.services.utils import json_response, initialize_webhook_addresses, get_client_ip
 
 
 @login_required
+@require_http_methods(['GET'])
 @user_passes_test(lambda u: u.is_superuser)
 def service_events(request, service):
     """
@@ -42,3 +47,33 @@ def service_events(request, service):
             'events': events
         })
     )
+
+
+@csrf_exempt
+@require_http_methods(['GET', 'POST'])
+def web_hook(request):
+    """
+    Processes a Web Hook service request.
+
+    @param request: HttpRequest
+    @return: HttpResponse
+    """
+    if request.method == "GET":
+        return HttpResponse("Hello World!", status=200)
+
+    headers, request_address = request.META, get_client_ip(request)
+    response = json_response({})
+
+    # Initialize web hook addresses if not already
+    initialize_webhook_addresses()
+    if request_address in settings.GITHUB_IP_ADDRESSES:
+        if settings.DEBUG:
+            print "Received webhook event from: %s" % request_address
+
+        event = headers.get('HTTP_X_GITHUB_EVENT', '')
+        payload = request.POST.get('payload', None)
+        if not payload:
+            payload = json.loads(request.body)
+        response = GithubHook.process_event(event, payload)
+
+    return response

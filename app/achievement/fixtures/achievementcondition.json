@@ -208,5 +208,19 @@
                 15
             ]
         }
+    },
+    {
+        "pk": 15,
+        "model": "achievement.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "achievement",
+                "valuecondition"
+            ],
+            "object_id": 27,
+            "achievements": [
+                17
+            ]
+        }
     }
 ]

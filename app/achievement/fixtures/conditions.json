@@ -330,6 +330,18 @@
         }
     },
     {
+        "pk": 27,
+        "model": "achievement.ValueCondition",
+        "fields": {
+            "description": "Comment was created.",
+            "method": 5,
+            "condition_type": 1,
+            "attribute": "action",
+            "event_type": 12,
+            "value": "created"
+        }
+    },
+    {
         "pk": 1,
         "model": "achievement.AttributeCondition",
         "fields": {
@@ -364,7 +376,7 @@
             "description": "Repository contains your name.",
             "method": 10,
             "condition_type": 1,
-            "event_type": 17,
+            "event_type": 12,
             "attributes": [
                 "repo.name",
                 "user.login"

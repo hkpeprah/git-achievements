@@ -256,6 +256,13 @@ class AchievementCondition(models.Model):
     content_type = models.ForeignKey(ContentType)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+    def __call__(self, event):
+        return self.content_object(event)
+
+    @property
+    def type(self):
+        return self.content_object.type
+
     @property
     def condition(self):
         """
@@ -358,7 +365,10 @@ class Achievement(BaseModel):
         passed = True
         grouping = getattr(bool, self.grouping)
 
-        for cond in self.conditions:
+        if self.is_custom():
+            return False
+
+        for cond in self.conditions.all():
             if cond.id not in satisfied:
                 if not cond.type == event:
                     return False

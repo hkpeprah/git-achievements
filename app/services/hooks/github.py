@@ -1,6 +1,6 @@
 from app.services.utils import json_response
 from app.achievement.utils import find_nested_json
-from app.achievement.hooks import check_for_unlocked_achievement
+from app.achievement.hooks import check_for_unlocked_achievements
 
 
 class EventData(object):
@@ -112,20 +112,14 @@ class GithubHook():
     """
     Receiever for the Github Webhooks API.
     """
-    def process_event(headers, event):
+    @classmethod
+    def process_event(cls, event_name, event):
         """
         Processes a hook service event from Github.
         """
-        event_name = headers['HTTP_X_GITHUB_EVENT']
         # Create the Event object as a convenience
-        event = EventData(event_name, username, **event)
+        event = EventData(event_name, **event)
         unlocked = []
         if event.user is not None:
             unlocked = check_for_unlocked_achievements(event_name, event, event.user)
         return json_response(unlocked)
-
-    def validate_hook(headers):
-        """
-        Validates the hook.
-        """
-        return True

@@ -1,10 +1,40 @@
 import json
 import urllib2
+
+import ipaddress
 from django.conf import settings
 from django.http import HttpResponse
 
 from app.services.models import Event
 from app.services.scrapers import GithubScraper, BitbucketScraper
+
+
+def initialize_webhook_addresses():
+    """
+    Adds the webhook addresses to the settings variable.
+    """
+    if not hasattr(settings, 'GITHUB_IP_ADDRESSES'):
+        blocks = get_api_data('https://api.github.com/meta')
+        blocks = blocks['hooks']
+        addresses = []
+        for block in blocks:
+            addresses += map(lambda ip: str(ip), list(ipaddress.ip_network(block).hosts()))
+        setattr(settings, 'GITHUB_IP_ADDRESSES', addresses)
+
+    return None
+
+
+def get_client_ip(request):
+    """
+    Gets the client's ip address from a request object.
+    """
+    forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR', None)
+    real_ip = request.META.get('HTTP_X_REAL_IP', None)
+    if forwarded_for:
+        return forwarded_for.split(',')[0]
+    elif real_ip:
+        return real_ip
+    return request.META.get('REMOTE_ADDR')
 
 
 def get_api_data(url, headers=None):
