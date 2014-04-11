@@ -183,6 +183,8 @@ SOCIAL_AUTH_PIPELINE = (
 SOCIAL_AUTH_GITHUB_KEY = ''
 SOCIAL_AUTH_GITHUB_SECRET = ''
 
+# Additional settings
+CONTRIBUTORS_URL = "https://api.github.com/orgs/git-achievements/public_members"
 # This tuple should contain a list of the services that you wish
 # to have support for.
 HOSTING_API_SERVICES = (

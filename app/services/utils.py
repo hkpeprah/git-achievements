@@ -96,7 +96,10 @@ def get_contributors():
 
     @return: list
     """
-    contributors_list = get_api_data("https://api.github.com/orgs/git-achievements/public_members")
+    if hasattr(settings, "PROJECT_CONTRIBUTORS"):
+        return settings.PROJECT_CONTRIBUTORS
+
+    contributors_list = get_api_data(settings.CONTRIBUTORS_URL)
     contributors_list = [] if contributors_list is None else contributors_list
     contributors = []
 
@@ -105,6 +108,7 @@ def get_contributors():
         if contributor is not None:
             contributors.append(contributor)
 
+    setattr(settings, "PROJECT_CONTRIBUTORS", contributors)
     return contributors
 
 
