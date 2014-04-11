@@ -69,7 +69,6 @@ def web_hook(request):
     if request_address in settings.GITHUB_IP_ADDRESSES:
         if settings.DEBUG:
             print "Received webhook event from: %s" % request_address
-
         event = headers.get('HTTP_X_GITHUB_EVENT', '')
         payload = request.POST.get('payload', None)
         if not payload:

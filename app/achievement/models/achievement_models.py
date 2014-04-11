@@ -296,6 +296,21 @@ class Achievement(BaseModel):
     creator = models.ForeignKey('UserProfile', related_name='created_achievements', blank=True, null=True)
     grouping = models.CharField(max_length=10, choices=CONDITION_GROUPING, default=DEFAULT_GROUPING)
 
+    def to_json(self):
+        """
+        Return model JSON data.
+        """
+        return {
+            'name': self.name,
+            'active': self.active,
+            'difficulty': self.difficulty.name,
+            'custom': self.achievement_type.is_custom(),
+            'badge': True if self.badge else False,
+            'creator': self.creator,
+            'points': self.points,
+            'earned': self.earned_count
+        }
+
     @property
     def points(self):
         """

@@ -34,7 +34,7 @@ def check_for_unlocked_achievements(event, payload, user):
         if achievement.unlocked(event, payload):
             user.achievements.add(achievement)
             user.points = user.points + achievement.points
-            unlocked_achievements.append(achievement.name)
+            unlocked_achievements.append(achievement.to_json())
 
     user.save()
     return unlocked_achievements
