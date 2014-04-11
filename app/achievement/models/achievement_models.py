@@ -11,6 +11,7 @@ from django.contrib.auth.models import User, UserManager
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
+import app.achievement.lib as custom_methods
 from app.achievement.utils import find_nested_json
 from app.achievement.models.base_models import BaseModel, BaseCallableModel, BaseTypeModel
 
@@ -112,7 +113,6 @@ class Condition(models.Model):
         abstract = True
         app_label = "achievement"
 
-    method = models.ForeignKey('Method')
     event_type = models.ForeignKey('services.Event')
     description = models.TextField(blank=True)
     condition_type = models.ForeignKey('ConditionType')
@@ -124,11 +124,23 @@ class Condition(models.Model):
     def is_custom(self):
         return self.condition_type.is_custom()
 
-    def __call__(self, event, attribute=None):
+    def __call__(self, event):
         return True
 
     def __unicode__(self):
         return self.description
+
+
+class CustomCondition(Condition):
+    """
+    A CustomCondition is one that makes use of custom methods to handle
+    dealing with an event.  These methods are defined in
+    app.achievement.lib
+    """
+    method = models.CharField(max_length=100)
+
+    def __call__(self, event):
+        return getattr(custom_methods, self.method)(event)
 
 
 class ValueCondition(Condition):
@@ -136,6 +148,7 @@ class ValueCondition(Condition):
     Defines a value condition; a value condition is one where the attribute is
     checked against a predefined value.
     """
+    method = models.ForeignKey('Method')
     attribute = models.CharField(max_length=200)
     value = models.CharField(max_length=200)
     qualifier = models.ForeignKey('Qualifier', blank=True, null=True)
@@ -178,6 +191,7 @@ class AttributeCondition(Condition):
     Defines an attribute condition; an attribute condition is one where the two
     attributes in the returned event are tested against each other.
     """
+    method = models.ForeignKey('Method')
     attributes = jsonfield.JSONField()
     qualifiers = models.ManyToManyField('Qualifier', blank=True, null=True)
 

@@ -1,6 +1,7 @@
 import json
 import urllib2
 from django.conf import settings
+from django.http import HttpResponse
 
 from app.services.models import Event
 from app.services.scrapers import GithubScraper, BitbucketScraper
@@ -75,3 +76,17 @@ def get_contributors():
             contributors.append(contributor)
 
     return contributors
+
+
+def json_response(data):
+    """
+    Creates a HttpResponse for returning json data.
+
+    @param data: Object
+    @return: HttpResponse
+    """
+    return HttpResponse(json.dumps({
+            'response': data,
+            'success': True
+        }, separators=(',', ':'), indent=4),
+        content_type="application/json", status=200)

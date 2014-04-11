@@ -3,15 +3,6 @@ import sys
 from django.db import models
 
 
-BUILT_IN = sys.modules['__builtin__']
-ARGUMENT_TYPES = (
-    ("None", "Any"),
-    ("int", "Integer"),
-    ("str", "String"),
-    ("bool", "Boolean")
-)
-
-
 class BaseModel(models.Model):
     """
     Generic base model.
@@ -35,9 +26,17 @@ class BaseCallableModel(models.Model):
         abstract = True
         app_label = "achievement"
 
+    BUILT_IN = sys.modules['__builtin__']
+    ARGUMENT_TYPES = (
+        ("None", "Any"),
+        ("int", "Integer"),
+        ("str", "String"),
+        ("bool", "Boolean")
+    )
+
     # Default to built in module
     modules = (
-        BUILT_IN,
+        sys.modules['__builtin__'],
     )
 
     # Base fields
@@ -57,30 +56,25 @@ class BaseCallableModel(models.Model):
         """
         args = list(args)
 
-        try: # attempt to coerce type
-            if self.argument_type is not None and \
-               getattr(BUILT_IN, self.argument_type, None) is not None:
-
-                cls = getattr(BUILT_IN, self.argument_type)
-                for index, arg in enumerate(args[:]):
-                    args[index] = cls(arg)
-
+        # Attempt to coerce type
+        try:
+            argument_type = self.argument_type
+            convert_to_class = None
+            if argument_type is None:
+                convert_to_class = type(args[0])
             else:
-                cls = type(args[0])
-                args = list(cls(arg) for arg in args)
-
-        except (AttributeError, ValueError) as e:
+                convert_to_class = getattr(BUILT_IN, argument_type)
+            args = list(convert_to_class(arg) for arg in args)
+        except (AttributeError, ValueError):
             return None
 
-        method = self.get_callable_method()
-
         # iterate over the supported modules
+        method = self.get_callable_method()
         for module in self.modules:
             try:
-                if getattr(module, method, None) is not None:
-                    return getattr(module, method)(*args)
-            except TypeError:
-                pass
+                return getattr(module, method)(*args)
+            except (AttributeError, TypeError):
+                continue
 
         return None
 
