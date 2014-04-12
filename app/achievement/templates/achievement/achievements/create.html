@@ -1,15 +1,8 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
-
 {% block title %}Create New Achievement | Git Achievements{% endblock %}
-
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'achievement/css/achieve-form.css' %}" />
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-{% endblock %}
-
 {% block content %}
-    <div class="container">
+    <div class="container create-achievement">
         <h2 class="title">Create a new achievement</h2>
         <form id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
             {% csrf_token %}

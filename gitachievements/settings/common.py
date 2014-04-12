@@ -150,7 +150,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
 
-
 # Social Authentication Settings
 # Settings for the Django Pipeline
 SOCIAL_AUTH_LOGIN_URL = '/login/'

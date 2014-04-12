@@ -1,104 +1,100 @@
-.title {
-    margin-bottom: 20px;
-    text-transform: capitalize;
-}
-
-.placeholder {
-    visibility: hidden;
-}
-
-.achievement-form {
-    padding-bottom: 50px;
-    > fieldset {
-        padding: 20px;
-        box-sizing: border-box;
-        border: 1px solid #DDD;
-        > input {
-            min-width: 400px;
-        }
-        > label, span {
-            display: block;
-            font-size: 14px;
-            margin-top: 20px;
-            margin-bottom: 5px;
-            padding-right: 10px;
-            font-weight: bolder;
-        }
-        > textarea {
-            width: 100%;
-            resize: none;
-            min-height: 100px;
-        }
-        > .button {
-            &:last-child {
-                margin-right: 0px;
+.create-achievement {
+    .title {
+        margin-bottom: 20px;
+        text-transform: capitalize;
+    }
+    .placeholder {
+        visibility: hidden;
+    }
+    .achievement-form {
+        padding-bottom: 50px;
+        > fieldset {
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #DDD;
+            > input {
+                min-width: 400px;
+            }
+            > label, span {
+                display: block;
+                font-size: 14px;
+                margin-top: 20px;
+                margin-bottom: 5px;
+                padding-right: 10px;
+                font-weight: bolder;
+            }
+            > textarea {
+                width: 100%;
+                resize: none;
+                min-height: 100px;
+            }
+            > .button {
+                &:last-child {
+                    margin-right: 0px;
+                }
+            }
+            > input[type="submit"] {
+                min-width: 90px;
+            }
+            > textarea, input[type="text"] {
+                border-width: 1px;
+                border-style: inherit;
+                border-color: rgb(208, 208, 208);
             }
         }
-        > input[type="submit"] {
-            min-width: 90px;
+    }
+    .button {
+        min-width: 80px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 440;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        text-align: center;
+        margin-right: 10px;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+        border: 1px solid #000;
+        border-radius: 5px 4px 5px 4px;
+        background-color: rgb(249, 249, 249);
+        &:hover {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.8);
         }
-        > textarea, input[type="text"] {
-            border-width: 1px;
-            border-style: inherit;
-            border-color: rgb(208, 208, 208);
+        &:focus {
+            outline: none;
+        }
+        &::-moz-focus-inner {
+            border: 0;
         }
     }
-}
-
-.button {
-    min-width: 80px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 440;
-    margin-bottom: 0;
-    padding: 6px 12px;
-    text-align: center;
-    margin-right: 10px;
-    white-space: nowrap;
-    display: inline-block;
-    vertical-align: middle;
-    border: 1px solid #000;
-    border-radius: 5px 4px 5px 4px;
-    background-color: rgb(249, 249, 249);
-    &:hover {
-        color: white;
-        background-color: rgba(0, 0, 0, 0.8);
+    .button-blue {
+        color: #FFF;
+        border-color: #357EBD;
+        background-color: #428BCA;
+        &:hover {
+            border-color: #285E8E;
+            background-color: #3276B1;
+        }
     }
-    &:focus {
-        outline: none;
+    .button-yellow {
+        color: #FFF;
+        border-color: #EEA236;
+        background-color: #F0AD4E;
+        &:hover {
+            border-color: #D58512;
+            background-color: #ED9C28;
+        }
     }
-    &::-moz-focus-inner {
-        border: 0;
-    }
-}
-
-.button-blue {
-    color: #FFF;
-    border-color: #357EBD;
-    background-color: #428BCA;
-    &:hover {
-        border-color: #285E8E;
-        background-color: #3276B1;
-    }
-}
-
-.button-yellow {
-    color: #FFF;
-    border-color: #EEA236;
-    background-color: #F0AD4E;
-    &:hover {
-        border-color: #D58512;
-        background-color: #ED9C28;
-    }
-}
-
-.button-black {
-    color: #FFF;
-    border-color: #00A;
-    background-color: #000;
-    &:hover {
-        color: #000;
-        border-color: #000;
-        background-color: #FFF;
+    .button-black {
+        color: #FFF;
+        border-color: #00A;
+        background-color: #000;
+        &:hover {
+            color: #000;
+            border-color: #000;
+            background-color: #FFF;
+        }
     }
 }

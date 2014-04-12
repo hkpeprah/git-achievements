@@ -13,5 +13,4 @@ mechanize==0.2.5
 ipaddress==1.0.6
 
 # Static flies and styling
-django-static-precompiler==0.3
 django-admin-bootstrapped==1.6.2

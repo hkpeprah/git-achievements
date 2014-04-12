@@ -1,5 +1,4 @@
 {% load staticfiles %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,17 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <!-- Begin styles -->
         <link href="http://fonts.googleapis.com/css?family=Bitter:400|Open+Sans:300italic,300" rel="stylesheet" type="text/css">
-        {# TODO: Get rid of Bootstrap and use our own custom styling. #}
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="{% static 'achievement/css/achieve.css' %}" type="text/css" />
-        <!-- End styles -->
-        <!-- Begin scripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        <!-- End scripts -->
-        <!-- Add additional content to the head tag here -->
-        {% block head %}
-        {% endblock %}
+        {% include "achievement/base/head.html" %}
     </head>
     <body>
         <div class="content">
