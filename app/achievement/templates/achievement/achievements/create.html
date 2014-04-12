@@ -1,47 +1,57 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
-{% crispy example_form example_form.helper %}
 
 {% block title %}Create New Achievement | Git Achievements{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'achievement/css/achieve-form.css' %}" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/jquery.selectBoxIt.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="container rounded-box">
-        <h2>Create a new achievement</h2>
-        <hr>
-        <form action="{% url 'create_achievement' %}" method="POST" enctype="multipart/form-data" class="achievement-form">
+    <div class="container">
+        <h2 class="title">Create a new achievement</h2>
+        <form id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
             {% csrf_token %}
-            {{ form|crispy }}
-            <hr>
-            <div id="add-badge" class="form-group badge-form collapse">
-                {{ badge_formset|crispy }}
-            </div>
-            <br/>
-            <div class="row">
-                <div class="container">
-                    <div class="pull-left">
-                        <h5 class="inline-block">Add additional: </h5>
-                        <a class="btn btn-sm btn-default" data-toggle="collapse" data-target="#add-badge">Badge (Optional)</a>
-                    </div>
+            <fieldset>
+                <h3>Achievement</h3>
+                <label for="achievement-name">Name</label>
+                <input type="text" name="achievement-name" id="achievement-name">
+                <br/>
+                <label for="achievement-description">Description</label>
+                <textarea placeholder="Description for the achievement"></textarea>
+                <br/>
+                <label for="achievement-type">Type</label>
+                <input type="text" name="achievement-type" id="achievement-type">
+                <br/>
+                <label for="achievement-difficulty">Difficulty</label>
+                <input type="text" name="achievement-difficulty" id="achievement-difficulty">
+                <br/>
+                <label for="achievement-grouping">Condition Grouping</label>
+                <input type="text" name="achievement-grouping" id="achievement-grouping">
+                <br/>
+                <div>
+                    <span>Add a badge (optional?)</span>
+                    <button class="button" type="button" id="add-badge">Add</button>
                 </div>
-            </div>
-            <hr>
-            <div class="row">
-                <input type="submit" value="Submit" class="btn btn-lg btn-default">
-            </div>
+            </fieldset>
+            <div class="placeholder"></div>
+            <!-- Load in conditions here -->
+            <br/>
+            <fieldset class="text-center">
+                <h3>Add Conditions</h3>
+                <button class="button button-blue" type="button" id="add-value-condition">Value Condition</button>
+                <button class="button button-blue" type="button" id="add-attribute-condition">Attribute Condition</button>
+                <button class="button button-blue" type="button" id="add-custom-condition">Custom Condition</button>
+            </fieldset>
+            <br/>
+            <fieldset class="text-center rounded-box">
+                <p>Review the information before you create the Achievement.  Achievements created will not show up until they are
+                   approved, so hold tight.</p>
+                <p>Make sure you have at least one condition for the achievement.</p>
+                <br/>
+                <input type="submit" class="button button-blue" id="submit" value="Create">
+            </fieldset>
         </form>
-        {# crispy form #}
     </div>
-    <script type="text/javascript">
-        $("select").selectBoxIt({
-            // Uses the Twitter Bootstrap theme for the drop down
-            theme: "bootstrap"
-        });
-    </script>
 {% endblock %}

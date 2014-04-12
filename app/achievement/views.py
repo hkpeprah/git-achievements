@@ -63,7 +63,8 @@ def create_achievement(request):
     """
     if request.method == 'POST':
         return HttpResponse("Created Achievement")
-    return HttpResponse("Not Implemented")
+    return render_to_response('achievement/achievements/create.html',
+        context_instance=RequestContext(request))
 
 
 @login_required

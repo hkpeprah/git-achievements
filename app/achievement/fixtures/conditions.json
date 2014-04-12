@@ -382,5 +382,15 @@
                 "user.login"
             ]
         }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.CustomCondition",
+        "fields": {
+            "description": "Push sha contains user's name.",
+            "event_type": 19,
+            "condition_type": 2,
+            "method": "sha_contains_user"
+        }
     }
 ]

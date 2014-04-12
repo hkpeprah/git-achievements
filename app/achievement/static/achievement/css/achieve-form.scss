@@ -1,113 +1,104 @@
+.title {
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}
+
+.placeholder {
+    visibility: hidden;
+}
+
 .achievement-form {
-    text-align: center;
-
-    #div_id_grouping,
-    #div_id_difficulty,
-    #div_id_achievement_type,
-    .selectboxit-container {
-        margin-top: 5px;
-        display: inline-block;
-
-        .control-label {
-            margin-right: 15px;
-
-            &:after {
-                content: ":";
-            }
-        }
-
-        .control-label, .controls {
-            display: inline-block;
-        }
-
-        .dropdown-menu {
-            left: auto;
-        }
-
-        .selectboxit {
-            outline: none;
-            border: 1px solid #CCC;
-        }
-    }
-
-    #div_id_difficulty,
-    #div_id_achievement_type {
-        margin-right: 30px;
-    }
-
-    .selectboxit {
-        display: inline-block;
-    }
-
-    .dropdown-menu {
-        min-width: inherit;
-    }
-
-    .form-group {
-        text-align: left;
-    }
-
-    .form-actions {
-        margin-top: 20px;
-        text-align: center;
-
-        #submit-id-submit {
-            color: #333;
-            font-size: 18px;
-            line-height: 1.33;
-            border-color: #CCC;
-            padding: 10px 36px;
-            border-radius: 6px;
-            background-color: #FFF;
-
-            &:hover {
-                border-color: #ADADAD;
-                background-color: #EBEBEB;
-            }
-        }
-    }
-}
-
-.selectboxit-container, .selectboxit {
-    display: inline-block;
-}
-
-.badge-form {
-    .multiField {
-        .controls {
-            .textarea {
-                height: 34px;
-                padding-top: 5px;
-            }
-        }
-
-        .control-label {
-            margin-right: 30px;
-
-            &:after {
-                content: ":";
-            }
-
-            &:first-child {
-                display: inline-block;
-            }
-        }
-
-        :first-child .controls {
+    padding-bottom: 50px;
+    > fieldset {
+        padding: 20px;
+        box-sizing: border-box;
+        border: 1px solid #DDD;
+        > input {
             min-width: 400px;
-            display: inline-block;
         }
-
-
-        :not(:last-child) .form-group {
-            margin-right: 30px;
+        > label, span {
+            display: block;
+            font-size: 14px;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            padding-right: 10px;
+            font-weight: bolder;
+        }
+        > textarea {
+            width: 100%;
+            resize: none;
+            min-height: 100px;
+        }
+        > .button {
+            &:last-child {
+                margin-right: 0px;
+            }
+        }
+        > input[type="submit"] {
+            min-width: 90px;
+        }
+        > textarea, input[type="text"] {
+            border-width: 1px;
+            border-style: inherit;
+            border-color: rgb(208, 208, 208);
         }
     }
 }
 
-.row {
-    .btn {
-        margin-left: 10px;
-        margin-right: 10px;
+.button {
+    min-width: 80px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 440;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    margin-right: 10px;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid #000;
+    border-radius: 5px 4px 5px 4px;
+    background-color: rgb(249, 249, 249);
+    &:hover {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    &:focus {
+        outline: none;
+    }
+    &::-moz-focus-inner {
+        border: 0;
+    }
+}
+
+.button-blue {
+    color: #FFF;
+    border-color: #357EBD;
+    background-color: #428BCA;
+    &:hover {
+        border-color: #285E8E;
+        background-color: #3276B1;
+    }
+}
+
+.button-yellow {
+    color: #FFF;
+    border-color: #EEA236;
+    background-color: #F0AD4E;
+    &:hover {
+        border-color: #D58512;
+        background-color: #ED9C28;
+    }
+}
+
+.button-black {
+    color: #FFF;
+    border-color: #00A;
+    background-color: #000;
+    &:hover {
+        color: #000;
+        border-color: #000;
+        background-color: #FFF;
     }
 }

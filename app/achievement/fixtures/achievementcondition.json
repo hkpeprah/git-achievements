@@ -222,5 +222,19 @@
                 17
             ]
         }
+    },
+    {
+        "pk": 16,
+        "model": "achievement.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "achievement",
+                "customcondition"
+            ],
+            "object_id": 1,
+            "achievements": [
+                18
+            ]
+        }
     }
 ]

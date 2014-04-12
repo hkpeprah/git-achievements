@@ -50,9 +50,9 @@ section {
 
 footer {
     color: #777;
-    height: 100px;
+    height: 80px;
     padding: 10px;
-    margin-top: -100px;
+    margin-top: -80px;
     background-color: #000;
     border-top: 1px solid #2F2F2F;
     .row-fluid {
@@ -181,7 +181,7 @@ footer {
     min-height: 100%;
     > .sticky-wrapper {
         overflow: auto;
-        padding-bottom: 100px;;
+        padding-bottom: 80px;;
     }
 }
 

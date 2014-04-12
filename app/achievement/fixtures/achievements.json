@@ -268,5 +268,19 @@
             "badge": null,
             "description": "Speak up."
         }
+    },
+    {
+        "pk": 18,
+        "model": "achievement.Achievement",
+        "fields": {
+            "name": "What's my name?",
+            "creator": null,
+            "achievement_type": 1,
+            "difficulty": 3,
+            "active": true,
+            "grouping": "__and__",
+            "badge": null,
+            "description": "What do you get when you kill a cow? 0xdeadbeef (Hint: Git-brute might be the way to go.)"
+        }
     }
 ]

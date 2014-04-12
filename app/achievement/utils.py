@@ -3,6 +3,10 @@ import json
 import collections
 
 
+def callable(function):
+    return hasattr(function, '__call__')
+
+
 def find_nested_json(obj, keys):
     """
     Finds a nested value in an object, given a list of keys.  If
