@@ -15,4 +15,4 @@
 \#*\#
 
 # Custom files and settings
-achievements/settings/custom.py
+**/settings/custom.py
