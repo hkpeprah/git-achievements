@@ -325,14 +325,6 @@ class Achievement(BaseModel):
         """
         return self.users.count()
 
-    @property
-    def get_conditions(self):
-        """
-        Returns a list of the condition objects attached to this achievement.
-        """
-        conditions = list(condition.content_object for condition in self.conditions.all())
-        return conditions
-
     def is_active(self):
         """
         Not needed, returns if achievement is active.
@@ -344,14 +336,6 @@ class Achievement(BaseModel):
         Returns if the achievement is custom.
         """
         return self.achievement_type.is_custom()
-
-    def get_conditions(self):
-        """
-        Returns the conditions attached to this achievement.
-
-        @return: Array of Condition
-        """
-        return self.conditions
 
     def get_satisfied_conditions(self, event):
         """

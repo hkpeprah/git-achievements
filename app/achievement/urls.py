@@ -1,12 +1,19 @@
 from tastypie.api import Api
 from django.conf.urls import patterns, include, url
 
-from app.achievement.resources import UserResource
+from app.achievement.resources import (UserResource, ConditionResource, AchievementResource,
+                                       EventResource)
 
 
 api = Api(api_name='v1')
 api.register(UserResource())
+api.register(ConditionResource())
+api.register(AchievementResource())
+api.register(EventResource())
 
+
+# TODO: These urls will need to be overwritten in the patch to support
+# localization and repositories
 urlpatterns = patterns('app.achievement.views',
     # Main application pages.  These pages don't require the
     # user to be authenticated.

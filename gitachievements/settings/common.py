@@ -97,7 +97,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Third party applications
     'social.apps.django_app.default',
-    'crispy_forms',
     'tastypie',
     # Add custom apps here
     'app.services',
@@ -136,8 +135,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Crispy forms for Django
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+# Tastypie Default Format
+TASTYPIE_DEFAULT_FORMATS = ['json']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
