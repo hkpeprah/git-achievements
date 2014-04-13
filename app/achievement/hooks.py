@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from app.achievement.models import UserProfile, Achievement
 
 
-def check_for_unlocked_achievements(event, payload, user):
+def check_for_unlocked_achievements(event, payload, user=None):
     """
     Checks if a user has unlocked any achievements, given the event
     and event payload as input.
@@ -24,18 +24,22 @@ def check_for_unlocked_achievements(event, payload, user):
             return []
     elif isinstance(user, User):
         user = user.profile
-    else:
-        raise ValueError("Expected a string, User or UserProfile object, found %s" % type(user))
 
-    achievements = Achievement.objects.exclude(Q(active=False) | Q(pk__in=
-        map(lambda u: u.pk, user.achievements.all())))
     unlocked_achievements = []
+    if user:
+        achievements = Achievement.objects.exclude(Q(active=False) | Q(pk__in=
+            map(lambda u: u.pk, user.achievements.all())))
+    else:
+        achievements = Achievement.objects.exclude(active=False)
 
     for achievement in achievements:
         if achievement.unlocked(event, payload):
-            user.achievements.add(achievement)
-            user.points = user.points + achievement.points
             unlocked_achievements.append(achievement.to_json())
+            if user:
+                user.achievements.add(achievement)
+                user.points = user.points + achievement.points
 
-    user.save()
+    if user:
+        user.save()
+
     return unlocked_achievements

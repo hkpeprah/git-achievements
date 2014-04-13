@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 
 from app.services.models import Event
 from app.services.hooks import GithubHook
+from app.achievement.hooks import check_for_unlocked_achievements
 from app.services.utils import json_response, initialize_webhook_addresses, get_client_ip
 
 
@@ -76,3 +77,18 @@ def web_hook(request):
         response = GithubHook.process_event(event, payload)
 
     return response
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def web_local_hook(request):
+    """
+    Processes a request from a local web service request.
+
+    @param: HttpRequest
+    @return: HttpResponse
+    """
+    data = json.loads(request.body)
+    data = check_for_unlocked_achievements(data.get('event'), data.get('payload'))
+    return HttpResponse(json.dumps(data), status=200,
+        content_type="application/json")
