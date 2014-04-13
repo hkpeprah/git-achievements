@@ -43,6 +43,10 @@ section {
     padding: 20px;
     text-align: center;
     box-sizing: border-box;
+    > .container > h1 {
+        margin-top: -20px;
+        padding-bottom: 20px;
+    }
     p {
         font-size: 16px;
     }
@@ -627,4 +631,20 @@ $inlines: block, table;
 .glyphicon-chevron-remove,
 .glyphicon-chevron-ok {
     margin-right: 10px;
+}
+
+.achiever {
+    margin: 5px;
+    padding-left: 0px;
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid #DDD;
+    > .rank {
+        top: 5px;
+        right: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        position: absolute;
+        font-family: 'Bitter', serif;
+    }
 }

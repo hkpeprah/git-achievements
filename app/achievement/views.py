@@ -27,9 +27,11 @@ def index_view(request):
     @param request: Djagno request object
     @return: HttpResponse
     """
+    top_achievers = UserProfile.objects.all().order_by('-points')[:10]
+
     return render_to_response('achievement/index.html', 
         context_instance=RequestContext(request, {
-            'contributors': get_contributors()
+            'achievers': top_achievers
         })
     )
 
@@ -276,4 +278,7 @@ def faq(request):
     Displays the faq/about page for the project.
     """
     return render_to_response("achievement/about/faq.html",
-        context_instance=RequestContext(request))
+        context_instance=RequestContext(request, {
+            'contributors': get_contributors(),
+        })
+    )

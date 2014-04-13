@@ -1,15 +1,27 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <hr>
-    <section id="contributors">
-        <div class="container hero-alternate border center">
-            <h1>Contributors List</h1>
-            {% for contributor in contributors %}
-                <div class="col-xs-12 col-sm-6 col-lg-4 clearfix">
-                    {% include "achievement/users/contributor.html" with contributor=contributor %}
-                </div>
-            {% endfor %}
-        </div>
-    </sectioN>
+    <div class="container">
+        <section id="top-achievers">
+            <div class="container">
+                <h1>Top Achievers</h1>
+                {% for achiever in achievers %}
+                    <div class="col-xs-12 col-sm-6 col-lg-4 clearfix achiever">
+                        <span class="rank">{{ forloop.counter }}</span>
+                        {% include "achievement/users/profile-small.html" with user=achiever %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+        <br/>
+        <hr/>
+        <section id="getting-started">
+            <div class="container">
+                <h1>Getting Started</h1>
+                <p>Read the <a href="{% url 'faq' %}">Getting Started</a> section of the site to figure out how to configure Git Achievements for your organization or start achieving in your projects/git experience.  If you have any issues or more detailed questions, visit the Github <a href="//github.com/git-achievements/git-achievements">project page</a>.
+                </p>
+            </div>
+        </section>
+        <br/>
+    </div>
 {% endblock %}

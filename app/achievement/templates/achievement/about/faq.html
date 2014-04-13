@@ -25,5 +25,12 @@
         <h4>How do I contribute?</h4>
         <p>Submit code/styles/etc. to our Github project.  Or you can give us Bitcoin.  That would be cool too.</p>
         <br/>
+        <hr/>
+        <h1>Contributors List</h1>
+        {% for contributor in contributors %}
+            <div class="col-xs-12 col-sm-6 col-lg-4 clearfix">
+                {% include "achievement/users/contributor.html" with contributor=contributor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
