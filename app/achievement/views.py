@@ -6,13 +6,16 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.template import RequestContext
+from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
-from app.services.utils import get_contributors
-from app.achievement.models import Achievement, Condition, Badge, UserProfile
+from app.services.models import Event
+from app.services.utils import get_contributors, json_response
+from app.achievement.models import (Achievement, Condition, Badge, UserProfile, ValueCondition, AttributeCondition,
+                                    CustomCondition, AchievementCondition, Difficulty, AchievementType, Method, ConditionType)
 
 
 @require_http_methods(["GET"])
@@ -61,8 +64,66 @@ def create_achievement(request):
     @param request: HttpRequest object
     @return: HttpResponse
     """
-    if request.method == 'POST':
-        return HttpResponse("Created Achievement")
+    if request.method == 'POST' and request.is_ajax():
+        # Validate the Form Data
+        data = json.loads(request.body)
+        achievement = data['achievement']
+        badge = data.get('badge', None)
+        conditions = []
+
+        try:
+            difficulty = Difficulty.objects.get(pk=achievement['difficulty'])
+            achievement_type = AchievementType.objects.get(pk=achievement['type'])
+            achievement = Achievement(name=achievement['name'], description=achievement['description'], difficulty=difficulty,
+                achievement_type=achievement_type, grouping=achievement['grouping'])
+
+            achievement.full_clean()
+            if badge:
+                badge = Badge(name=badge['name'], description=badge['description'])
+                badge.full_clean()
+
+            achievement.badge = badge
+
+            for condition in data.get('valueconditions', []):
+                method = Method.objects.get(pk=condition['method'])
+                event = Event.objects.get(pk=condition['event_type'])
+                condition = ValueCondition(description=condition['description'], attribute=condition['attribute'],
+                    value=condition['value'], method=method, condition_type=ConditionType.objects.get(pk=1),
+                    event_type=event)
+                condition.full_clean()
+                conditions.append(condition)
+
+            for condition in data.get('customconditions', []):
+                condition = CustomCondition.objects.get(pk=condition['id'])
+                conditions.append(condition)
+
+            if len(conditions) == 0:
+                raise ValidationError("Atleast one condition must be added for the achievement.")
+
+        except (ValidationError, CustomCondition.DoesNotExist, Difficulty.DoesNotExist, Event.DoesNotExist,
+                Method.DoesNotExist, AchievementType.DoesNotExist) as e:
+            print e
+            if isinstance(e, ValidationError):
+                # ValidationError returns multiple messages
+                e = ', '.join(e.messages)
+
+            return json_response({
+                'msg': str(e)
+            }, False)
+
+        if badge:
+            badge.save()
+
+        achievement.save()
+        for condition in conditions:
+            condition.save()
+            achievement_condition = AchievementCondition(content_object=condition)
+            achievement_condition.save()
+            achievement_condition.achievements.add(achievement)
+            achievement_condition.save()
+
+        return json_response({})
+
     return render_to_response('achievement/achievements/create.html',
         context_instance=RequestContext(request))
 
@@ -87,8 +148,7 @@ def approve_achievement(request, achievement_id):
         achievement = get_object_or_404(Achievement, pk=achievement_id)
 
     if request.method == "POST":
-        # Vote on the achievement provided the user can
-        # vote.
+        # Vote on the achievement provided the user can vote.
         pass
 
     if achievement is None:
@@ -126,7 +186,7 @@ def view_achievement(request, achievement_id):
     @param achievement_id: The id of the achievement to view
     @return: HttpResponse object
     """
-    achievement = get_object_or_404(Achievement, pk=achievement_id)
+    achievement = get_object_or_404(Achievement, pk=achievement_id, active=True)
     conditions = list(genericcondition.condition.description for genericcondition in \
         achievement.conditions.all())
 
@@ -148,7 +208,7 @@ def view_achievements(request):
     @param request: HttpRequest object
     @return HttpResponse
     """
-    achievements = Achievement.objects.all()
+    achievements = Achievement.objects.filter(active=True)
 
     return render_to_response('achievement/achievements/all.html',
         context_instance=RequestContext(request, {

@@ -1,4 +1,21 @@
 .create-achievement {
+    .messages {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        list-style: none;
+        list-style-type: none;
+        > li {
+            padding: 20px;
+            line-height: 4px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            vertical-align: middle;
+            > .close {
+                margin-top: -10px;
+            }
+        }
+    }
     .title {
         margin-bottom: 20px;
         text-transform: capitalize;
@@ -18,10 +35,10 @@
             position: relative;
             box-sizing: border-box;
             border: 1px solid #DDD;
-            > input {
-                min-width: 400px;
+            input {
+                min-width: 100%;
             }
-            > label {
+            label {
                 display: block;
                 font-size: 14px;
                 margin-top: 20px;
@@ -29,20 +46,15 @@
                 padding-right: 10px;
                 font-weight: bolder;
             }
-            > textarea {
+            textarea {
                 width: 100%;
                 resize: none;
                 min-height: 100px;
             }
-            > .button {
-                &:last-child {
-                    margin-right: 0px;
-                }
-            }
-            > input[type="submit"] {
+            input[type="submit"] {
                 min-width: 90px;
             }
-            > textarea, input[type="text"] {
+            textarea, input[type="text"] {
                 border-width: 1px;
                 border-style: inherit;
                 border-color: rgb(208, 208, 208);
@@ -68,6 +80,11 @@
                 -ms-appearance: menulist-button;
                 -moz-appearance: menulist-button;
                 -webkit-appearance: menulist-button;
+            }
+            .button {
+                &:last-child {
+                    margin-right: 0px;
+                }
             }
         }
     }

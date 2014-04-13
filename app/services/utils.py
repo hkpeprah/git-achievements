@@ -112,7 +112,7 @@ def get_contributors():
     return contributors
 
 
-def json_response(data):
+def json_response(data, success=True):
     """
     Creates a HttpResponse for returning json data.
 
@@ -121,6 +121,6 @@ def json_response(data):
     """
     return HttpResponse(json.dumps({
             'response': data,
-            'success': True
+            'success': success
         }, separators=(',', ':'), indent=4),
         content_type="application/json", status=200)

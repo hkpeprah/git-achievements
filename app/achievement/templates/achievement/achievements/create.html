@@ -5,6 +5,12 @@
     <script type="text/javascript" src="{% static 'achievement/js/achieve-form.js' %}"></script>
 {% endblock %}
 {% block content %}
+    <script type="text/template" id="error-msg">
+        <li class="bg-danger">
+            <span class="pull-left"><%= msg %></span>
+            <button type="button" class="close pull-right" aria-hidden="true">&times;</button>
+        </li>
+    </script>
     <script type="text/template" id="badge">
         <br/>
         <fieldset>
@@ -28,26 +34,36 @@
         <br/>
         <fieldset>
             <h4>Condition #<%= id %></h4>
-            
-        </fieldset>
-    </script>
-    <script type="text/template" id="attribute-cond">
-        <br/>
-        <fieldset>
-            <h4>Condition #<%= id %></h4>
-
+            <label for="valuecondition-description-<%= id %>">Describe this condition</label>
+            <input type="text" id="valuecondition-description-<%= id %>" name="valuecondition-description-<%= id %>">
+            <div class="col-xs-4">
+                <label for="valuecondition-attribute-<%= id %>">Attribute</label>
+                <select id="valuecondition-attribute-<%= id %>" name="valuecondition-attribute-<%= id %>" style="width: 100%;">
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label for="valuecondition-method-<%= id %>">Method</label>
+                <select id="valuecondition-method-<%= id %>" name="valuecondition-method-<%= id %>" style="width: 100%;">
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label for="valuecondition-value-<%= id %>">Value</label>
+                <input type="text" id="valuecondition-value-<%= id %>" name="valuecondition-value-<%= id %>">
+            </div>
         </fieldset>
     </script>
     <script type="text/template" id="custom-cond">
         <br/>
         <fieldset>
             <h4>Condition #<%= id %></h4>
-            <label for="custom-condition-<%= id %>">Select the custom condition</label>
-            <select id="custom-condition-<%= id %>" name="custom-condition-<%= id %>" style="width: 100%;">
+            <label for="customcondition-<%= id %>">Select the custom condition</label>
+            <select id="customcondition-<%= id %>" name="customcondition-<%= id %>" style="width: 100%;">
             </select>
         </fieldset>
     </script>
     <div class="container create-achievement">
+        <ul class="messages">
+        </ul>
         <h2 class="title">Create a new achievement</h2>
         <form method="POST" id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
             {% csrf_token %}
@@ -57,7 +73,7 @@
                 <input type="text" name="achievement-name" id="achievement-name">
                 <br/>
                 <label for="achievement-description">Description</label>
-                <textarea name="achievement-description" placeholder="Description for the achievement"></textarea>
+                <textarea name="achievement-description" id="achievement-description" placeholder="Description for the achievement"></textarea>
                 <br/>
                 <label for="achievement-type">Specify the type</label>
                 <span class="text-info">Unsure what type your achievement is?  Usually it's non-custom.</span>
@@ -98,10 +114,6 @@
                 <button class="button button-blue" type="button" id="add-value-condition"
                         data-create="value-cond" data-target=".condition-placeholder">
                     Value Condition
-                </button>
-                <button class="button button-blue" type="button" id="add-attribute-condition"
-                        data-create="attribute-cond" data-target=".condition-placeholder">
-                    Attribute Condition
                 </button>
                 <button class="button button-blue" type="button" id="add-custom-condition"
                         data-create="custom-cond" data-target=".condition-placeholder">

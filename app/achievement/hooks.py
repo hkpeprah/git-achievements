@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.contrib.auth.models import User
 
 from app.achievement.models import UserProfile, Achievement
@@ -26,8 +27,8 @@ def check_for_unlocked_achievements(event, payload, user):
     else:
         raise ValueError("Expected a string, User or UserProfile object, found %s" % type(user))
 
-    achievements = Achievement.objects.exclude(pk__in=
-        map(lambda u: u.pk, user.achievements.all()))
+    achievements = Achievement.objects.exclude(Q(active=False) | Q(pk__in=
+        map(lambda u: u.pk, user.achievements.all())))
     unlocked_achievements = []
 
     for achievement in achievements:

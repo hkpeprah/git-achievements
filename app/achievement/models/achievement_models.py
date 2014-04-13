@@ -244,7 +244,7 @@ class AchievementType(models.Model):
 
 class AchievementCondition(models.Model):
     """
-    Creates the Many-to-Many relationshiop between Achievements and Conditions.  Conditiosn
+    Creates the Many-to-Many relationshiop between Achievements and Conditions.  Conditions
     can have belong to multiple Achievements and Achievements can have multiple conditions.
     Forces uniqueness w.r.t. the relationship.  The relationship is generic in nature.
     """
