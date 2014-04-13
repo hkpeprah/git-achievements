@@ -5,7 +5,7 @@
         "fields": {
             "user": 1,
             "moderator": true,
-            "points": 9001,
+            "points": 0,
             "badges": [
                 1,
                 2,
