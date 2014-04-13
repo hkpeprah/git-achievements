@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.contrib.auth.models import User
 
-from app.achievement.models import UserProfile, Achievement
+from app.achievement.models import UserProfile, Achievement, UserAchievement
 
 
 def check_for_unlocked_achievements(event, payload, user=None):
@@ -28,7 +28,7 @@ def check_for_unlocked_achievements(event, payload, user=None):
     unlocked_achievements = []
     if user:
         achievements = Achievement.objects.exclude(Q(active=False) | Q(pk__in=
-            map(lambda u: u.pk, user.achievements.all())))
+            map(lambda u: u.pk, user.achievements)))
     else:
         achievements = Achievement.objects.exclude(active=False)
 
@@ -36,7 +36,8 @@ def check_for_unlocked_achievements(event, payload, user=None):
         if achievement.unlocked(event, payload):
             unlocked_achievements.append(achievement.to_json())
             if user:
-                user.achievements.add(achievement)
+                unlocked_achievement = UserAchievement(achievement=achievement, user=user)
+                unlocked_achievement.save()
                 user.points = user.points + achievement.points
 
     if user:

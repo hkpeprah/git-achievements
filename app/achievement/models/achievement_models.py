@@ -319,11 +319,18 @@ class Achievement(BaseModel):
         return self.difficulty.points
 
     @property
+    def users(self):
+        """
+        The underlying users.
+        """
+        return list(achievement.user for achievement in self.userachievement_set.all())
+
+    @property
     def earned_count(self):
         """
         Returns the number of users who earned this achievement.
         """
-        return self.users.count()
+        return len(self.users)
 
     def is_active(self):
         """
@@ -379,6 +386,20 @@ class Achievement(BaseModel):
         return "%s: %s"%(self.name, self.achievement_type)
 
 
+class UserAchievement(models.Model):
+    """
+    Acts as an intermediatry model between achievements and users to add additional data like
+    when the achievement was earned.
+    """
+    class Meta:
+        app_label = "achievement"
+
+    seen_at = models.DateTimeField(blank=True, null=True)
+    earned_at = models.DateTimeField(auto_now_add=True)
+    achievement = models.ForeignKey('Achievement')
+    user = models.ForeignKey('UserProfile')
+
+
 class UserProfile(models.Model):
     """
     Defines a user's profile which inherits form the Django User Auth model to
@@ -393,8 +414,14 @@ class UserProfile(models.Model):
     moderator = models.BooleanField(default=False)
     points = models.PositiveIntegerField(default=0)
     badges = models.ManyToManyField('Badge', related_name='users', blank=True, null=True)
-    achievements = models.ManyToManyField('Achievement', related_name='users', blank=True, null=True)
     attributes = jsonfield.JSONField()
+
+    @property
+    def achievements(self):
+        """
+        The underlying achievements.
+        """
+        return list(achievement.achievement for achievement in self.userachievement_set.all())
 
     @property
     def username(self):

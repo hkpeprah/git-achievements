@@ -25,9 +25,9 @@
             <div class="col col-xs-12 col-sm-6 centered">
                 <div class="row" style="padding-left: 15px;">
                     <h4 class="inline-block"> Achievements Unlocked</h4>
-                    <h6 class="inline-block">({{ profile.achievements.all|length }} Total)</h6>
+                    <h6 class="inline-block">({{ profile.achievements|length }} Total)</h6>
                 </div>
-                {% if profile.achievements.all|length == 0 %}
+                {% if profile.achievements|length == 0 %}
                     <div class="row" style="padding-left:15px;">
                         <p><b>{{ profile.username }}</b> hasn't earned any achievements yet.</p>
                     </div>
@@ -35,7 +35,7 @@
                     <br/>
                     <div class="col col-xs-12">
                         <ul class="unstyled">
-                            {% for achievement in profile.achievements.all %}
+                            {% for achievement in profile.achievements %}
                                 <li class="achievement-list-item">
                                     <a class="unstyled" href="{% url 'view_achievement' achievement_id=achievement.id %}">
                                         <span class="points">{{ achievement.points }}</span><span>{{ achievement.name }}</span>

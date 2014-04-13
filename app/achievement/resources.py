@@ -5,7 +5,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
 from app.services.models import Event
-from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Condition, Difficulty,
+from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Condition, Difficulty, UserAchievement,
                                     AchievementType, CustomCondition, ValueCondition, AttributeCondition, Method)
 
 
@@ -195,3 +195,19 @@ class MethodResource(BaseResource):
         resource_name = 'method'
         excludes = ['callablemethod']
         limit = 20
+
+
+class UserAchievementResource(BaseResource):
+    """
+    A model resource for accessing achievements users have earned.
+    """
+    user = fields.ToOneField(UserResource, 'user', full=True)
+    achievement = fields.ToOneField(AchievementResource, 'achievement', full=True)
+
+    class Meta:
+        queryset = UserAchievement.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'userachievement'
+        limit = 20
+        ordering = ['earned_at']
