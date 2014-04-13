@@ -2,6 +2,25 @@
 {% load staticfiles %}
 {% block title %}Create New Achievement | Git Achievements{% endblock %}
 {% block content %}
+    <script type="text/template" id="create-badge">
+        <br/>
+        <fieldset>
+            <h3>Badge</h3>
+            <label for="badge-name">Name</label>
+            <input type="text" name="badge-name" id="badge-name">
+            <br/>
+            <label for="badge-description">Description</label>
+            <textarea placeholder="Add a description for this badge" name="badge-description"></textarea>
+            <div class="badge-example">
+                <div class="pull-left" style="padding: 6px;">
+                    <h4>Preview:</h4>
+                </div>
+                <div class="pull-left">
+                    {% include "achievement/achievements/badge.html" %}
+                </div>
+            </div>
+        </fieldset>
+    </script>
     <div class="container create-achievement">
         <h2 class="title">Create a new achievement</h2>
         <form id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
@@ -12,7 +31,7 @@
                 <input type="text" name="achievement-name" id="achievement-name">
                 <br/>
                 <label for="achievement-description">Description</label>
-                <textarea placeholder="Description for the achievement"></textarea>
+                <textarea name="achievement-description" placeholder="Description for the achievement"></textarea>
                 <br/>
                 <label for="achievement-type">Specify the type</label>
                 <span class="text-info">Unsure what type your achievement is?  Usually it's non-custom.</span>
@@ -38,11 +57,15 @@
                 <br/>
                 <p>
                     <span style="padding-right:20px;">Add a badge (optional?)</span>
-                    <button class="button" type="button" id="add-badge">Add</button>
+                    <button id="create-badge-button" data-create="badge" class="button" type="button" data-target=".badge-placeholder">Add</button>
                 </p>
             </fieldset>
-            <div class="placeholder"></div>
-            <!-- Load in conditions here -->
+            <div class="badge-placeholder">
+                <!-- Badge shows here -->
+            </div>
+            <div class="condition-placeholder">
+                <!-- Conditions show here -->
+            </div>
             <br/>
             <fieldset class="text-center">
                 <h3>Add Conditions</h3>

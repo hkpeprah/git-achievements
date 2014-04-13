@@ -54,6 +54,7 @@ String.prototype.toTitleCase = function () {
 
 
 (function (window, $) {
+    /* Enclosure to prevent global scoping of Application */
     var App = new Object();
     App.API_ROOT = "/api/v1/{0}";
     App.TEMPLATE_CACHE = {};
@@ -61,6 +62,7 @@ String.prototype.toTitleCase = function () {
     App.initialize = function (opts) {
         /**
          * Initialize the application.
+         *
          * @param {Object} opts
          */
         var id;
@@ -71,12 +73,17 @@ String.prototype.toTitleCase = function () {
         });
 
         this.attachListeners();
-        console.log("%cGit Achievements", "color: #666; font-size: x-large; font-family: 'Open-Sans', sans-serif;");
+        /* Form specific listeners, particularly for badges. */
+        this.attachBadgeListener();
     };
 
     App.formatQueryStrings = function (querystrings) {
         /**
+         * Formats dictioanry of key-value querystring parameters
+         * into their encoded string uri component.
          *
+         * @param {Object} querystrings
+         * @return {String}
          */
         var result = "";
         $.each(querystrings, function (key, value) {
@@ -87,7 +94,13 @@ String.prototype.toTitleCase = function () {
 
     App.fetch = function (endpoint, querystrings, async) {
         /**
+         * Fetches data from the API and returns either a deferred object
+         * representing the request or the data itself.
          *
+         * @param {String} endpoint
+         * @param {Object} querystrings
+         * @param {Boolean} async
+         * @return {Object}
          */
         var opts,
             result;
@@ -112,18 +125,77 @@ String.prototype.toTitleCase = function () {
 
     App.attachListeners = function () {
         /**
+         * Attaches the main listeners for the page.
          *
+         * @return {this}
          */
         var location = window.location,
             path = window.location.pathname;
-        if (path.indexOf('create') > -1) {
+
+        if ($('form').length !== 0) {
             this.selectBox();
         }
+
+        $('body').on('click', 'button', function () {
+            /**
+             * On the click of a button, if that button is set to
+             * render or remove a rendered template, we trigger here.
+             */
+            var obj,
+                $el = $(this),
+                create = $(this).data('create'),
+                remove = $(this).data('remove'),
+                target = $(this).data('target');
+
+            if (create !== undefined) {
+                obj = App.TEMPLATE_CACHE['create-' + create];
+                if (obj !== undefined) {
+                    obj = $(obj).attr('id', create);
+                    $(target).append(obj);
+                }
+            } else if (remove !== undefined) {
+                $(remove).remove();
+            }
+        });
+        return this;
+    };
+
+    App.attachBadgeListener = function () {
+        /**
+         * Attaches listeners for creating badges.
+         *
+         * @return {this}
+         */
+        $('body').on('click', '#create-badge-button', function () {
+            var difficulty,
+                badge = $('.achievement-badge'),
+                name = badge.find('.name span').eq(1),
+                star = badge.find('.name span').eq(0);
+
+            $('#badge-name').change(function () {
+                name.text($(this).val());
+            });
+
+            $('#achievement-difficulty').change(function () {
+                star.removeClass(difficulty);
+                difficulty = $(this)
+                    .find(':selected')
+                    .text()
+                    .toLowerCase();
+                star.addClass(difficulty);
+            }).change();
+
+            $(this).hide();
+        });
+        return this;
     };
 
     App.selectBox = function () {
         /**
-         * Add the selectbox instances for the creation page.
+         * Add the selectbox instances for the given page; for now, that is
+         * the creation page.
+         *
+         * @return {this}
          */
         var populateSelect = function (selector, data) {
             var option;
@@ -148,11 +220,14 @@ String.prototype.toTitleCase = function () {
         App.fetch("achievementtype").done(function (data) {
             populateSelect('#achievement-type', data.objects);
         });
+
+        return this;
     };
 
     // Add window attributes if any
 
     $('body').ready(function () {
+        console.log("%cGit Achievements", "color: #666; font-size: x-large; font-family: 'Open-Sans', sans-serif;");
         App.initialize();
     });
 })(window, window.$ || window.jQuery);

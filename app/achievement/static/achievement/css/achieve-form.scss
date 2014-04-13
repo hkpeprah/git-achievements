@@ -6,10 +6,16 @@
     .placeholder {
         visibility: hidden;
     }
+    .badge-example {
+        top: 10px;
+        right: 20px;
+        position: absolute;
+    }
     .achievement-form {
         padding-bottom: 50px;
-        > fieldset {
+        fieldset {
             padding: 20px;
+            position: relative;
             box-sizing: border-box;
             border: 1px solid #DDD;
             > input {
