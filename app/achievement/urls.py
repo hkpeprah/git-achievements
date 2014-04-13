@@ -2,7 +2,7 @@ from tastypie.api import Api
 from django.conf.urls import patterns, include, url
 
 from app.achievement.resources import (UserResource, ConditionResource, AchievementResource,
-                                       EventResource)
+                                       EventResource, DifficultyResource, AchievementTypeResource)
 
 
 api = Api(api_name='v1')
@@ -10,6 +10,8 @@ api.register(UserResource())
 api.register(ConditionResource())
 api.register(AchievementResource())
 api.register(EventResource())
+api.register(DifficultyResource())
+api.register(AchievementTypeResource())
 
 
 # TODO: These urls will need to be overwritten in the patch to support

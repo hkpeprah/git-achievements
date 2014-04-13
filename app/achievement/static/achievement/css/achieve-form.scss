@@ -15,7 +15,7 @@
             > input {
                 min-width: 400px;
             }
-            > label, span {
+            > label {
                 display: block;
                 font-size: 14px;
                 margin-top: 20px;
@@ -40,6 +40,28 @@
                 border-width: 1px;
                 border-style: inherit;
                 border-color: rgb(208, 208, 208);
+            }
+            select {
+                height: 30px;
+                min-width: 300px;
+                padding: 4px 6px;
+                line-height: 30px;
+                margin-bottom: 10px;
+                align-items: center;
+                display: inline-block;
+                vertical-align: middle;
+                background-color: #FFFFFF;
+                border: 1px solid #CCCCCC;
+                border-radius: 4px;
+                -o-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                appearance: menulist-button;
+                -o-appearance: menulist-button;
+                -ms-appearance: menulist-button;
+                -moz-appearance: menulist-button;
+                -webkit-appearance: menulist-button;
             }
         }
     }

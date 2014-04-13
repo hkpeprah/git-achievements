@@ -5,7 +5,8 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
 from app.services.models import Event
-from app.achievement.models import Achievement, AchievementCondition, UserProfile, Condition
+from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Condition, Difficulty,
+                                    AchievementType)
 
 
 class BaseResource(ModelResource):
@@ -121,3 +122,25 @@ class EventResource(BaseResource):
         limit = 23
 
     attributes = fields.DictField(attribute='attributes')
+
+
+class DifficultyResource(BaseResource):
+    """
+    A model resource for Difficulty model
+    """
+    class Meta:
+        queryset = Difficulty.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'difficulty'
+
+
+class AchievementTypeResource(BaseResource):
+    """
+    A model resource for the types of Achievements.
+    """
+    class Meta:
+        queryset = AchievementType.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'achievementtype'

@@ -14,19 +14,32 @@
                 <label for="achievement-description">Description</label>
                 <textarea placeholder="Description for the achievement"></textarea>
                 <br/>
-                <label for="achievement-type">Type</label>
-                <input type="text" name="achievement-type" id="achievement-type">
+                <label for="achievement-type">Specify the type</label>
+                <span class="text-info">Unsure what type your achievement is?  Usually it's non-custom.</span>
+                <p>
+                    <select name="achievement-type" id="achievement-type" style="width: 300px;"></select>
+                </p>
+                <label for="achievement-difficulty">Set the difficulty</label>
+                <p>
+                    <select name="achievement-difficulty" id="achievement-difficulty" style="width: 300px;"></select>
+                </p>
+                <label for="achievement-grouping">Specify conditions' logical operator</label>
+                <p>
+                    <select name="achievement-grouping" id="achievement-grouping" style="width: 300px;">
+                        <optgroup label="Generic">
+                            <option value="__and__">and</option>
+                            <option value="__or__">or</option>
+                        </optgroup>
+                        <optgroup label="Other">
+                            <option value="__xor__">xor</option>
+                        </optgroup>
+                    </select>
+                </p>
                 <br/>
-                <label for="achievement-difficulty">Difficulty</label>
-                <input type="text" name="achievement-difficulty" id="achievement-difficulty">
-                <br/>
-                <label for="achievement-grouping">Condition Grouping</label>
-                <input type="text" name="achievement-grouping" id="achievement-grouping">
-                <br/>
-                <div>
-                    <span>Add a badge (optional?)</span>
+                <p>
+                    <span style="padding-right:20px;">Add a badge (optional?)</span>
                     <button class="button" type="button" id="add-badge">Add</button>
-                </div>
+                </p>
             </fieldset>
             <div class="placeholder"></div>
             <!-- Load in conditions here -->
