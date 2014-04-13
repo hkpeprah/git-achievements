@@ -6,7 +6,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
 from app.services.models import Event
 from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Condition, Difficulty,
-                                    AchievementType)
+                                    AchievementType, CustomCondition, ValueCondition, AttributeCondition, Method)
 
 
 class BaseResource(ModelResource):
@@ -133,6 +133,7 @@ class DifficultyResource(BaseResource):
         list_allowed_methods = ['get']
         detail_allowed_methods = ['get']
         resource_name = 'difficulty'
+        limit = 20
 
 
 class AchievementTypeResource(BaseResource):
@@ -144,3 +145,53 @@ class AchievementTypeResource(BaseResource):
         list_allowed_methods = ['get']
         detail_allowed_methods = ['get']
         resource_name = 'achievementtype'
+        limit = 20
+
+
+class CustomConditionResource(BaseResource):
+    """
+    A model resource for custom conditions.
+    """
+    class Meta:
+        queryset = CustomCondition.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'customcondition'
+        limit = 20
+
+
+class ValueConditionResource(BaseResource):
+    """
+    A model resource for value conditions.
+    """
+    class Meta:
+        queryset = ValueCondition.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'valuecondition'
+        limit = 20
+
+
+class AttributeConditionResource(BaseResource):
+    """
+    A model resource for an attribute conditions.
+    """
+    class Meta:
+        queryset = AttributeCondition.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'attributecondition'
+        limit = 20
+
+
+class MethodResource(BaseResource):
+    """
+    A model resource for accessing methods (functions).
+    """
+    class Meta:
+        queryset = Method.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'method'
+        excludes = ['callablemethod']
+        limit = 20

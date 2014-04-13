@@ -1,8 +1,11 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
 {% block title %}Create New Achievement | Git Achievements{% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{% static 'achievement/js/achieve-form.js' %}"></script>
+{% endblock %}
 {% block content %}
-    <script type="text/template" id="create-badge">
+    <script type="text/template" id="badge">
         <br/>
         <fieldset>
             <h3>Badge</h3>
@@ -21,9 +24,32 @@
             </div>
         </fieldset>
     </script>
+    <script type="text/template" id="value-cond">
+        <br/>
+        <fieldset>
+            <h4>Condition #<%= id %></h4>
+            
+        </fieldset>
+    </script>
+    <script type="text/template" id="attribute-cond">
+        <br/>
+        <fieldset>
+            <h4>Condition #<%= id %></h4>
+
+        </fieldset>
+    </script>
+    <script type="text/template" id="custom-cond">
+        <br/>
+        <fieldset>
+            <h4>Condition #<%= id %></h4>
+            <label for="custom-condition-<%= id %>">Select the custom condition</label>
+            <select id="custom-condition-<%= id %>" name="custom-condition-<%= id %>" style="width: 100%;">
+            </select>
+        </fieldset>
+    </script>
     <div class="container create-achievement">
         <h2 class="title">Create a new achievement</h2>
-        <form id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
+        <form method="POST" id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
             {% csrf_token %}
             <fieldset>
                 <h3>Achievement</h3>
@@ -69,9 +95,18 @@
             <br/>
             <fieldset class="text-center">
                 <h3>Add Conditions</h3>
-                <button class="button button-blue" type="button" id="add-value-condition">Value Condition</button>
-                <button class="button button-blue" type="button" id="add-attribute-condition">Attribute Condition</button>
-                <button class="button button-blue" type="button" id="add-custom-condition">Custom Condition</button>
+                <button class="button button-blue" type="button" id="add-value-condition"
+                        data-create="value-cond" data-target=".condition-placeholder">
+                    Value Condition
+                </button>
+                <button class="button button-blue" type="button" id="add-attribute-condition"
+                        data-create="attribute-cond" data-target=".condition-placeholder">
+                    Attribute Condition
+                </button>
+                <button class="button button-blue" type="button" id="add-custom-condition"
+                        data-create="custom-cond" data-target=".condition-placeholder">
+                    Custom Condition
+                </button>
             </fieldset>
             <br/>
             <fieldset class="text-center rounded-box">
