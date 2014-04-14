@@ -1,4 +1,5 @@
 import json
+import urllib2
 
 from django.db.models import Q
 from django.conf import settings
@@ -256,11 +257,25 @@ def view_achievements(request):
     @param request: HttpRequest object
     @return HttpResponse
     """
-    achievements = Achievement.objects.filter(active=True)
+    query = urllib2.unquote(request.GET.get('q', ""))
+    page = request.GET.get('page', 1)
+    achievements = Achievement.objects.filter(Q(active=True) &
+                                              (Q(name__contains=query) | Q(difficulty__name__contains=query)))
+    paginator = Paginator(achievements, 15)
+
+    try:
+        achievements = paginator.page(page)
+    except PageNotAnInteger:
+        # If the page isn't an integer, just return the first page
+        achievements = paginator.page(1)
+    except EmptyPage:
+        # Page is out of range (> # of pages), so deliver last page
+        achievements = paginator.page(paginator.num_pages)
 
     return render_to_response('achievement/achievements/all.html',
         context_instance=RequestContext(request, {
-            'achievements': achievements
+            'achievements': achievements,
+            'q': query
         })
     )
 
@@ -309,11 +324,22 @@ def view_profiles(request):
     @param request: HttpRequest object
     @return: HttpResponse
     """
-    users = UserProfile.objects.all()
+    query = urllib2.unquote(request.GET.get("q", ""))
+    page = request.GET.get('page', 1)
+    users = UserProfile.objects.filter(user__username__contains=query)
+    paginator = Paginator(users, 15)
+
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
 
     return render_to_response('achievement/users/all.html',
         context_instance=RequestContext(request, {
-            'users': users
+            'users': users,
+            'q': query
         })
     )
 

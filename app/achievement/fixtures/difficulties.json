@@ -30,7 +30,7 @@
         "pk": 4,
         "model": "achievement.Difficulty",
         "fields": {
-            "name": "very-hard",
+            "name": "very hard",
             "description": "These badges recognize major contributions to open-source and in-house projects, and wild use of git with full diresgard for your code base.",
             "points": 7
         }

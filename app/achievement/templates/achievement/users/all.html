@@ -3,46 +3,59 @@
 {% load stringmethods %}
 {% block title %}Users | Git Achievements{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="col-xs-6 col-sm-8 pull-right">
-        <form class="navbar-form filter" role="search"><!-- Search bar -->
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Filter"
-                       name="q" id="q">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
+    <div class="container">
+        <div class="col-xs-6 col-sm-8 pull-right">
+            <form class="navbar-form filter" role="search"><!-- Search bar -->
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Filter"
+                           name="q" id="q">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-    <div class="table-responsive white">
-        <table class="table table-condensed table-hover">
-            <colgroup>
-                <col class="col-xs-8" span="1">
-                <col class="col-xs-2" span="1">
-                <col class="col-xs-1" span="1">
-                <col class="col-xs-1" span="1">
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Web Service</th>
-                    <th>Rank</th>
-                    <th>Points</th>
-            </thead>
-            <tbody>
-                {% for user in users %}
+            </form>
+        </div>
+        <div class="table-responsive white">
+            <table class="table table-condensed table-hover">
+                <colgroup>
+                    <col class="col-xs-8" span="1">
+                    <col class="col-xs-2" span="1">
+                    <col class="col-xs-1" span="1">
+                    <col class="col-xs-1" span="1">
+                </colgroup>
+                <thead>
                     <tr>
-                        <td>{% include "achievement/users/profile-small.html" with user=user %}</td>
-                        <td>{{ user.service }}</td>
-                        <td>{{ user.rank }}</td>
-                        <td>{{ user.points }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        <th>User</th>
+                        <th>Web Service</th>
+                        <th>Rank</th>
+                        <th>Points</th>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{% include "achievement/users/profile-small.html" with user=user %}</td>
+                            <td>{{ user.service }}</td>
+                            <td>{{ user.rank }}</td>
+                            <td>{{ user.points }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination text-center container">
+            <span class="step-links">
+                {% if users.has_previous %}
+                    <a href="?page={{ users.previous_page_number}}&q={{ q }}">Previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ users.number }} of {{ users.paginator.num_pages }}
+                </span>
+                {% if users.has_next %}
+                    <a href="?page={{ users.next_page_number }}&q={{ q }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
-</div>
 {% endblock %}
