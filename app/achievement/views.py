@@ -1,6 +1,6 @@
 import json
-import random
 
+from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
 from app.services.models import Event
@@ -142,16 +143,59 @@ def approve_achievement(request, achievement_id):
     @param achievement_id: The id of the achievement to vote on
     @return: HttpResponse
     """
+    if request.method == "POST" and achievement_id:
+        # Vote on the achievement provided the user can vote, or approve
+        # the achievement provided the user is a moderator/admin
+        achievement = get_object_or_404(Achievement, pk=achievement_id, active=False)
+        profile = request.user.profile
+        threshold = settings.ACHIEVEMENT_APPROVAL_THRESHOLD
+        vote = request.POST.get('vote')
+
+        if vote == "upvote":
+            if profile in achievement.downvoters.all():
+                achievement.downvoters.remove(profile)
+            else:
+                achievement.upvoters.add(profile)
+            # If we've reached or passed the threshold, the achievement can be
+            # added as active
+            if achievement.approval >= threshold and threshold > 0:
+                achievement.active = True
+                achievement_id = None
+
+        elif vote == "downvote":
+            if profile in achievement.upvoters.all():
+                achievement.upvoters.remove(profile)
+            else:
+                achievement.downvoters.add(profile)
+
+        elif vote == "approved" and (request.user.is_superuser or profile.moderator):
+            achievement.active = True
+            achievement_id = None
+
+        achievement.save()
+
+        if achievement_id:
+            return redirect('approve_achievement', achievement_id=achievement_id)
+        return redirect('approve_achievement')
+
     achievement = None
-    if achievement_id is None:
-        achievement = Achievement.objects.filter(active=False)
-        achievement = achievement[0] if len(achievement) > 0 else None
+    achievements = Achievement.objects.filter(active=False)
+    if not achievement_id:
+        achievement = achievements[0] if len(achievements) > 0 else None
     else:
         achievement = get_object_or_404(Achievement, pk=achievement_id)
 
-    if request.method == "POST":
-        # Vote on the achievement provided the user can vote.
-        pass
+    # Find the index of the curreent achievement in the achievements list
+    index = 0
+    for i, item in enumerate(achievements):
+        if item == achievement:
+            index = i
+            break
+
+    # Paginate by finding the next and previous achievements
+    prev_page = None if index == 0 else achievements[index - 1].pk
+    next_page = None if index == len(achievements) - 1 else achievements[index + 1].pk
+    conditions = list(condition.condition for condition in achievement.conditions.all())
 
     if achievement is None:
         return render_to_response('achievement/achievements/no_vote.html',
@@ -159,9 +203,11 @@ def approve_achievement(request, achievement_id):
 
     return render_to_response('achievement/achievements/approve.html',
         context_instance=RequestContext(request, {
-            'achievement': achievement
-        })
-    )
+            'achievement': achievement,
+            'conditions': conditions,
+            'next_page': next_page,
+            'prev_page': prev_page
+        }))
 
 
 @login_required

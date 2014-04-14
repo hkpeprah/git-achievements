@@ -1,7 +1,91 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
+{% load listmethods %}
+{% load numbermethods %}
 {% block content %}
     <div class="container">
-
+        <div class="row">
+            <h2>Achievement Details</h2>
+            <hr/>
+            <div class="col-xs-12" style="margin-bottom: 15px; margin-top: -5px;">
+                {% if prev_page %}
+                    <a href="{% url 'approve_achievement' achievement_id=prev_page %}" class="pull-left btn btn-default">Previous</a>
+                {% endif %}
+                {% if next_page %}
+                    <a href="{% url 'approve_achievement' achievement_id=next_page %}" class="pull-right btn btn-default">Next</a>
+                {% endif %}
+            </div>
+            <div class="panel panel-default" style="border: 0px;">
+                <table class="table table-bordered col-xs-12" style="border: 1px solid #DDD;">
+                    <colgroup>
+                        <col class="col-xs-4" span="1">
+                        <col class="col-xs-8" span="1">
+                    </colgroup>
+                    <thead>
+                        <tr class="active" style="font-family: 'Bitter', serif;">
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>{{ achievement.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Difficulty</td>
+                            <td>{{ achievement.difficulty|title }}</td>
+                        </tr>
+                        {% if achievement.badge %}
+                            <tr class="active" style="font-family: 'Bitter', serif;">
+                                <td colspan="2">Badge</td>
+                            </tr>
+                            <tr>
+                                <td>Badge Name</td>
+                                <td>{{ achievement.badge.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Badge Description</td>
+                                <td>{{ achievement.badge.description }}</td>
+                            </tr>
+                        {% endif %}
+                        <tr class="active" style="font-family: 'Bitter', serif;">
+                            <td colspan="2">Conditions</td>
+                        </tr>
+                        {% for i in conditions|length|get_range %}
+                            <tr>
+                                <td>Condition #{{ forloop.counter}}</td>
+                                <td>
+                                    <ul class="unstyled">
+                                        {% for key,val in conditions|ith:i|to_json|items %}
+                                            <li><b style="text-transform: capitalize;">{{ key }}:</b> {{ val }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <br/>
+            <p>Here you can vote on Achievements.  Currently voting is being limited to not auto-approve achievements, but it shows your interest in having that achievement become active so you can earn it.  Upvote if the achievement is contextually right, described well, and different from existing achievements, otherwise downvote.  The ratio lets moderators know whether or not to add it to the system.</p>
+        </div>
+        <br/>
+        <form class="text-center centered" method="post" action="{% url 'approve_achievement' achievement_id=achievement.id %}">
+            {% csrf_token %}
+            <input class="btn btn-success btn-submit" name="vote" type="submit" value="upvote" />
+            <div class="inline-block text-center" style="font-family: 'Bitter', serif; font-size: 20px; padding: 0px 30px;">
+                {% with upvotes=achievement.upvoters.all|length downvotes=achievement.downvoters.all|length %}
+                    {{ upvotes|subtract:downvotes }}
+                {% endwith %}
+            </div>
+            <input class="btn btn-primary btn-submit" name="vote" type="submit" value="downvote" />
+            <br/>
+            {% if user.is_superuser or user.moderator %}
+                <input name="vote" type="submit" value="approve" />
+            {% endif %}
+        </form>
     </div>
 {% endblock %}

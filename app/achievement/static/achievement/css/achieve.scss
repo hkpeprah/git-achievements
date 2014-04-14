@@ -12,7 +12,8 @@
  * $colHover    - Background color when column is hovered
  * $colHiglight - Text color when column is clicked.
  */
-$bgDefault     : #2C2C2C;
+$bgOld         : #2C2C2C;
+$bgDefault     : #000000;
 $bgHighlight   : #222222;
 $colDefault    : #999999;
 $colHover      : $bgHighlight;
@@ -95,12 +96,13 @@ footer {
 }
 
 .navbar-default {
-    height: 60px;
+    height: 30px;
+    min-height: 30px;
     border-color: $bgHighlight;
     background-color: $bgDefault;
     font-family: "Bitter", serif;
     .navbar-brand {
-        height: 60px;
+        height: 30px;
         color: $colDefault;
         padding: 0px 15px 0px 0px;
         border-right: 1px solid #DDD;
@@ -114,8 +116,11 @@ footer {
     .navbar-nav {
         > li {
             > a {
-                line-height: 30px;
+                font-size: 12px;
+                line-height: 15px;
+                padding-top: 8px;
                 color: $colDefault;
+                padding-bottom: 7px;
                 &:hover,  &:focus {
                     color: $colHighlight;
                 }
@@ -159,23 +164,38 @@ footer {
         padding: 1px;
         > li > a {
             padding: 5px;
+            font-size: 12px;
             padding-left: 10px;
         }
     }
 }
 
 @media screen and (max-width: 767px) {
-    .navbar-default .navbar-nav .open .dropdown-menu {
-        > li > a {
-            color: $colDefault;
-            &:hover, &:focus {
-                color: $colHighlight;
-            }
+    .navbar-default {
+        min-height: 40px;
+        .navbar-brand {
+            height: 40px;
         }
-        > .active {
-            > a, > a:hover, > a:focus, {
-                color: $colHighlight;
-                background-color: $bgHighlight;
+        .navbar-toggle {
+            margin-top: 7px;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+        .navbar-collapse {
+            background-color: $bgDefault;
+            .navbar-nav {
+                > li > a {
+                    color: $colDefault;
+                    &:hover, &:focus {
+                        color: $colHighlight;
+                    }
+                }
+                > .active {
+                    > a, > a:hover, > a:focus, {
+                        color: $colHighlight;
+                        background-color: $bgHighlight;
+                    }
+                }
             }
         }
     }
@@ -648,4 +668,8 @@ $inlines: block, table;
         position: absolute;
         font-family: 'Bitter', serif;
     }
+}
+
+.btn-submit {
+    text-transform: capitalize;
 }

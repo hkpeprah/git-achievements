@@ -11,6 +11,7 @@ from django.contrib.auth.models import User, UserManager
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
+from app.services.models import Event
 import app.achievement.lib as custom_methods
 from app.achievement.utils import find_nested_json
 from app.achievement.models.base_models import BaseModel, BaseCallableModel, BaseTypeModel
@@ -142,6 +143,11 @@ class CustomCondition(Condition):
     def __call__(self, event):
         return getattr(custom_methods, self.method)(event)
 
+    def to_json(self):
+        return {
+            'description': self.description
+        }
+
 
 class ValueCondition(Condition):
     """
@@ -184,6 +190,16 @@ class ValueCondition(Condition):
             passed = all(passed)
 
         return passed
+
+    def to_json(self):
+        return {
+            'description': self.description,
+            'event': Event.objects.get(pk=self.event_type).name,
+            'custom': self.is_custom(),
+            'method': self.method.name,
+            'attribute': self.attribute,
+            'value': self.value
+        }
 
 
 class AttributeCondition(Condition):
@@ -292,6 +308,8 @@ class Achievement(BaseModel):
     active = models.BooleanField(default=False)
     difficulty = models.ForeignKey('Difficulty')
     achievement_type = models.ForeignKey('AchievementType')
+    upvoters = models.ManyToManyField('UserProfile', related_name='approval_votes', blank=True, null=True)
+    downvoters = models.ManyToManyField('UserProfile', related_name='disapproval_votes', blank=True, null=True)
     badge = models.OneToOneField('Badge', related_name='achievement', blank=True, null=True)
     creator = models.ForeignKey('UserProfile', related_name='created_achievements', blank=True, null=True)
     grouping = models.CharField(max_length=10, choices=CONDITION_GROUPING, default=DEFAULT_GROUPING)
@@ -310,6 +328,13 @@ class Achievement(BaseModel):
             'points': self.points,
             'earned': self.earned_count
         }
+
+    @property
+    def approval(self):
+        """
+        The approval of the achievement is the different between upvotes and downvotes.
+        """
+        return len(self.upvoters.all()) - len(self.downvoters.all())
 
     @property
     def points(self):
@@ -394,7 +419,7 @@ class UserAchievement(models.Model):
     class Meta:
         app_label = "achievement"
 
-    seen_at = models.DateTimeField(blank=True, null=True)
+    seen_at = models.DateTimeField(default="1970-01-01 00:00:01-05:00")
     earned_at = models.DateTimeField(auto_now_add=True)
     achievement = models.ForeignKey('Achievement')
     user = models.ForeignKey('UserProfile')

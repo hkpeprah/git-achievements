@@ -182,6 +182,14 @@ SOCIAL_AUTH_GITHUB_KEY = ''
 SOCIAL_AUTH_GITHUB_SECRET = ''
 
 # Additional settings
+# An achievement approval threshold of 0 is infinite, which means that only
+# moderators/admins can approve achievements.  Override in your custom settings
+# to set a threshold that will allow achievements to be automatically approved when
+# they reach a certain amount.
+ACHIEVEMENT_APPROVAL_THRESHOLD = 0
+# Override this with "True" if you're running a local/team instance
+IS_ORGANIZATION = False
+# This is where we fetch the project contributors from
 CONTRIBUTORS_URL = "https://api.github.com/orgs/git-achievements/public_members"
 # This tuple should contain a list of the services that you wish
 # to have support for.

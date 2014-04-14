@@ -32,18 +32,36 @@ class UserResource(BaseResource):
         list_allowed_methods = ['get']
         detail_allowed_methods = ['get']
         resource_name = 'user'
-        excludes = ['attributes']
         limit = 20
+        max_limit = 20
+        excludes = ['approval_votes', 'disapproval_votes', 'attributes']
+        filtering = {
+            'points': ALL,
+            'moderator': ALL,
+            'id': ALL,
+            'username': ALL
+        }
+
+    achievements = fields.ListField()
 
     def dehydrate(self, bundle):
         # Dehydrate is called to add additional data to the request
         # bundle.
         user = User.objects.get(pk=bundle.data['id'])
         attributes = user.profile.attributes
+        # Get the achievements this user has earned
+        achievements = []
+        for achievement in user.profile.achievements:
+            # Construct the achievement bundle resource
+            ar = AchievementResource()
+            ar_bundle = ar.build_bundle(obj=achievement, request=bundle.request)
+            ar_bundle = ar.full_dehydrate(ar_bundle)
+            achievements.append(ar_bundle)
 
         bundle.data['avatar'] = attributes['avatar_url']
         bundle.data['username'] = user.username
         bundle.data['rank'] = user.profile.rank
+        bundle.data['achievements'] = achievements
         return bundle
 
 
@@ -58,6 +76,7 @@ class ConditionResource(BaseResource):
         detail_allowed_methods = ['get']
         resource_name = 'condition'
         limit = 20
+        max_limit = 20
 
     def dehydrate(self, bundle):
         """
@@ -76,6 +95,23 @@ class ConditionResource(BaseResource):
         return bundle
 
 
+class DifficultyResource(BaseResource):
+    """
+    A model resource for Difficulty model
+    """
+    class Meta:
+        queryset = Difficulty.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'difficulty'
+        limit = 20
+        max_limit = 20
+        filtering = {
+            'name': ALL,
+            'id': ALL
+        }
+
+
 class AchievementResource(BaseResource):
     """
     A model resource referring to an Achievement.
@@ -86,8 +122,17 @@ class AchievementResource(BaseResource):
         detail_allowed_methods = ['get']
         resource_name = 'achievement'
         limit = 20
+        max_limit = 20
+        excludes = ['upvoters', 'downvoters']
+        filtering = {
+            'difficulty': ALL_WITH_RELATIONS,
+            'creator': ALL_WITH_RELATIONS,
+            'active': ALL
+        }
 
     conditions = fields.ListField()
+    difficulty = fields.ToOneField(DifficultyResource, 'difficulty', full=True)
+    creator = fields.ToOneField(UserResource, 'creator', full=True, null=True)
 
     def dehydrate(self, bundle):
         achievement_id = bundle.data.get('id')
@@ -96,8 +141,8 @@ class AchievementResource(BaseResource):
         achievement_conditions = achievement.conditions.all()
         conditions = []
         for condition in achievement_conditions:
-            cr = ConditionResource()
             # Construct bundle for the condition
+            cr = ConditionResource()
             cr_bundle = cr.build_bundle(obj=condition, request=bundle.request)
             cr_bundle = cr.full_dehydrate(cr_bundle)
             conditions.append(cr_bundle)
@@ -120,20 +165,9 @@ class EventResource(BaseResource):
         excludes = ['payload']
         # This may change, but for now there's only 23 events
         limit = 23
+        max_limit = 25
 
     attributes = fields.DictField(attribute='attributes')
-
-
-class DifficultyResource(BaseResource):
-    """
-    A model resource for Difficulty model
-    """
-    class Meta:
-        queryset = Difficulty.objects.all()
-        list_allowed_methods = ['get']
-        detail_allowed_methods = ['get']
-        resource_name = 'difficulty'
-        limit = 20
 
 
 class AchievementTypeResource(BaseResource):
@@ -146,6 +180,7 @@ class AchievementTypeResource(BaseResource):
         detail_allowed_methods = ['get']
         resource_name = 'achievementtype'
         limit = 20
+        max_limit = 20
 
 
 class CustomConditionResource(BaseResource):
@@ -158,30 +193,7 @@ class CustomConditionResource(BaseResource):
         detail_allowed_methods = ['get']
         resource_name = 'customcondition'
         limit = 20
-
-
-class ValueConditionResource(BaseResource):
-    """
-    A model resource for value conditions.
-    """
-    class Meta:
-        queryset = ValueCondition.objects.all()
-        list_allowed_methods = ['get']
-        detail_allowed_methods = ['get']
-        resource_name = 'valuecondition'
-        limit = 20
-
-
-class AttributeConditionResource(BaseResource):
-    """
-    A model resource for an attribute conditions.
-    """
-    class Meta:
-        queryset = AttributeCondition.objects.all()
-        list_allowed_methods = ['get']
-        detail_allowed_methods = ['get']
-        resource_name = 'attributecondition'
-        limit = 20
+        max_limit = 20
 
 
 class MethodResource(BaseResource):
@@ -195,19 +207,65 @@ class MethodResource(BaseResource):
         resource_name = 'method'
         excludes = ['callablemethod']
         limit = 20
+        max_limit = 20
+        filtering = {
+            'argument_type': ALL
+        }
+
+
+class ValueConditionResource(BaseResource):
+    """
+    A model resource for value conditions.
+    """
+    class Meta:
+        queryset = ValueCondition.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'valuecondition'
+        limit = 20
+        max_limit = 20
+        filtering = {
+            'method': ALL_WITH_RELATIONS
+        }
+
+    method = fields.ToOneField(MethodResource, 'method', full=True)
+
+
+class AttributeConditionResource(BaseResource):
+    """
+    A model resource for an attribute conditions.
+    """
+    class Meta:
+        queryset = AttributeCondition.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'attributecondition'
+        limit = 20
+        max_limit = 20
+        filtering = {
+            'method': ALL_WITH_RELATIONS
+        }
+
+    method = fields.ToOneField(MethodResource, 'method', full=True)
 
 
 class UserAchievementResource(BaseResource):
     """
     A model resource for accessing achievements users have earned.
     """
-    user = fields.ToOneField(UserResource, 'user', full=True)
-    achievement = fields.ToOneField(AchievementResource, 'achievement', full=True)
-
     class Meta:
         queryset = UserAchievement.objects.all()
         list_allowed_methods = ['get']
         detail_allowed_methods = ['get']
         resource_name = 'userachievement'
         limit = 20
+        max_limit = 20
         ordering = ['earned_at']
+        filtering = {
+            'user': ALL_WITH_RELATIONS,
+            'achievement': ALL_WITH_RELATIONS,
+            'seen_at': ALL
+        }
+
+    user = fields.ToOneField(UserResource, 'user', full=True)
+    achievement = fields.ToOneField(AchievementResource, 'achievement', full=True)

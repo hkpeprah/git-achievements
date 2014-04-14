@@ -249,7 +249,7 @@
             "creator": null,
             "achievement_type": 3,
             "difficulty": 6,
-            "active": true,
+            "active": false,
             "grouping": "__and__",
             "badge": 12,
             "description": "Contribute to Git Achievements!"
@@ -277,7 +277,7 @@
             "creator": null,
             "achievement_type": 1,
             "difficulty": 3,
-            "active": true,
+            "active": false,
             "grouping": "__and__",
             "badge": null,
             "description": "What do you get when you kill a cow? 0xdeadbeef (Hint: Git-brute might be the way to go.)"
