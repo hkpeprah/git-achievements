@@ -654,19 +654,21 @@ $inlines: block, table;
 }
 
 .achiever {
-    margin: 5px;
     padding-left: 0px;
-    position: relative;
-    border-radius: 10px;
-    border: 1px solid #DDD;
-    > .rank {
-        top: 5px;
-        right: 5px;
-        color: #DDD;
-        font-size: 18px;
-        font-weight: bold;
-        position: absolute;
-        font-family: 'Bitter', serif;
+    margin-bottom: 10px;
+    > .user {
+        position: relative;
+        border-radius: 10px;
+        border: 1px solid #DDD;
+        > .rank {
+            top: 5px;
+            right: 5px;
+            color: #DDD;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            font-family: 'Bitter', serif;
+        }
     }
 }
 

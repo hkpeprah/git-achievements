@@ -1,4 +1,7 @@
 <div class="contributor">
+    {% if rank %}
+        <span class="rank">{{ rank }}</span>
+    {% endif %}
     <div class="details">
         <img src="{{ contributor.avatar_url }}" alt="{{ contributor.login }}'s gravatr" />
     </div>

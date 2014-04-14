@@ -26,8 +26,9 @@
             <h1>Git Achievements' Top Achievers</h1>
             {% for achiever in achievers %}
                 <div class="col-xs-12 col-sm-6 col-lg-4 clearfix achiever">
-                    <span class="rank">{{ forloop.counter }}</span>
-                    {% include "achievement/users/profile-small.html" with user=achiever %}
+                    {% with forloop.counter as rank %}
+                        {% include "achievement/users/profile-small.html" with user=achiever rank=rank %}
+                    {% endwith %}
                 </div>
             {% endfor %}
         </div>
