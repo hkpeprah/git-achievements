@@ -2,9 +2,26 @@
 {% load staticfiles %}
 {% block content %}
     <div class="container">
+        <section id="getting-started">
+            <div class="container text-left">
+                <h1>Getting Started</h1>
+                <p>The first step to using Git Achievements is configuring your organization(s)/repository/repositories to use Git Achievements.  Github has a nice page about adding a <a href="//developer.github.com/webhooks/creating/#setting-up-a-webhook">webhook here</a>.  The steps are simple.
+                    <ol>
+                        <li>Follow he Github steps for <a href="//developer.github.com/webhooks/creating/#setting-up-a-webhook">setting up a webhook</a>.</li>
+                        <li>For the endpoint, plug in <kbd>http://git-achievements.com/services/hooks/web</kbd>.</li>
+                        <li>Login to the site to start creating and tracking achievements!</li>
+                    </ol>
+                </p>
+                <br/>
+                <p>Read the <a href="{% url 'faq' %}">Getting Started</a> section of the site to figure out how to configure Git Achievements for your organization or start achieving in your projects/git experience.  If you have any issues or more detailed questions, visit the Github <a href="//github.com/git-achievements/git-achievements">project page</a>.
+                </p>
+            </div>
+        </section>
+        <br/>
+        <hr/>
         <section id="top-achievers">
             <div class="container">
-                <h1>Top Achievers</h1>
+                <h1>Git Achievements' Top Achievers</h1>
                 {% for achiever in achievers %}
                     <div class="col-xs-12 col-sm-6 col-lg-4 clearfix achiever">
                         <span class="rank">{{ forloop.counter }}</span>
@@ -13,15 +30,5 @@
                 {% endfor %}
             </div>
         </section>
-        <br/>
-        <hr/>
-        <section id="getting-started">
-            <div class="container">
-                <h1>Getting Started</h1>
-                <p>Read the <a href="{% url 'faq' %}">Getting Started</a> section of the site to figure out how to configure Git Achievements for your organization or start achieving in your projects/git experience.  If you have any issues or more detailed questions, visit the Github <a href="//github.com/git-achievements/git-achievements">project page</a>.
-                </p>
-            </div>
-        </section>
-        <br/>
     </div>
 {% endblock %}

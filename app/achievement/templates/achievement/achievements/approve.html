@@ -7,7 +7,7 @@
         <div class="row">
             <h2>Achievement Details</h2>
             <hr/>
-            <div class="col-xs-12" style="margin-bottom: 15px; margin-top: -5px;">
+            <div class="col-xs-12" style="margin-bottom: 15px; margin-top: -5px; padding: 0px;">
                 {% if prev_page %}
                     <a href="{% url 'approve_achievement' achievement_id=prev_page %}" class="pull-left btn btn-default">Previous</a>
                 {% endif %}
@@ -84,7 +84,7 @@
             <input class="btn btn-primary btn-submit" name="vote" type="submit" value="downvote" />
             <br/>
             {% if user.is_superuser or user.moderator %}
-                <input name="vote" type="submit" value="approve" />
+                <input class="btn btn-info btn-submit" name="vote" type="submit" value="approve" />
             {% endif %}
         </form>
     </div>
