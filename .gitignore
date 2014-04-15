@@ -16,3 +16,7 @@
 
 # Custom files and settings
 **/settings/custom.py
+static/achievement/
+static/admin/
+static/bootstrap/
+static/services/
