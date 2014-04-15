@@ -6,7 +6,6 @@
 *.sqlite[123]
 
 # Sass/Less/CSS
-**/*.css
 *.sass-cache
 */**/.sass-cache
 

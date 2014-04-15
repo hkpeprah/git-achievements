@@ -1,0 +1,116 @@
+.create-achievement .messages {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  list-style: none;
+  list-style-type: none; }
+  .create-achievement .messages > li {
+    padding: 20px;
+    line-height: 4px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    vertical-align: middle; }
+    .create-achievement .messages > li > .close {
+      margin-top: -10px; }
+.create-achievement .title {
+  margin-bottom: 20px;
+  text-transform: capitalize; }
+.create-achievement .placeholder {
+  visibility: hidden; }
+.create-achievement .badge-example {
+  top: 10px;
+  right: 20px;
+  position: absolute; }
+.create-achievement .achievement-form {
+  padding-bottom: 50px; }
+  .create-achievement .achievement-form fieldset {
+    padding: 20px;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #DDD; }
+    .create-achievement .achievement-form fieldset input {
+      min-width: 100%; }
+    .create-achievement .achievement-form fieldset label {
+      display: block;
+      font-size: 14px;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      padding-right: 10px;
+      font-weight: bolder; }
+    .create-achievement .achievement-form fieldset textarea {
+      width: 100%;
+      resize: none;
+      min-height: 100px; }
+    .create-achievement .achievement-form fieldset input[type="submit"] {
+      min-width: 90px; }
+    .create-achievement .achievement-form fieldset textarea, .create-achievement .achievement-form fieldset input[type="text"] {
+      border-width: 1px;
+      border-style: inherit;
+      border-color: #d0d0d0; }
+    .create-achievement .achievement-form fieldset select {
+      height: 30px;
+      min-width: 300px;
+      padding: 4px 6px;
+      line-height: 30px;
+      margin-bottom: 10px;
+      align-items: center;
+      display: inline-block;
+      vertical-align: middle;
+      background-color: #FFFFFF;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      -o-border-radius: 4px;
+      -ms-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      appearance: menulist-button;
+      -o-appearance: menulist-button;
+      -ms-appearance: menulist-button;
+      -moz-appearance: menulist-button;
+      -webkit-appearance: menulist-button; }
+    .create-achievement .achievement-form fieldset .button:last-child {
+      margin-right: 0px; }
+.create-achievement .button {
+  min-width: 80px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 440;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  text-align: center;
+  margin-right: 10px;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #000;
+  border-radius: 5px 4px 5px 4px;
+  background-color: #f9f9f9; }
+  .create-achievement .button:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8); }
+  .create-achievement .button:focus {
+    outline: none; }
+  .create-achievement .button::-moz-focus-inner {
+    border: 0; }
+.create-achievement .button-blue {
+  color: #FFF;
+  border-color: #357EBD;
+  background-color: #428BCA; }
+  .create-achievement .button-blue:hover {
+    border-color: #285E8E;
+    background-color: #3276B1; }
+.create-achievement .button-yellow {
+  color: #FFF;
+  border-color: #EEA236;
+  background-color: #F0AD4E; }
+  .create-achievement .button-yellow:hover {
+    border-color: #D58512;
+    background-color: #ED9C28; }
+.create-achievement .button-black {
+  color: #FFF;
+  border-color: #00A;
+  background-color: #000; }
+  .create-achievement .button-black:hover {
+    color: #000;
+    border-color: #000;
+    background-color: #FFF; }
