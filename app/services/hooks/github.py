@@ -77,8 +77,7 @@ class EventData(object):
         # Ensure we got a user object, otherwise try to find one using
         # a generic key list of potential user locations
         if self.user is None:
-            USER_KEYS = []  # TODO: USER_KEYS is undefined
-            user_keys = list(USER_KEYS) + list(event_type + '.user.login')
+            user_keys = list(EventData.USER_KEYS) + list(event_type + '.user.login')
             for user_key in user_keys:
                 self.user = find_nested_json(kwargs, user_key.split('.'))
                 if self.user is not None:
