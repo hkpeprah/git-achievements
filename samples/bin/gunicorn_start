@@ -1,0 +1,24 @@
+#!/bin/bash
+# Gunicorn configuration and start up script for a Django application
+# http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
+NAME="gitachievements"                                               # Name of the application
+DJANGODIR=/path/to/git-achievements                                  # Django project directory
+USER=''                                                              # User to run as
+GROUP=''                                                             # Group to run under
+NUM_WORKERS=3                                                        # Number of workers
+DJANGO_WSGI_MODULE='gitachievements.wsgi'                            # WSGI module name
+BIND='127.0.0.1:8001'                                                # Address to bind the listener to
+
+echo "Starting $NAME as `whoami`"
+
+# Ensure the project is on the Python Path
+source /path/to/venv/
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# Starts the Django Unicorn
+exec /path/to/gunicorn/ ${DJANGO_WSGI_MODULE}:application \
+    --name $NAME --workers $NUM_WORKERS \
+    --user=$USER \
+    --bind=$BIND \
+    --log-level=debug
+
