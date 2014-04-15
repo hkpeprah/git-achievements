@@ -36,7 +36,7 @@ INSTALLED_APPS += (
 # Instructions for doing so can be found here
 # https://www.digitalocean.com/community/articles/how-to-install-and-configure-django-with-postgres-nginx-and-gunicorn
 DATABASES = {
-    'defualt': {
+    'default': {
         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3', or 'oracle'
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # These settings are not used with SQlite
