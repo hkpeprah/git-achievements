@@ -383,13 +383,14 @@ function sameOrigin(url) {
                  *
                  * @return {this}
                  */
-                var self = this;
+                var self = this,
+                    $body = $('body');
 
-                $('body').on('click', 'button.close', function () {
+                $body.on('click', 'button.close', function () {
                     $(this).parent().remove();
                 });
 
-                $('body').on('click', '#create-badge-button', function () {
+                $body.on('click', '#create-badge-button', function () {
                     var form = new BadgeForm(),
                         target = $(this).data('target');
 
@@ -398,7 +399,7 @@ function sameOrigin(url) {
                     $(this).hide();
                 });
 
-                $('body').on('click', '#add-custom-condition', function () {
+                $body.on('click', '#add-custom-condition', function () {
                     var form = new CustomConditionForm(),
                         target = $(this).data('target');
 
@@ -406,7 +407,7 @@ function sameOrigin(url) {
                     $(target).append(form.render().$el);
                 });
 
-                $('body').on('click', '#add-value-condition', function () {
+                $body.on('click', '#add-value-condition', function () {
                     var form = new ValueConditionForm(),
                         target = $(this).data('target');
 
@@ -414,7 +415,7 @@ function sameOrigin(url) {
                     $(target).append(form.render().$el);
                 });
 
-                $('body').on('click', 'input[type="submit"]', function (ev) {
+                $body.on('click', 'input[type="submit"]', function (ev) {
                     var data = {
                         'valueconditions': [],
                         'attributeconditions': [],

@@ -3,21 +3,21 @@ import urllib2
 
 from django.db.models import Q
 from django.conf import settings
-from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.template import RequestContext
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 
 from app.services.models import Event
 from app.services.utils import get_contributors, json_response
-from app.achievement.models import (Achievement, Condition, Badge, UserProfile, ValueCondition, AttributeCondition,
-                                    CustomCondition, AchievementCondition, Difficulty, AchievementType, Method, ConditionType)
+from app.achievement.models import (Achievement, Badge, UserProfile, ValueCondition,
+                                    CustomCondition, AchievementCondition,
+                                    Difficulty, AchievementType, Method, ConditionType)
 
 
 @require_http_methods(["GET"])
@@ -104,9 +104,7 @@ def create_achievement(request):
             if len(conditions) == 0:
                 raise ValidationError("Atleast one condition must be added for the achievement.")
 
-        except (ValidationError, CustomCondition.DoesNotExist, Difficulty.DoesNotExist, Event.DoesNotExist,
-                Method.DoesNotExist, AchievementType.DoesNotExist) as e:
-            print e
+        except (ObjectDoesNotExist, ValidationError) as e:
             if isinstance(e, ValidationError):
                 # ValidationError returns multiple messages
                 e = ', '.join(e.messages)

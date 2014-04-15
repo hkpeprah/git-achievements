@@ -13,6 +13,11 @@
 *~
 \#*\#
 
+# Virtualenv
+bin/
+include/
+lib/
+
 # Custom files and settings
 gitachievements/settings/custom.py
 static/achievement/

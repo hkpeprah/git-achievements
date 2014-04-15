@@ -1,13 +1,12 @@
-import re
 import json
 
+import re
 from django.conf import settings
-from django.contrib import messages
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import user_passes_test, login_required
 
 from app.services.models import Event

@@ -1,13 +1,11 @@
-import re
-import json
 import random
 import operator
-import jsonfield
 
+import re
+import jsonfield
 from django.db import models
 from django.db.models.signals import post_save
-from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
@@ -383,7 +381,7 @@ class Achievement(BaseModel):
                 satisfied.append(condition)
         return satisfied
 
-    def unlocked(self, event, payload, satisfied=[]):
+    def unlocked(self, event, payload, satisfied=None):
         """
         Returns true if the event satisfies all the conditions of the
         achievement.  Otherwise False.
@@ -393,6 +391,8 @@ class Achievement(BaseModel):
         @param satisfied: Array of satisfied condition ids
         @return: Boolean
         """
+        if not satisfied:
+            satisfied = []
         passed = True
         grouping = getattr(bool, self.grouping)
 
