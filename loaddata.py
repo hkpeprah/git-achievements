@@ -3,7 +3,10 @@ import os
 
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gitachievements.settings.custom")
+    if os.path.isfile('gitachievements/settings/custom.py'):
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gitachievements.settings.custom")
+    else:
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gitachievements.settings.common")
 
     from django.conf import settings
     from django.core.management import call_command

@@ -1,11 +1,10 @@
 from tastypie import fields
 from django.conf import settings
 from django.contrib.auth.models import User
-from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
 from app.services.models import Event
-from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Condition, Difficulty, UserAchievement,
+from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Difficulty, UserAchievement,
                                     AchievementType, CustomCondition, ValueCondition, AttributeCondition, Method)
 
 

@@ -5,6 +5,8 @@ from common import *
 
 # It is a security concern to be running DEBUG in production, so we have to make sure
 # to turn it off; it also avoids printing out our source code and debug statements
+import os
+
 DEBUG = False
 TEMPLATE_DEBUG = False
 
@@ -41,7 +43,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # These settings are not used with SQlite
         'NAME': 'achievements',
-        'PASSWORD': , # choose a password here
+        'PASSWORD': '', # choose a password here
         'HOST': '', # host is empty because we bind to localhost
     }
 }

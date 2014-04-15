@@ -28,7 +28,7 @@ def make_filter(name):
     @param name: String name of the method
     @return: function
     """
-    def filter(value, first=None, second=None, third=None):
+    def filter_(value, first=None, second=None, third=None):
         """
         Applies the specified method to the passed arguments, popping
         arguments on each iteration until the right number is found.
@@ -48,7 +48,7 @@ def make_filter(name):
             except TypeError:
                 args.pop(len(args) - 1)
  
-    return filter
+    return filter_
  
 
 def register_string_extras():
@@ -71,4 +71,4 @@ def register_string_extras():
 
 
 # Register the string extras
-register_string_extras();
+register_string_extras()

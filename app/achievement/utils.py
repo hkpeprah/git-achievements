@@ -3,7 +3,7 @@ import json
 import collections
 
 
-def callable(function):
+def is_callable(function):
     return hasattr(function, '__call__')
 
 

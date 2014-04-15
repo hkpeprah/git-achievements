@@ -51,7 +51,7 @@ def get_api_data(url, headers=None):
     try:
         req = urllib2.urlopen(url)
         return json.loads(req.read())
-    except (urllib2.HTTPError, urllib2.URLError) as e:
+    except (urllib2.HTTPError, urllib2.URLError):
         pass
     return None
 

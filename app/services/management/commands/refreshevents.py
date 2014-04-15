@@ -1,8 +1,8 @@
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from app.services.models import Event
-from app.services.scrapers import GithubScraper, BitbucketScraper
+from app.services.scrapers import GithubScraper
 
 
 class Command(BaseCommand):
@@ -22,7 +22,6 @@ class Command(BaseCommand):
         )
 
         for service in services:
-            scraper = None
             if service == "Github":
                 scraper = GithubScraper()
             else:
