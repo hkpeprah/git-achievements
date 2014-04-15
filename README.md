@@ -15,6 +15,12 @@ Besides those two guides, if you're familiar with setting up a Django applicatio
 7. A convenience script in included in `samples/bin` called `gunicorn_start`, you can fill that in and give it as passenger's command.
 
 
+## Contributors
+[Ford P, hkpeprah](https://github.com/hkpeprah) - Code + Design  
+[Nicholas Terwoord, nt3rp](https://github.com/nt3rp) - Idea  
+[Brian L, 1337](https://github.com/1337) - Code + Idea  
+  
+
 ## License
 http://ford.mit-license.org
 
@@ -29,8 +35,3 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN \
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-## Contributors
-[Ford P, hkpeprah](https://github.com/hkpeprah) - Code + Design
-[Nicholas Terwoord, nt3rp](https://github.com/nt3rp) - Idea
-[Brian L, 1337](https://github.com/1337) - Code + Idea
