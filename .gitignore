@@ -20,5 +20,5 @@ include/
 lib/
 
 # Custom files and settings
-static/
+/static/
 gitachievements/settings/custom.py
