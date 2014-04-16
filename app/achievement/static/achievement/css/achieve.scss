@@ -29,6 +29,7 @@ html, body {
 
 h1, h2, h3 {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -100,7 +101,7 @@ footer {
     min-height: 30px;
     border-color: $bgHighlight;
     background-color: $bgDefault;
-    font-family: "Bitter", serif;
+    font-family: "Open Sans", "Segoe UI", sans-serif;
     .navbar-brand {
         height: 30px;
         color: $colDefault;
