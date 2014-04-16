@@ -3,6 +3,7 @@ import urllib2
 
 from django.db.models import Q
 from django.conf import settings
+from django.utils.html import escape
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.template import RequestContext
@@ -78,12 +79,12 @@ def create_achievement(request):
         try:
             difficulty = Difficulty.objects.get(pk=achievement['difficulty'])
             achievement_type = AchievementType.objects.get(pk=achievement['type'])
-            achievement = Achievement(name=achievement['name'], description=achievement['description'], difficulty=difficulty,
-                achievement_type=achievement_type, grouping=achievement['grouping'])
+            achievement = Achievement(name=escape(achievement['name']), description=escape(achievement['description']),
+                difficulty=difficulty, achievement_type=achievement_type, grouping=achievement['grouping'])
 
             achievement.full_clean()
             if badge:
-                badge = Badge(name=badge['name'], description=badge['description'])
+                badge = Badge(name=escape(badge['name']), description=escape(badge['description']))
                 badge.full_clean()
 
             achievement.badge = badge
@@ -91,7 +92,7 @@ def create_achievement(request):
             for condition in data.get('valueconditions', []):
                 method = Method.objects.get(pk=condition['method'])
                 event = Event.objects.get(pk=condition['event_type'])
-                condition = ValueCondition(description=condition['description'], attribute=condition['attribute'],
+                condition = ValueCondition(description=escape(condition['description']), attribute=condition['attribute'],
                     value=condition['value'], method=method, condition_type=ConditionType.objects.get(pk=1),
                     event_type=event)
                 condition.full_clean()
