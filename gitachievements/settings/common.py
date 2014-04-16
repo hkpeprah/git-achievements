@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     # Third party applications
     'social.apps.django_app.default',
     'tastypie',
+    'south',
     # Add custom apps here
     'app.services',
     'app.achievement',
