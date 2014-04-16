@@ -63,10 +63,10 @@ class BaseCallableModel(models.Model):
             if argument_type is None:
                 convert_to_class = type(args[0])
             else:
-                convert_to_class = getattr(BUILT_IN, argument_type)
+                convert_to_class = getattr(BaseCallableModel.BUILT_IN, argument_type)
             args = list(convert_to_class(arg) for arg in args)
         except (AttributeError, ValueError):
-            return None
+            return False
 
         # iterate over the supported modules
         method = self.get_callable_method()
@@ -76,7 +76,7 @@ class BaseCallableModel(models.Model):
             except (AttributeError, TypeError):
                 continue
 
-        return None
+        return False
 
     def get_callable_method(self):
         """

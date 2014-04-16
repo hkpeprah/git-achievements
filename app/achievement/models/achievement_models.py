@@ -226,7 +226,7 @@ class AttributeCondition(Condition):
             data = find_nested_json(event, attribute)
 
             if data is None:
-                return None
+                return False
 
             elif index < len(qualifiers):
                 if qualifiers[index] is not None:
