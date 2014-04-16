@@ -220,17 +220,19 @@ class AttributeCondition(Condition):
         if self.is_custom():
             return False
 
-        results, qualifiers = [], self.qualifiers
+        results, qualifiers = [], self.qualifiers.all()
 
         for (index, attribute) in enumerate(self.attributes):
-            data = find_nested_json(event, attribute)
+            data = find_nested_json(event, attribute.split('.'))
 
             if data is None:
                 return False
 
             elif index < len(qualifiers):
-                if qualifiers[index] is not None:
-                    data = qualifiers[index](data)
+                data = qualifiers[index](data)
+
+            else:
+                data = qualifiers[0](data)
 
             results.append(data)
 
