@@ -4,16 +4,34 @@
     <br/>
     <section id="getting-started">
         <div class="container text-left">
-            <h1>Getting Started</h1>
-            <p>The first step to using Git Achievements is configuring your organization(s)/repository/repositories to use Git Achievements.  Github has a nice page about adding a <a href="//developer.github.com/webhooks/creating/#setting-up-a-webhook">webhook here</a>.  The steps are simple.
-                <ol>
-                    <li>Follow he Github steps for <a href="//developer.github.com/webhooks/creating/#setting-up-a-webhook">setting up a webhook</a>.</li>
-                    <li>For the endpoint, plug in <kbd>http://git-achievements.com/services/hooks/web</kbd>.</li>
-                    <li>Login to the site to start creating and tracking achievements!</li>
-                </ol>
+            <h1>Coding is Fun! Join Git Achievements.</h1>
+            <p>Git Achievements monitors your repositories, and rewards you for
+                interesting things that you do.
             </p>
-            <br/>
-            <p>Read the <a href="{% url 'faq' %}">Getting Started</a> section of the site to figure out how to configure Git Achievements for your organization or start achieving in your projects/git experience.  If you have any issues or more detailed questions, visit the Github <a href="//github.com/git-achievements/git-achievements">project page</a>.
+            <p>
+                Add us to your list of <a href="//developer.github.com/webhooks/creating/#setting-up-a-webhook">Github Webhooks</a>
+                and start winning achievements!
+                <br/>
+                <br/>
+            </p>
+            <h2>Getting Started</h2>
+            <h3>Step 1: Go to your repository settings</h3>
+            <p><img class="centered" src="{% static 'img/9079.png' %}" alt="Tut"/></p>
+            <h3>Step 2: Enter the webhooks section</h3>
+            <p><img class="centered" src="{% static 'img/9080.png' %}" alt="Tut"/></p>
+            <h3>Step 3: Click "Add Webhook"</h3>
+            <p><img class="centered" src="{% static 'img/9081.png' %}" alt="Tut"/></p>
+            <h3>Step 4: Add <kbd>http://git-achievements.com/services/hooks/web</kbd> like this.</h3>
+            <p><img class="centered" src="{% static 'img/9082.png' %}" alt="Tut"/></p>
+            <h3>Step 5: Authorize your personal account</h3>
+            <p><a href="{% url 'login' %}">Authorize</a> to start tracking.</p>
+            <h3>Step 6: <kbd>enjoyment++;</kbd></h3>
+            <p>Code to win!
+                <br/>
+                To get more help, read the <a href="{% url 'faq' %}">Getting Started</a> section of the site to figure out
+                how to configure Git Achievements for your organization or start achieving in your projects/git experience.
+                If you have any issues or more detailed questions, visit the Github
+                <a href="//github.com/git-achievements/git-achievements">project page</a>.
             </p>
         </div>
     </section>

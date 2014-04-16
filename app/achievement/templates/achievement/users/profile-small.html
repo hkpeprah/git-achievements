@@ -3,7 +3,7 @@
         <span class="rank">{{ rank }}</span>
     {% endif %}
     <div class="details">
-        <img src="{{ user.attributes.avatar_url }}" alt="{{ user.username }}'s gravatar" />
+        <img src="{{ user.attributes.avatar_url|safe }}" alt="{{ user.username }}'s gravatar" />
     </div>
     <div class="details">
         <a href="{% url 'view_profile' username=user.username %}" class="name">{{ user.username }}</a>

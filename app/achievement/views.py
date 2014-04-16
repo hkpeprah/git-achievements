@@ -103,7 +103,7 @@ def create_achievement(request):
                 conditions.append(condition)
 
             if len(conditions) == 0:
-                raise ValidationError("Atleast one condition must be added for the achievement.")
+                raise ValidationError("At least one condition must be added for the achievement.")
 
         except (ObjectDoesNotExist, ValidationError) as e:
             if isinstance(e, ValidationError):
