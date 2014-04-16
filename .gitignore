@@ -20,8 +20,5 @@ include/
 lib/
 
 # Custom files and settings
+static/
 gitachievements/settings/custom.py
-static/achievement/
-static/admin/
-static/bootstrap/
-static/services/
