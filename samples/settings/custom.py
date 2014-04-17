@@ -56,9 +56,3 @@ DATABASES = {
 ALLOWED_HOSTS = (
     '.git-achievements.com',
 )
-
-# We shouldn't be serving staticfiles through Django in production, so to avoid that we set the
-# STATIC_ROOT and run collectstatic on deployment
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-STATICFILES_DIRS = (
-)
