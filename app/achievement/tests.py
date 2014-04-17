@@ -152,3 +152,11 @@ class AchievementTestCase_01(TestCase):
         }
         unlocked = check_for_unlocked_achievements('download', payload)
         self.assertTrue(len(unlocked) == 0, 'Achievement should not be unlocked based on qualifier.')
+
+
+class CustomConditionTestCase_01(TestCase):
+    """
+    Tests custom conditions.  For any custom condition added, it should have an equivalent test.
+    """
+    def setUp(self):
+        pass
