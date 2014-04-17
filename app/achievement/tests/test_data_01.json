@@ -1,0 +1,261 @@
+[
+    {
+        "pk": 1,
+        "model": "auth.User",
+        "fields": {
+            "username": "doug",
+            "password": "password"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.Difficulty",
+        "fields": {
+            "name": "easy",
+            "description": "",
+            "points": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.ConditionType",
+        "fields": {
+            "name": "Non-custom",
+            "description": "",
+            "custom": false
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.AchievementType",
+        "fields": {
+            "name": "Non-custom",
+            "custom": false
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.Qualifier",
+        "fields": {
+            "name": "string length",
+            "description": "",
+            "callablemethod": "__len__",
+            "argument_type": "str"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.Quantifier",
+        "fields": {
+            "name": "any",
+            "description": "",
+            "callablemethod": "any",
+            "argument_type": "list"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.Method",
+        "fields": {
+            "name": "equal",
+            "description": "equality check",
+            "callablemethod": "__eq__"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "services.event",
+        "fields": {
+            "attributes": {
+                "commits": [
+                    {
+                        "url": "url",
+                        "sha": "str",
+                        "message": "str",
+                        "distinct": "bool",
+                        "author": {
+                            "name": "str",
+                            "email": "str"
+                        }
+                    }
+                ],
+                "head": "str",
+                "ref": "str",
+                "size": "int"
+            },
+            "name": "push",
+            "service": "Github",
+            "payload": {
+                "commits": [
+                    {
+                        "url": "url",
+                        "sha": "string",
+                        "message": "string",
+                        "distinct": "boolean",
+                        "author": {
+                            "name": "string",
+                            "email": "string"
+                        }
+                    }
+                ],
+                "head": "string",
+                "ref": "string",
+                "size": "integer"
+            }
+        }
+    },
+    {
+        "pk": 2,
+        "model": "services.event",
+        "fields": {
+            "attributes": {
+                "download": {
+                    "description": "str",
+                    "url": "str",
+                    "html_url": "str",
+                    "name": "str",
+                    "content_type": "str",
+                    "download_count": "int",
+                    "id": "int",
+                    "size": "int"
+                }
+            },
+            "name": "download",
+            "service": "Github",
+            "payload": {
+                "download": {
+                    "description": "Description of your download",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/downloads/1",
+                    "html_url": "https://github.com/repos/octocat/Hello-World/downloads/new_file.jpg",
+                    "name": "new_file.jpg",
+                    "content_type": ".jpg",
+                    "download_count": 40,
+                    "id": 1,
+                    "size": 1024
+                }
+            }
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.ValueCondition",
+        "fields": {
+            "description": "Push was forced.",
+            "attribute": "action",
+            "value": "forced",
+            "condition_type": 1,
+            "method": 1,
+            "event_type": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "achievement.ValueCondition",
+        "fields": {
+            "description": "Download file names are length 5.",
+            "method": 1,
+            "event_type": 2,
+            "condition_type": 1,
+            "attribute": "download.files.name",
+            "value": "5",
+            "qualifier": 1,
+            "quantifier": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.AttributeCondition",
+        "fields": {
+            "description": "Download's html_url same length as url",
+            "method": 1,
+            "event_type": 2,
+            "condition_type": 1,
+            "attributes": [
+                "download.html_url",
+                "download.url"
+            ],
+            "qualifiers": [
+                1
+            ]
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.Achievement",
+        "fields": {
+            "name": "I am the Heavy!",
+            "description": "",
+            "achievement_type": 1,
+            "difficulty": 1,
+            "grouping": "__and__",
+            "active": true
+        }
+    },
+    {
+        "pk": 2,
+        "model": "achievement.Achievement",
+        "fields": {
+            "name": "Mathing download urls length",
+            "description": "",
+            "achievement_type": 1,
+            "difficulty": 1,
+            "grouping": "__and__",
+            "active": true
+        }
+    },
+    {
+        "pk": 3,
+        "model": "achievement.Achievement",
+        "fields": {
+            "name": "Any condition will do",
+            "description": "",
+            "achievement_type": 1,
+            "difficulty": 1,
+            "grouping": "__or__",
+            "active": true
+        }
+    },
+    {
+        "pk": 1,
+        "model": "achievement.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "achievement",
+                "valuecondition"
+            ],
+            "object_id": 1,
+            "achievements": [
+                1
+            ]
+        }
+    },
+    {
+        "pk": 2,
+        "model": "achievement.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "achievement",
+                "attributecondition"
+            ],
+            "object_id": 1,
+            "achievements": [
+                2,
+                3
+            ]
+        }
+    },
+    {
+        "pk": 3,
+        "model": "achievement.AchievementCondition",
+        "fields": {
+            "content_type": [
+                "achievement",
+                "valuecondition"
+            ],
+            "object_id": 2,
+            "achievements": [
+                3
+            ]
+        }
+    }
+]
