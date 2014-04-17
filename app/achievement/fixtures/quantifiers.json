@@ -5,7 +5,7 @@
         "fields": {
             "name": "all",
             "description": "All the values satisfy the condition.",
-            "callablemethod": "__all__",
+            "callablemethod": "all",
             "argument_type": "list"
         }
     },
@@ -15,7 +15,7 @@
         "fields": {
             "name": "any",
             "description": "Any of the value satisfy the condition.",
-            "callablemethod": "__any__",
+            "callablemethod": "any",
             "argument_type": "list"
         }
     }

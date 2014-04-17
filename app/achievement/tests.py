@@ -3,51 +3,68 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from app.services.models import Event
+from app.achievement.utils import find_nested_json
 from app.achievement.hooks import check_for_unlocked_achievements
 from app.achievement.models import (Achievement, UserProfile, ConditionType, ValueCondition,
                                     Method, AchievementType, Difficulty, AchievementCondition,
                                     Qualifier, Quantifier, AttributeCondition)
 
 
-class AchievementTestCase(TestCase):
+class AchievementTestCase_01(TestCase):
     """
-    Generic Achievement Test Suite to ensure they work.
+    Generic Achievement Test Suite to ensure they work.  Since all tests run in a transaction we
+    don't have to worry about deleting the database objects created here.
     """
     def setUp(self):
         # Create the User object and other objects without relations
-        User.objects.create(username="doug", password="password")
-        Difficulty.objects.create(name="easy", description="", points=1)
-        Method.objects.get_or_create(name="equal", callablemethod="__eq__")
-        Event.objects.get_or_create(name="push")
-        Event.objects.get_or_create(name="download")
+        user = User.objects.create(username="doug", password="password")
+        difficulty = Difficulty.objects.create(name="easy", description="", points=1)
+        equality = Method.objects.get_or_create(name="equal", callablemethod="__eq__")[0]
+        push_event = Event.objects.get_or_create(name="push")[0]
+        download_event = Event.objects.get_or_create(name="download")[0]
 
         # Create the types of Achievements and Conditions
-        ConditionType.objects.create(name="Non-custom", description="", custom=False)
-        AchievementType.objects.create(name="Non-custom", custom=False)
-        Qualifier.objects.create(name="string length", description="", callablemethod="__len__", argument_type="str")
-        Quantifier.objects.create(name="any", description="", callablemethod="__any__", argument_type="list")
+        condition_type = ConditionType.objects.create(name="Non-custom", description="", custom=False)
+        achievement_type = AchievementType.objects.create(name="Non-custom", custom=False)
+        qualifier = Qualifier.objects.create(name="string length", description="", callablemethod="__len__", argument_type="str")
+        quantifier = Quantifier.objects.create(name="any", description="", callablemethod="any", argument_type="list")
 
-        # Create the conditions for the Achievements
-        ValueCondition.objects.create(description="Push was forced.", method=Method.objects.get(callablemethod="__eq__"),
-            condition_type=ConditionType.objects.get(pk=1), attribute="action", value="forced",
-            event_type=Event.objects.get(name="push"))
-        AttributeCondition.objects.create(description="", method=Method.objects.get(callablemethod="__eq__"),
-            event_type=Event.objects.get(name="download"), condition_type=ConditionType.objects.get(pk=1),
-            attributes=["download.html_url", "download.url"])
+        # Create a value condition
+        value_condition1 = ValueCondition.objects.create(description="Push was forced.", method=equality,
+            condition_type=condition_type, attribute="action", value="forced", event_type=push_event)
 
-        AttributeCondition.objects.get(pk=1).qualifiers.add(Qualifier.objects.get(pk=1))
+        # Create an attribute condition and give it a qualifier
+        attribute_condition1 = AttributeCondition.objects.create(description="Download's html_url same length as url", method=equality,
+            event_type=download_event, condition_type=condition_type, attributes=["download.html_url", "download.url"])
+        attribute_condition1.qualifiers.add(qualifier)
 
-        Achievement.objects.create(name="", achievement_type=AchievementType.objects.get(pk=1),
-            difficulty=Difficulty.objects.get(name="easy"), active=True, grouping="__and__", description="")
+        # Create a value condition that uses a quantifier
+        value_condition2 = ValueCondition.objects.create(description="Download file names are length 5.", method=equality,
+            event_type=download_event, condition_type=condition_type, attribute="download.files.name", value="5",
+            quantifier=quantifier, qualifier=qualifier)
 
-        AchievementCondition.objects.create(content_object=ValueCondition.objects.get(pk=1))
-        AchievementCondition.objects.get(pk=1).achievements.add(Achievement.objects.get(pk=1))
+        # Add an achievement that uses the value condition as it's condition
+        achievement1 = Achievement.objects.create(name="I am the Heavy!", achievement_type=achievement_type,
+            difficulty=difficulty, active=True, grouping="__and__", description="")
 
-        Achievement.objects.create(name="", achievement_type=AchievementType.objects.get(pk=1),
-            difficulty=Difficulty.objects.get(name="easy"), active=True, grouping="__and__", description="")
+        achievement_condition1 = AchievementCondition.objects.create(content_object=value_condition1)
+        achievement_condition1.achievements.add(achievement1)
 
-        AchievementCondition.objects.create(content_object=AttributeCondition.objects.get(pk=1))
-        AchievementCondition.objects.get(pk=2).achievements.add(Achievement.objects.get(pk=2))
+        # Add an achievement that uses the attribute condition as it's condition
+        achievement2 = Achievement.objects.create(name="Matching download urls length", achievement_type=achievement_type,
+            active=True, grouping="__and__", description="", difficulty=difficulty)
+
+        achievement_condition2 = AchievementCondition.objects.create(content_object=attribute_condition1)
+        achievement_condition2.achievements.add(achievement2)
+
+        # Add an achievement with multiple conditions as well as a condition that uses a quantifier
+        # to ensure this works properly
+        achievement3 = Achievement.objects.create(name="Any condition will do", achievement_type=achievement_type,
+            active=True, grouping="__or__", description="", difficulty=difficulty)
+
+        achievement_condition3 = AchievementCondition.objects.create(content_object=value_condition2)
+        achievement_condition3.achievements.add(achievement3)
+        achievement_condition2.achievements.add(achievement3)
 
     def test_profile_exists(self):
         u = User.objects.get(username="doug")
@@ -95,7 +112,24 @@ class AchievementTestCase(TestCase):
         """
         Tests that quantifiers actually work.
         """
-        pass
+        payload = {
+            'download': {
+                'files': [
+                    {
+                        'name': "a.txt"
+                    },
+                    {
+                        'name': "b.txtp"
+                    }
+                ]
+            }
+        }
+
+        self.assertEqual(["a.txt", "b.txtp"], find_nested_json(payload, "download.files.name".split('.')),
+                         "Nested json results should match the values in the list.")
+
+        unlocked = check_for_unlocked_achievements('download', payload)
+        self.assertTrue(len(unlocked) == 1, 'Achievement was unlocked via quantifer and __or__')
 
     def test_qualifiers_01(self):
         """
@@ -108,7 +142,7 @@ class AchievementTestCase(TestCase):
             }
         }
         unlocked = check_for_unlocked_achievements('download', payload)
-        self.assertTrue(len(unlocked) == 1, 'Achievement should be unlocked based on qualifier.')
+        self.assertTrue(len(unlocked) == 2, 'Achievement should be unlocked based on qualifier.')
 
         payload = {
             'download': {

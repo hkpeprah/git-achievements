@@ -395,7 +395,7 @@ class Achievement(BaseModel):
         """
         if not satisfied:
             satisfied = []
-        passed = True
+        passed = None
         grouping = getattr(bool, self.grouping)
 
         if self.is_custom():
@@ -405,9 +405,12 @@ class Achievement(BaseModel):
             if cond.id not in satisfied:
                 if not cond.type == event:
                     return False
-                passed = grouping(passed, cond(payload))
+                elif passed is None:
+                    passed = cond(payload)
+                else:
+                    passed = grouping(passed, cond(payload))
 
-        return passed
+        return passed if passed is not None else False
 
     def __unicode__(self):
         return "%s: %s"%(self.name, self.achievement_type)
