@@ -127,7 +127,28 @@ class Application extends Object
 
         result
 
+    debugEnabled: () ->
+        debug = parseInt @getQueryStringValue('debug'), 10
+        debug > 0
 
+    getQueryStringValue: (query) ->
+        pattern = new RegExp("[\\?&]#{query}=([^&#]*)")
+        results = pattern.exec(location.search)
+        if results
+            decodeURIComponent(results[1].replace(/\+/g, ' '))
+        else
+            ''
+
+###
+# Placeholder for Views and Models
+###
+Application.Views = {}
+Application.Models = {}
+
+
+###
+# Application Models
+####
 class Application.Models.Event extends Backbone.Model
     # Represents an event/payload combination supported by the Application
     initialize: (opts) ->
@@ -173,11 +194,6 @@ class Application.Models.Event extends Backbone.Model
     getJSON: () ->
         # We just need the event's attribute
         @model.get 'event-attribute'
-
-
-Application.Views = {}
-
-Application.Models = {}
 
 
 class Application.Models.EventCollection extends Backbone.Collection
@@ -244,6 +260,9 @@ class Application.Models.Badge extends Backbone.Model
         description: @get('description')
 
 
+###
+# Application Views
+###
 class Application.Views.BadgeForm extends Backbone.View
     # Subform for creating a badge
     el: 'fieldset'
@@ -341,3 +360,5 @@ class Application.Views.CustomConditionForm extends Backbone.View
 
 do (window, $ = window.$ || window.jQuery, Backbone = window.Backbone) ->
     window.App = new Application()
+    console.log '%cGit Achievements', "color: #666; font-size: x-large; font-family 'Comic Sans', serif;"
+    console.log '\u00A9 Ford Peprah, 2013-2014'

@@ -521,7 +521,6 @@ function sameOrigin(url) {
     });
 
     $('body').ready(function () {
-        console.log("%cGit Achievements", "color: #666; font-size: x-large; font-family: 'Open-Sans', sans-serif;");
         GitAchievements = new App();
     });
 })(window, window.$ || window.jQuery, window.FormData);
