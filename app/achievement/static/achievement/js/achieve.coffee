@@ -62,7 +62,6 @@ class Application extends Object
 
     constructor: (options) ->
         @$ = (window.$ || window.jQuery)
-        @initializeEventData()
 
     getCookie: (name) ->
         cookieValue = null
@@ -128,13 +127,8 @@ class Application extends Object
 
         result
 
-    initializeEventData: () ->
-        # Grabs the event data from the application's API
-        @events = new Application.EventCollection()
-        @events.fetch()
 
-
-class Application.Event extends Backbone.Model
+class Application.Models.Event extends Backbone.Model
     # Represents an event/payload combination supported by the Application
     initialize: (opts) ->
         @name = opts.name
@@ -176,56 +170,78 @@ class Application.Event extends Backbone.Model
             eventData = tmp
         $.map eventData, ((value, key) -> key)
 
-    getJson: () ->
+    getJSON: () ->
         # We just need the event's attribute
         @model.get 'event-attribute'
 
 
-class Application.EventCollection extends Backbone.Collection
+Application.Views = {}
+
+Application.Models = {}
+
+
+class Application.Models.EventCollection extends Backbone.Collection
     # A collection of events that the Application supports
     url: API_ROOT.format('event')
-    model: Application.Event
+    model: Application.Models.Event
 
     parse: (response) ->
         response.objects || []
 
 
-class Application.Method extends Backbone.Model
+class Application.Models.Method extends Backbone.Model
     # Different methods supported by the application, should be typechecked by the view
     # to ensure the attribute and method types match
     type: () ->
         @get('argument_type')
 
-    getJson: () ->
+    getJSON: () ->
         # Since we can't create methods in forms, the "json" of a
         # method is just it's id.
         @get 'id'
 
 
-class Application.MethodCollection extends Backbone.Collection
+class Application.Models.MethodCollection extends Backbone.Collection
     # Collection of methods/functions
     url: API_ROOT.format('method')
-    model: Application.Method
+    model: Application.Models.Method
 
     parse: (response) ->
         response.objects || []
 
 
-class Application.Condition extends Backbone.Model
+class Application.Models.Difficulty extends Backbone.Model
+    getJSON: () ->
+        @get 'id'
+
+
+class Application.Models.DifficultyCollection extends Backbone.Collection
+    url: API_ROOT.format('difficulty')
+    model: Application.Models.Difficulty
+
+
+class Application.Models.AchievementType extends Backbone.Model
+    getJSON: () ->
+        @get 'id'
+
+
+class Application.Models.AchievementTypeCollection extends Backbone.Collection
+    url: API_ROOT.format('achievementtype')
+    model: Application.Models.AchievementType
+
+
+class Application.Models.Condition extends Backbone.Model
     # Represents a generic condition, this class does not know what type of condiition
     # it represents, it's up for the callee to determine
-    getJson: () ->
+    getJSON: () ->
         $.extend true, {}, @attributes
 
 
-class Application.Badge extends Backbone.Model
+class Application.Models.Badge extends Backbone.Model
     # Represents a Badge object
-    getJson: () ->
+    getJSON: () ->
         name: @get('name'),
         description: @get('description')
-
-
-Application.Views = {}
 
 
 class Application.Views.BadgeForm extends Backbone.View
@@ -246,9 +262,12 @@ class Application.Views.BadgeForm extends Backbone.View
         else
             @model.set(name, target.val())
 
+    serialize: () ->
+        @model.getJSON()
 
-class Application.Views.EventView extends Backbone.View
-    # A EventView is a select of the various Event attributes
+
+class Application.Views.EventSelect extends Backbone.View
+    # A EventSelect is a select of the various Event attributes
     # belonging to an event
     el: 'select'
     className: ''
@@ -268,6 +287,49 @@ class Application.Views.EventView extends Backbone.View
             $el.append option
 
         @$el.select2()
+
+
+class Application.Views.DifficultySelect extends Backbone.View
+    # Displays a sleect for a Difficulty collection, does not require a
+    # template as it displays as a select
+    el: 'select'
+    className: ''
+    events:
+        'onChange': "onChange"
+
+    initialize: (opts) ->
+        @collection = new Backbone.DifficultyCollection()
+        @collection.fetch()
+        @model = @collection
+
+    onChange: (ev) ->
+        selected = @$el.find('option:selected')
+        model = @collection.get selected.val()
+        @trigger 'difficulty:change', model
+
+    render: () ->
+        # The model for this is actually a collection
+        for model in @collection.models
+            option = $('<option></option>')
+            option.val(model.cid)
+            option.text(model.get('name').toTitleCase())
+            @$el.append(option)
+
+        @$el.select2()
+
+
+class Application.Views.AchievementTypeSelect extends Application.Views.DifficultySelect
+    # Essentially the same as a DifficultySelect excepts uses a different collection
+    # and triggers a different thing
+    initialize: (opts) ->
+        @collection = new Backbone.AchievementTypeCollection()
+        @collection.fetch()
+        @model = @collection
+
+    onChange: (ev) ->
+        selected = @$el.find('option:selected')
+        model = @collection.get selected.val()
+        @trigger 'achievement:type:change', model
 
 
 class Application.Views.CustomConditionForm extends Backbone.View
