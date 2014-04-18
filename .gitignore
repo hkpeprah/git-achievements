@@ -7,6 +7,7 @@
 
 # Sass/Less/CSS
 app/**/*.css
+app/achievement/static/achievement/js/achieve.js
 *.sass-cache
 */**/.sass-cache
 
