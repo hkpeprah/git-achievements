@@ -1,5 +1,12 @@
 ###
- * TODO: Finish the transition to exoskeleton.js
+# GitAchievements Application - achievements.(coffee|js)
+# author: Ford Peprah
+# copyright (C) Git Achievements 2013-2014
+#
+# Dependencies:
+#     jQuery   - jquery.js
+#     select2  - select2.js
+#     Backbone - exoskeleton.js
 ###
 
 
