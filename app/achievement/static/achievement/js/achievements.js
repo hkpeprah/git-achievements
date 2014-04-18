@@ -507,7 +507,7 @@
       $.each(this.model.getAttributes(type), function(index, attribute) {
         var name, option;
         name = attribute.attribute;
-        option = $('<opton></option>').attr('value', attribute.attribute).data('type', attribute.type).text("" + event_name + "'s " + name);
+        option = $('<option></option>').val(attribute.attribute).data('type', attribute.type).text("" + event_name + "'s " + name);
         return $el.append(option);
       });
       this.$el.select2();

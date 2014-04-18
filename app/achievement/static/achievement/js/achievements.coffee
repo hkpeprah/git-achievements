@@ -359,11 +359,12 @@ class Application.Views.EventAttributeSelect extends Backbone.View
         $el = @$el
         @$el.select2('destroy')
         @$el.children().remove()
+
         event_name = @model.get('name').replace(/[\._]/g, " ").toTitleCase()
         $.each @model.getAttributes(type), (index, attribute) ->
             name = attribute.attribute
-            option = $('<opton></option>')
-                .attr('value', attribute.attribute)
+            option = $('<option></option>')
+                .val(attribute.attribute)
                 .data('type', attribute.type)
                 .text("#{event_name}'s #{name}")
             $el.append option
