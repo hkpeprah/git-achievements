@@ -7,7 +7,8 @@
 (function() {
   var API_ROOT, Application,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   RegExp.escape = function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -40,7 +41,9 @@
     string = this;
     peices = string.split(" ");
     for (i = _i = 0, _ref = peices.length - 1; _i <= _ref; i = _i += 1) {
-      peices[i] = peices[i][0].toUpperCase() + peices[i].substr(1);
+      if (peices[i].length) {
+        peices[i] = peices[i][0].toUpperCase() + peices[i].substr(1);
+      }
     }
     return peices.join(" ");
   };
@@ -176,13 +179,13 @@
 
     Application.prototype.uniqueId = function() {
       var characters, id, maxlen;
-      characters = 'abcdefghijklmnopqrstuvwxyz'.split(' ').concat('0123456789'.split(' '));
+      characters = 'abcdefghijklmnopqrstuvwxyz'.split('').concat('0123456789'.split(''));
       id = null;
       maxlen = 10;
       while (id === null || $('#' + id).length) {
-        id = this.shuffle(characters).slice(0, maxlen);
+        id = this.shuffle(characters).slice(0, maxlen).join("");
       }
-      return id.join("");
+      return id;
     };
 
     return Application;
@@ -460,20 +463,17 @@
     __extends(EventAttributeSelect, _super);
 
     function EventAttributeSelect() {
+      this.onChange = __bind(this.onChange, this);
       return EventAttributeSelect.__super__.constructor.apply(this, arguments);
     }
 
-    EventAttributeSelect.prototype.el = 'select';
+    EventAttributeSelect.prototype.tagName = 'select';
 
     EventAttributeSelect.prototype.className = '';
 
-    EventAttributeSelect.prototype.events = {
-      'change': "onChange"
-    };
-
     EventAttributeSelect.prototype.onChange = function() {
       var selected;
-      selected = this.$el.find('option:selected');
+      selected = this.$('option:selected');
       return this.trigger('change', {
         attribute: selected.val(),
         type: selected.data('type')
@@ -494,20 +494,22 @@
         this.$el.html();
       }
       this.$el.attr('id', this.model.cid);
+      this.$el.on('change', this.onChange);
       return this.filter();
     };
 
     EventAttributeSelect.prototype.filter = function(type) {
       var $el, event_name;
       $el = this.$el;
-      event_name = this.model.get('name').replace(/\._/g, " ").toTitleCase();
-      $.each(this.model.getAttributes(type), function(attribute) {
+      this.$el.select2('destroy');
+      this.$el.children().remove();
+      event_name = this.model.get('name').replace(/[\._]/g, " ").toTitleCase();
+      $.each(this.model.getAttributes(type), function(index, attribute) {
         var name, option;
-        name = attribute.attribute.replace(/\./g, "'s ").replace(/_/g, " ");
+        name = attribute.attribute;
         option = $('<opton></option>').attr('value', attribute.attribute).data('type', attribute.type).text("" + event_name + "'s " + name);
         return $el.append(option);
       });
-      this.$el.select2('destroy');
       this.$el.select2();
       return this;
     };
@@ -520,14 +522,11 @@
     __extends(DifficultySelect, _super);
 
     function DifficultySelect() {
+      this.onChange = __bind(this.onChange, this);
       return DifficultySelect.__super__.constructor.apply(this, arguments);
     }
 
     DifficultySelect.prototype.tagName = 'select';
-
-    DifficultySelect.prototype.events = {
-      'change': "onChange"
-    };
 
     DifficultySelect.prototype.initialize = function(opts) {
       this.collection = new Application.Models.DifficultyCollection();
@@ -536,7 +535,7 @@
 
     DifficultySelect.prototype.onChange = function(ev) {
       var model, selected;
-      selected = this.$el.find('option:selected');
+      selected = this.$('option:selected');
       model = this.collection.get(selected.val());
       return this.trigger('change', model);
     };
@@ -552,10 +551,15 @@
           model = _ref[_i];
           option = $('<option></option>');
           option.val(model.cid);
-          option.text(model.get('name').toTitleCase());
+          option.text(model.get('name').replace(/[\._]/g, ' ').toTitleCase());
           self.$el.append(option);
         }
-        return self.$el.attr('id', Application.uniqueId()).select2();
+        if (self.onRender) {
+          self.onRender();
+        }
+        self.$el.attr('id', Application.uniqueId()).select2();
+        self.$el.on('change', self.onChange);
+        return self.$el.change();
       });
       return this;
     };
@@ -599,6 +603,22 @@
 
   })(Application.Views.DifficultySelect);
 
+  Application.Views.EventSelect = (function(_super) {
+    __extends(EventSelect, _super);
+
+    function EventSelect() {
+      return EventSelect.__super__.constructor.apply(this, arguments);
+    }
+
+    EventSelect.prototype.initialize = function(opts) {
+      this.collection = new Application.Models.EventCollection();
+      return this.model = this.collection;
+    };
+
+    return EventSelect;
+
+  })(Application.Views.DifficultySelect);
+
   Application.Views.AchievementTypeSelect = (function(_super) {
     __extends(AchievementTypeSelect, _super);
 
@@ -627,6 +647,10 @@
       return this.model = this.collection;
     };
 
+    ConditionSelect.prototype.onRender = function() {
+      return this.$el.css('width', '100%');
+    };
+
     return ConditionSelect;
 
   })(Application.Views.DifficultySelect);
@@ -635,6 +659,7 @@
     __extends(BadgeForm, _super);
 
     function BadgeForm() {
+      this.onChange = __bind(this.onChange, this);
       return BadgeForm.__super__.constructor.apply(this, arguments);
     }
 
@@ -644,11 +669,9 @@
 
     BadgeForm.prototype.className = 'rounded-box';
 
-    BadgeForm.prototype.events = {
-      'change input': "onChange",
-      'keyup textarea': "onChange",
-      'paste textarea': "onChange",
-      'change textarea': "onChange"
+    BadgeForm.prototype.attachListeners = function() {
+      this.$el.on('change keyup paste', 'textarea, input', this.onChange);
+      return this;
     };
 
     BadgeForm.prototype.initialize = function() {
@@ -668,6 +691,18 @@
 
     BadgeForm.prototype.serialize = function() {
       return this.model.getJSON();
+    };
+
+    BadgeForm.prototype.render = function() {
+      var className, _i, _len, _ref;
+      this.$el = $(document.createElement(this.tagName));
+      this.$el.html($(this.template).html().template(this.model.attributes));
+      _ref = this.className.split(' ');
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        className = _ref[_i];
+        this.$el.addClass(className);
+      }
+      return this.attachListeners();
     };
 
     return BadgeForm;
@@ -692,7 +727,7 @@
     };
 
     CustomConditionForm.prototype.render = function() {
-      var className, selector, _i, _len, _ref;
+      var className, condition, selector, _i, _len, _ref;
       this.$el = $(document.createElement(this.tagName));
       _ref = this.className.split(' ');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -700,12 +735,12 @@
         this.$el.addClass(className);
       }
       this.$el.html($(this.template).html().template({
-        'id': this.id
+        id: this.id
       }));
-      selector = regions.condition ? this.$(regions.condition) : this.$el;
-      this.regions.condition = new Application.Views.ConditionSelect();
-      this.listenTo(this.regions.condition, 'change', this.conditionChange);
-      selector.append(regions.condition.render().$el);
+      selector = this.regions.condition ? this.$(this.regions.condition) : this.$el;
+      condition = new Application.Views.ConditionSelect();
+      this.listenTo(condition, 'change', this.conditionChange);
+      selector.append(condition.render().$el);
       return this;
     };
 
@@ -759,27 +794,34 @@
         className = _ref[_i];
         this.$el.addClass(className);
       }
-      this.$el.html($(this.template).html().template(this.model.attributes));
-      view = new Application.Views.EventAttributeSelect(this.model);
+      this.$el.html($(this.template).html().template($.extend(true, {}, this.model.attributes, {
+        id: this.id
+      })));
+      this.subviews = {};
+      view = new Application.Views.EventAttributeSelect({
+        model: this.model
+      });
+      this.subviews.attribute = view;
       this.$(this.regions.attribute).append(view.render().$el);
-      this.regions.attribute = view;
+      view.$el.css('width', '100%');
       this.listenTo(view, 'change', function(attribute) {
         self.data.attribute = attribute.attribute;
-        return self.regions.method.filter(attribute.type);
+        return self.subviews.method.filter(attribute.type);
       });
       view = new Application.Views.MethodSelect();
+      this.subviews.method = view;
       this.$(this.regions.method).append(view.render().$el);
-      this.regions.method = view;
+      view.$el.css('width', '100%');
       this.listenTo(view, 'change', function(method) {
         self.data.method = method.get('id');
-        return self.regions.attribute.filter(method.get('argument_type'));
+        return self.subviews.attribute.filter(method.get('argument_type'));
       });
       view = $('<input></input>');
       this.$(this.regions.value).append(view);
-      this.regions.value = view;
+      this.subviews.value = view;
       view = $('<input></input>');
       this.$(this.regions.description).append(view);
-      this.regions.description = view;
+      this.subviews.description = view;
       return this;
     };
 
@@ -787,9 +829,9 @@
       return $.extend(true, {}, {
         method: self.data.method,
         attribute: self.data.attribute,
-        value: this.regions.value.val(),
+        value: this.subviews.value.val(),
         event_type: this.model.get('event_type'),
-        description: this.regions.description.val()
+        description: this.subviews.description.val()
       });
     };
 
@@ -801,6 +843,9 @@
     __extends(AchievementForm, _super);
 
     function AchievementForm() {
+      this.addCondition = __bind(this.addCondition, this);
+      this.addBadge = __bind(this.addBadge, this);
+      this.eventChange = __bind(this.eventChange, this);
       return AchievementForm.__super__.constructor.apply(this, arguments);
     }
 
@@ -818,24 +863,34 @@
       'conditions': "#conditions",
       'badge': "#badge",
       'type': "#type",
+      'event': '#event',
       'description': "#description",
       'name': "#name",
       'difficulty': "#difficulty",
       'grouping': "#grouping"
     };
 
-    AchievementForm.prototype.events = {
-      'click .js-add-condition': "addCondition",
-      'click .js-add-badge': "addBadge"
-    };
-
     AchievementForm.prototype.initialize = function(opts) {
       return this.data = {};
     };
 
+    AchievementForm.prototype.attachListeners = function() {
+      this.$el.on('click', '.js-add-condition', this.addCondition);
+      this.$el.on('click', '.js-add-badge', this.addBadge);
+      return this;
+    };
+
+    AchievementForm.prototype.eventChange = function(model) {
+      this.event = model;
+      this.regions.conditions.empty();
+      return this;
+    };
+
     AchievementForm.prototype.addBadge = function() {
       if (!this.data.badge) {
-        this.data.badge = new Application.Views.BadgeForm();
+        this.data.badge = new Application.Views.BadgeForm({
+          model: new Application.Models.Badge()
+        });
         this.regions.badge.append(this.data.badge.render().$el);
         return this.listenTo(this.data.badge, 'remove', this.addBadge);
       } else {
@@ -848,7 +903,7 @@
       form = void 0;
       target = $(ev.currentTarget);
       name = target.data('condition');
-      newId = this.regions.conditions.length + 1;
+      newId = this.regions.conditions.children().length + 1;
       if (name === 'custom') {
         if ((_base = this.data)['custom-conditions'] == null) {
           _base['custom-conditions'] = [];
@@ -862,14 +917,15 @@
           _base1['value-conditions'] = [];
         }
         form = new Application.Views.ValueConditionForm({
-          'id': newId
+          'id': newId,
+          'model': this.event
         });
         this.data['value-conditions'].push(form);
       } else {
         console.warn('getConditionType called with unknown condition');
       }
       if (form !== void 0) {
-        return this.regions.conditions.append(condition.render().$el);
+        return this.regions.conditions.append(form.render().$el);
       }
     };
 
@@ -913,8 +969,14 @@
         }
         return self.data.achievement.difficulty = model.get('id');
       });
+      select = new Application.Views.EventSelect();
+      $el = select.render().$el;
+      region = this.$(this.regions.event);
+      $el.css('width', "300px").attr('name', region.attr('name')).attr('id', region.attr('id'));
+      region.replaceWith($el);
+      this.listenTo(select, 'change', this.eventChange);
       this.regions.grouping.select2();
-      return this;
+      return this.attachListeners();
     };
 
     AchievementForm.prototype.serialize = function() {

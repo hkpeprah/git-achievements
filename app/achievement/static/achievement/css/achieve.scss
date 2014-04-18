@@ -761,12 +761,17 @@ $inlines: block, table;
                 -moz-appearance: menulist-button;
                 -webkit-appearance: menulist-button;
             }
+            &:not(:last-child) {
+                border-bottom-color: transparent;
+            }
             .button {
                 &:last-child {
                     margin-right: 0px;
                 }
             }
-            &:not(:last-child) {
+        }
+        div {
+            > fieldset {
                 border-bottom-color: transparent;
             }
         }
