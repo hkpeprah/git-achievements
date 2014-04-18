@@ -676,3 +676,99 @@ $inlines: block, table;
 .btn-submit {
     text-transform: capitalize;
 }
+
+.messages {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style: none;
+    list-style-type: none;
+    > li {
+        padding: 20px;
+        line-height: 4px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        vertical-align: middle;
+        > .close {
+            margin-top: -10px;
+        }
+    }
+}
+
+.achievement-form {
+    .title {
+        margin-bottom: 20px;
+        text-transform: capitalize;
+    }
+    .placeholder {
+        visibility: hidden;
+    }
+    .badge-example {
+        top: 10px;
+        right: 20px;
+        position: absolute;
+    }
+    form {
+        padding-bottom: 50px;
+        fieldset {
+            padding: 20px;
+            position: relative;
+            box-sizing: border-box;
+            border: 1px solid #DDD;
+            input {
+                min-width: 100%;
+            }
+            label {
+                display: block;
+                font-size: 14px;
+                margin-top: 20px;
+                margin-bottom: 5px;
+                padding-right: 10px;
+                font-weight: bolder;
+            }
+            textarea {
+                width: 100%;
+                resize: none;
+                min-height: 100px;
+            }
+            input[type="submit"] {
+                min-width: 90px;
+            }
+            textarea, input[type="text"] {
+                border-width: 1px;
+                border-style: inherit;
+                border-color: rgb(208, 208, 208);
+            }
+            select {
+                height: 30px;
+                min-width: 300px;
+                padding: 4px 6px;
+                line-height: 30px;
+                margin-bottom: 10px;
+                align-items: center;
+                display: inline-block;
+                vertical-align: middle;
+                background-color: #FFFFFF;
+                border: 1px solid #CCCCCC;
+                border-radius: 4px;
+                -o-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                appearance: menulist-button;
+                -o-appearance: menulist-button;
+                -ms-appearance: menulist-button;
+                -moz-appearance: menulist-button;
+                -webkit-appearance: menulist-button;
+            }
+            .button {
+                &:last-child {
+                    margin-right: 0px;
+                }
+            }
+            &:not(:last-child) {
+                border-bottom-color: transparent;
+            }
+        }
+    }
+}

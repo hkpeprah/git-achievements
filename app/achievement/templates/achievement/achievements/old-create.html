@@ -1,0 +1,130 @@
+{% extends "achievement/base/base.html" %}
+{% load staticfiles %}
+{% block title %}Create New Achievement | Git Achievements{% endblock %}
+{% block content %}
+    <script type="text/template" id="error-msg">
+        <li class="bg-danger">
+            <span class="pull-left"><%= msg %></span>
+            <button type="button" class="close pull-right" aria-hidden="true">&times;</button>
+        </li>
+    </script>
+    <script type="text/template" id="badge">
+        <br/>
+        <fieldset>
+            <h3>Badge</h3>
+            <label for="badge-name">Name</label>
+            <input type="text" name="badge-name" id="badge-name">
+            <br/>
+            <label for="badge-description">Description</label>
+            <textarea placeholder="Add a description for this badge" name="badge-description"></textarea>
+            <div class="badge-example">
+                <div class="pull-left" style="padding: 6px;">
+                    <h4>Preview:</h4>
+                </div>
+                <div class="pull-left">
+                    {% include "achievement/achievements/badge.html" %}
+                </div>
+            </div>
+        </fieldset>
+    </script>
+    <script type="text/template" id="value-cond">
+        <br/>
+        <fieldset>
+            <h4>Condition #<%= id %></h4>
+            <label for="valuecondition-description-<%= id %>">Describe this condition</label>
+            <input type="text" id="valuecondition-description-<%= id %>" name="valuecondition-description-<%= id %>">
+            <div class="col-xs-4">
+                <label for="valuecondition-attribute-<%= id %>">Attribute</label>
+                <select id="valuecondition-attribute-<%= id %>" name="valuecondition-attribute-<%= id %>" style="width: 100%;">
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label for="valuecondition-method-<%= id %>">Method</label>
+                <select id="valuecondition-method-<%= id %>" name="valuecondition-method-<%= id %>" style="width: 100%;">
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label for="valuecondition-value-<%= id %>">Value</label>
+                <input type="text" id="valuecondition-value-<%= id %>" name="valuecondition-value-<%= id %>">
+            </div>
+        </fieldset>
+    </script>
+    <script type="text/template" id="custom-cond">
+        <br/>
+        <fieldset>
+            <h4>Condition #<%= id %></h4>
+            <label for="customcondition-<%= id %>">Select the custom condition</label>
+            <select id="customcondition-<%= id %>" name="customcondition-<%= id %>" style="width: 100%;">
+            </select>
+        </fieldset>
+    </script>
+    <div class="container create-achievement">
+        <ul class="messages">
+        </ul>
+        <h2 class="title">Create a new achievement</h2>
+        <form method="POST" id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
+            {% csrf_token %}
+            <fieldset>
+                <h3>Achievement</h3>
+                <label for="achievement-name">Name</label>
+                <input type="text" name="achievement-name" id="achievement-name">
+                <br/>
+                <label for="achievement-description">Description</label>
+                <textarea name="achievement-description" id="achievement-description" placeholder="Description for the achievement"></textarea>
+                <br/>
+                <label for="achievement-type">Specify the type</label>
+                <span class="text-info">Unsure what type your achievement is?  Usually it's non-custom.</span>
+                <p>
+                    <select name="achievement-type" id="achievement-type" style="width: 300px;"></select>
+                </p>
+                <label for="achievement-difficulty">Set the difficulty</label>
+                <p>
+                    <select name="achievement-difficulty" id="achievement-difficulty" style="width: 300px;"></select>
+                </p>
+                <label for="achievement-grouping">Specify conditions' logical operator</label>
+                <p>
+                    <select name="achievement-grouping" id="achievement-grouping" style="width: 300px;">
+                        <optgroup label="Generic">
+                            <option value="__and__">and</option>
+                            <option value="__or__">or</option>
+                        </optgroup>
+                        <optgroup label="Other">
+                            <option value="__xor__">xor</option>
+                        </optgroup>
+                    </select>
+                </p>
+                <br/>
+                <p>
+                    <span style="padding-right:20px;">Add a badge (optional?)</span>
+                    <button id="create-badge-button" data-create="badge" class="button" type="button" data-target=".badge-placeholder">Add</button>
+                </p>
+            </fieldset>
+            <div class="badge-placeholder">
+                <!-- Badge shows here -->
+            </div>
+            <div class="condition-placeholder">
+                <!-- Conditions show here -->
+            </div>
+            <br/>
+            <fieldset class="text-center">
+                <h3>Add Conditions</h3>
+                <button class="button button-blue" type="button" id="add-value-condition"
+                        data-create="value-cond" data-target=".condition-placeholder">
+                    Value Condition
+                </button>
+                <button class="button button-blue" type="button" id="add-custom-condition"
+                        data-create="custom-cond" data-target=".condition-placeholder">
+                    Custom Condition
+                </button>
+            </fieldset>
+            <br/>
+            <fieldset class="text-center rounded-box">
+                <p>Review the information before you create the Achievement.  Achievements created will not show up until they are
+                   approved, so hold tight.</p>
+                <p>Make sure you have at least one condition for the achievement.</p>
+                <br/>
+                <input type="submit" class="button button-blue" id="submit" value="Create">
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

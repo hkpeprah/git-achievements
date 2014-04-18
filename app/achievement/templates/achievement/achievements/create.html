@@ -1,92 +1,58 @@
 {% extends "achievement/base/base.html" %}
 {% load staticfiles %}
 {% block title %}Create New Achievement | Git Achievements{% endblock %}
-{% block head %}
-    <script type="text/javascript" src="{% static 'achievement/js/achieve-form.js' %}"></script>
-{% endblock %}
 {% block content %}
-    <script type="text/template" id="error-msg">
-        <li class="bg-danger">
-            <span class="pull-left"><%= msg %></span>
-            <button type="button" class="close pull-right" aria-hidden="true">&times;</button>
-        </li>
-    </script>
-    <script type="text/template" id="badge">
-        <br/>
-        <fieldset>
+    <div>
+        <script type="text/template" id="badge-form">
             <h3>Badge</h3>
-            <label for="badge-name">Name</label>
-            <input type="text" name="badge-name" id="badge-name">
+            <label for="badge-name-<%= id %>">Name</label>
+            <input type="text" name="badge-name-<%= id %>" />
             <br/>
-            <label for="badge-description">Description</label>
-            <textarea placeholder="Add a description for this badge" name="badge-description"></textarea>
-            <div class="badge-example">
-                <div class="pull-left" style="padding: 6px;">
-                    <h4>Preview:</h4>
-                </div>
-                <div class="pull-left">
-                    {% include "achievement/achievements/badge.html" %}
-                </div>
-            </div>
-        </fieldset>
-    </script>
-    <script type="text/template" id="value-cond">
-        <br/>
-        <fieldset>
+            <label>Description</label>
+            <label for="badge-description-<%= id %>">Description</label>
+            <textarea placeholder="Add a description for this badge" name="badge-description-<%= id %>"></textarea>
+        </script>
+        <script type="text/template" id="custom-condition-form">
             <h4>Condition #<%= id %></h4>
-            <label for="valuecondition-description-<%= id %>">Describe this condition</label>
-            <input type="text" id="valuecondition-description-<%= id %>" name="valuecondition-description-<%= id %>">
-            <div class="col-xs-4">
-                <label for="valuecondition-attribute-<%= id %>">Attribute</label>
-                <select id="valuecondition-attribute-<%= id %>" name="valuecondition-attribute-<%= id %>" style="width: 100%;">
-                </select>
-            </div>
-            <div class="col-xs-4">
-                <label for="valuecondition-method-<%= id %>">Method</label>
-                <select id="valuecondition-method-<%= id %>" name="valuecondition-method-<%= id %>" style="width: 100%;">
-                </select>
-            </div>
-            <div class="col-xs-4">
-                <label for="valuecondition-value-<%= id %>">Value</label>
-                <input type="text" id="valuecondition-value-<%= id %>" name="valuecondition-value-<%= id %>">
-            </div>
-        </fieldset>
-    </script>
-    <script type="text/template" id="custom-cond">
-        <br/>
-        <fieldset>
+            <label>Select the custom condition</label>
+        </script>
+        <script type="text/template" id="value-condition-form">
             <h4>Condition #<%= id %></h4>
-            <label for="customcondition-<%= id %>">Select the custom condition</label>
-            <select id="customcondition-<%= id %>" name="customcondition-<%= id %>" style="width: 100%;">
-            </select>
-        </fieldset>
-    </script>
-    <div class="container create-achievement">
-        <ul class="messages">
-        </ul>
-        <h2 class="title">Create a new achievement</h2>
-        <form method="POST" id="create-achievement-form" class="achievement-form" post="{% url 'create_achievement' %}">
+            <div class="col-xs-12 condition-description">
+                <label>Describe this condition</label>
+            </div>
+            <div class="col-xs-4 condition-attribute">
+                <label>Attribute</label>
+            </div>
+            <div class="col-xs-4 condition-method">
+                <label>Method</label>
+            </div>
+            <div class="col-xs-4 condition-value">
+                <label>Value</label>
+            </div>
+        </script>
+        <script type="text/template" id="achievement-form">
             {% csrf_token %}
             <fieldset>
                 <h3>Achievement</h3>
-                <label for="achievement-name">Name</label>
-                <input type="text" name="achievement-name" id="achievement-name">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" />
                 <br/>
-                <label for="achievement-description">Description</label>
-                <textarea name="achievement-description" id="achievement-description" placeholder="Description for the achievement"></textarea>
+                <label for="description">Description</label>
+                <textarea name="description" id="description" placeholder="Description for this achievement"></textarea>
                 <br/>
-                <label for="achievement-type">Specify the type</label>
+                <label for="type">Specify the type of achievement</label>
                 <span class="text-info">Unsure what type your achievement is?  Usually it's non-custom.</span>
                 <p>
-                    <select name="achievement-type" id="achievement-type" style="width: 300px;"></select>
+                    <select name="type" id="type"></select>
                 </p>
-                <label for="achievement-difficulty">Set the difficulty</label>
+                <label for="difficulty">Set the difficulty</label>
                 <p>
-                    <select name="achievement-difficulty" id="achievement-difficulty" style="width: 300px;"></select>
+                    <select name="difficulty" id="difficulty"></select>
                 </p>
                 <label for="achievement-grouping">Specify conditions' logical operator</label>
                 <p>
-                    <select name="achievement-grouping" id="achievement-grouping" style="width: 300px;">
+                    <select name="grouping" id="grouping" style="width: 300px;">
                         <optgroup label="Generic">
                             <option value="__and__">and</option>
                             <option value="__or__">or</option>
@@ -96,38 +62,33 @@
                         </optgroup>
                     </select>
                 </p>
-                <br/>
-                <p>
-                    <span style="padding-right:20px;">Add a badge (optional?)</span>
-                    <button id="create-badge-button" data-create="badge" class="button" type="button" data-target=".badge-placeholder">Add</button>
-                </p>
             </fieldset>
-            <div class="badge-placeholder">
-                <!-- Badge shows here -->
-            </div>
-            <div class="condition-placeholder">
-                <!-- Conditions show here -->
-            </div>
-            <br/>
             <fieldset class="text-center">
-                <h3>Add Conditions</h3>
-                <button class="button button-blue" type="button" id="add-value-condition"
-                        data-create="value-cond" data-target=".condition-placeholder">
-                    Value Condition
-                </button>
-                <button class="button button-blue" type="button" id="add-custom-condition"
-                        data-create="custom-cond" data-target=".condition-placeholder">
-                    Custom Condition
-                </button>
+                <h3>Add to this Achievement</h3>
+                <br/>
+                <button class="btn btn-primary js-add-badge" type="button">Badge</button>
+                <button class="btn btn-primary js-add-condition" type="button" data-condition="custom">Custom Condition</button>
+                <button class="btn btn-primary js-add-condition" type="button" data-condition="value">Value Condition</button>
             </fieldset>
-            <br/>
+            <div id="badge" class="badge-placeholder"></div>
+            <div id="conditions" class="condition-placeholder"></div>
             <fieldset class="text-center rounded-box">
                 <p>Review the information before you create the Achievement.  Achievements created will not show up until they are
                    approved, so hold tight.</p>
                 <p>Make sure you have at least one condition for the achievement.</p>
                 <br/>
-                <input type="submit" class="button button-blue" id="submit" value="Create">
+                <input type="submit" class="btn btn-primary" id="submit" value="Create Achievement">
             </fieldset>
-        </form>
+        </script>
     </div>
+    <div class="container">
+        <ul class="messages"></ul>
+        <h2 class="title">Create a new achievement</h2>
+        <div class="achievement-form"></div>
+    </div>
+    <script type="text/javascript">
+      $(function () {
+        App.addForm('achievement', '.achievement-form')
+      });
+    </script>
 {% endblock %}
