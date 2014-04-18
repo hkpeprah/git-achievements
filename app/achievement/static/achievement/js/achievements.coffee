@@ -91,10 +91,12 @@ class Application extends Object
             !(/^(\/\/|http:|https:).*/.test(url))
 
     setupAjax: () ->
-        # Set up CSRF token for Ajax requests
-        self = @
+        # Set up CSRF token for Ajax requests to allow us to perform
+        # PUT/POST/PATCH requests from Ajax requests.
         csrftoken = @getCookie 'csrftoken'
-        $.ajax
+        self = @
+
+        $.ajaxSetup
             beforeSend: (xhr, settings) ->
                 if (!self.csrfSafeMethod(settings.type) && self.sameOrigin(settings.url))
                     # Send the token to same-origin, relative URLs only
@@ -332,9 +334,16 @@ class Application.Views.EventAttributeSelect extends Backbone.View
     tagName: 'select'
     className: ''
 
+    initialize: (opts) ->
+        @parent = opts.parent
+
+    getSelected: () ->
+        selected = @$('option:selected')
+        selected.val()
+
     onChange: () =>
         selected = @$('option:selected')
-        @trigger 'change',
+        @parent.trigger 'event:attribute:change',
             attribute: selected.val()
             type: selected.data('type')
 
@@ -381,11 +390,16 @@ class Application.Views.DifficultySelect extends Backbone.View
     initialize: (opts) ->
         @collection = new Application.Models.DifficultyCollection()
         @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'difficulty:change'
 
     onChange: (ev) =>
-        selected = @$('option:selected')
-        model = @collection.get selected.val()
-        @trigger 'change', model
+        model = @getSelected()
+        @parent.trigger @changeTrigger, model
+
+    getSelected: () ->
+        cid = @$('option:selected').val()
+        @collection.get cid
 
     render: () ->
         # The model for this is actually a collection
@@ -415,12 +429,16 @@ class Application.Views.MethodSelect extends Application.Views.DifficultySelect
     initialize: (opts) ->
         @collection = new Application.Models.MethodCollection()
         @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'method:change'
 
     filter: (type) ->
         @$el.select2('destroy')
         @$el.children().remove()
+
         for model in @collection.models
-            if type and model.get('type') != type
+            argument_type = model.get('argument_type')
+            if type and argument_type and argument_type != type
                 continue
             option = $('<option></option>')
             option.val(model.cid)
@@ -435,6 +453,8 @@ class Application.Views.EventSelect extends Application.Views.DifficultySelect
     initialize: (opts) ->
         @collection = new Application.Models.EventCollection()
         @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'event:change'
 
 
 class Application.Views.AchievementTypeSelect extends Application.Views.DifficultySelect
@@ -443,6 +463,8 @@ class Application.Views.AchievementTypeSelect extends Application.Views.Difficul
     initialize: (opts) ->
         @collection = new Application.Models.AchievementTypeCollection()
         @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'achievement:type:change'
 
 
 class Application.Views.ConditionSelect extends Application.Views.DifficultySelect
@@ -450,6 +472,8 @@ class Application.Views.ConditionSelect extends Application.Views.DifficultySele
     initialize: (opts) ->
         @collection = new Application.Models.ConditionCollection()
         @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'condition:change'
 
     onRender: () ->
         @$el.css('width', '100%')
@@ -465,18 +489,21 @@ class Application.Views.BadgeForm extends Backbone.View
         @$el.on 'change keyup paste', 'textarea, input', @onChange
         @
 
-    initialize: () ->
+    initialize: (opts) ->
         @model.set('id', @model.cid)
+        @model.set('name', "")
+        @model.set('description', "")
+        @parent = opts.parent
 
     # TODO: Add a badge preview option
     onChange: (ev) =>
         target = @$(ev.currentTarget)
-        name = target.attr('name')
+        name = target.data('name')
 
         if target.is('textarea')
-            @model.set(name, target.text())
+            @model.set(name || 'description', target.val())
         else
-            @model.set(name, target.val())
+            @model.set(name || 'name', target.val())
 
     serialize: () ->
         @model.getJSON()
@@ -486,6 +513,7 @@ class Application.Views.BadgeForm extends Backbone.View
         @$el.html($(@template).html().template(@model.attributes))
         for className in @className.split(' ')
             @$el.addClass(className)
+
         @attachListeners()
 
 
@@ -506,9 +534,12 @@ class Application.Views.CustomConditionForm extends Backbone.View
         @$el.html($(@template).html().template({id: @id}))
         selector = if @regions.condition then @$(@regions.condition) else @$el
 
-        condition = new Application.Views.ConditionSelect()
-        @listenTo(condition, 'change', @conditionChange)
+        condition = new Application.Views.ConditionSelect
+            parent: @
+        @on 'condition:change', @conditionChange
+
         selector.append(condition.render().$el)
+
         @
 
     conditionChange: (model) ->
@@ -548,21 +579,21 @@ class Application.Views.ValueConditionForm extends Backbone.View
         # Render the subviews using the selected specified by the regions
         view = new Application.Views.EventAttributeSelect
             model: @model
+            parent: @
         @subviews.attribute = view
         @$(@regions.attribute).append(view.render().$el)
         view.$el.css('width', '100%')
 
-        @listenTo view, 'change', (attribute) ->
-            self.data.attribute = attribute.attribute
+        @on 'event:attribute:change', (attribute) =>
             self.subviews.method.filter(attribute.type)
 
-        view = new Application.Views.MethodSelect()
+        view = new Application.Views.MethodSelect
+            parent: @
         @subviews.method = view
         @$(@regions.method).append(view.render().$el)
         view.$el.css('width', '100%')
 
-        @listenTo view, 'change', (method) ->
-            self.data.method = method.get('id')
+        @on 'method:change', (method) =>
             self.subviews.attribute.filter(method.get('argument_type'))
 
         # We need to create two input objects to accept the description (name)
@@ -578,12 +609,11 @@ class Application.Views.ValueConditionForm extends Backbone.View
         @
 
     serialize: () ->
-        $.extend true, {},
-            method: self.data.method
-            attribute: self.data.attribute
-            value: @subviews.value.val()
-            event_type: @model.get('event_type')
-            description: @subviews.description.val()
+        method: @subviews.method.getSelected().get('id')
+        attribute: @subviews.attribute.getSelected()
+        value: @subviews.value.val()
+        event_type: @model.get('id')
+        description: @subviews.description.val()
 
 
 class Application.Views.AchievementForm extends Backbone.View
@@ -592,7 +622,7 @@ class Application.Views.AchievementForm extends Backbone.View
     tagName: 'form'
     template: '#achievement-form'
     className: ''
-    post: "/achievements/create"
+    post: "/achievement/create"
     method: "POST"
 
     regions:
@@ -609,8 +639,29 @@ class Application.Views.AchievementForm extends Backbone.View
         @data = {}
 
     attachListeners: () ->
+        # Attach the DOM events
         @$el.on 'click', '.js-add-condition', @addCondition
         @$el.on 'click', '.js-add-badge', @addBadge
+        @$el.on 'click', '#submit', @submit
+        @on 'event:change', @eventChange
+
+        # An achievement form has subforms in the way of views, we
+        # attach a listener for the events that they trigger in the
+        # parent view.
+        @on 'difficulty:change', (model) =>
+            @data.achievement ?= {}
+            @data.achievement.difficulty = model.get('id')
+
+        @on 'achievement:type:change', (model) =>
+            @data.achievement ?= {}
+            @data.achievement.type = model.get('id')
+
+        @on 'badge:remove', () =>
+            @addBadge()
+
+        # Setup Ajax with our CSRF Token
+        Application.setupAjax()
+
         @
 
     eventChange: (model) =>
@@ -623,9 +674,6 @@ class Application.Views.AchievementForm extends Backbone.View
             @data.badge = new Application.Views.BadgeForm
                 model: new Application.Models.Badge()
             @regions.badge.append(@data.badge.render().$el)
-            # We listen to the remove event on the badge view, so that
-            # we can remove it from the data
-            @listenTo @data.badge, 'remove', @addBadge
         else
             @data.badge = null
 
@@ -654,8 +702,10 @@ class Application.Views.AchievementForm extends Backbone.View
     render: () ->
         # Render the form, the select it boxes, and the subform into the
         # DOM
-        self = @
         @$el = $(document.createElement(@tagName))
+        @attachListeners()
+        self = @
+
         for className in @className.split(' ')
             @$el.addClass(className)
 
@@ -671,7 +721,9 @@ class Application.Views.AchievementForm extends Backbone.View
         @regions.grouping = @$(@regions.grouping)
 
         # Render the subviews into their regions
-        select = new Application.Views.AchievementTypeSelect()
+        # First add a selector for determing the type of achievement
+        select = new Application.Views.AchievementTypeSelect
+            parent: @
         $el = select.render().$el
         region = @$(@regions.type)
         $el
@@ -679,11 +731,10 @@ class Application.Views.AchievementForm extends Backbone.View
             .attr('name', region.attr('name'))
             .attr('id', region.attr('id'))
         region.replaceWith($el)
-        @listenTo select, 'change', (model) ->
-            self.data.achievement ?= {}
-            self.data.achievement.type = model.get('id')
 
-        select = new Application.Views.DifficultySelect()
+        # Add a selector for determining the difficulty of the achievement
+        select = new Application.Views.DifficultySelect
+            parent: @
         $el = select.render().$el
         region = @$(@regions.difficulty)
         $el
@@ -691,11 +742,12 @@ class Application.Views.AchievementForm extends Backbone.View
             .attr('name', region.attr('name'))
             .attr('id', region.attr('id'))
         region.replaceWith($el)
-        @listenTo select, 'change', (model) ->
-            self.data.achievement ?= {}
-            self.data.achievement.difficulty = model.get('id')
 
-        select = new Application.Views.EventSelect()
+        # Add a selector which determines the event this achievement expects
+        # to be unlocked for.
+        # TODO: Allow multiple events to be used
+        select = new Application.Views.EventSelect
+            parent: @
         $el = select.render().$el
         region = @$(@regions.event)
         $el
@@ -703,16 +755,15 @@ class Application.Views.AchievementForm extends Backbone.View
             .attr('name', region.attr('name'))
             .attr('id', region.attr('id'))
         region.replaceWith($el)
-        @listenTo select, 'change', @eventChange
 
         @regions.grouping.select2()
-        @attachListeners()
+        @
 
     serialize: () ->
         # Return all the data from the subforms serialized as a JSON
         # object.
         data = $.extend true, {}, @data
-        data.achievement = $.extend true, data.achivement,
+        data.achievement = $.extend true, {}, data.achievement,
             name: @regions.name.val()
             description: @regions.description.val()
             grouping: @regions.grouping.val()
@@ -727,6 +778,37 @@ class Application.Views.AchievementForm extends Backbone.View
                     form.serialize()
 
         data
+
+    submit: (ev) =>
+        # Prevent normal submit event from occuring
+        ev.stopPropagation()
+        ev.preventDefault()
+
+        data = @serialize()
+        $.ajax
+            type: @method
+            url: @post || window.location.pathname
+            data: JSON.stringify(data)
+            dataType: 'json'
+            contentType: 'application/json'
+            success: (response) ->
+                # Note, success is not always success, it just implies that
+                # the POST to the endpoint succeed, we have to validate that the response
+                # was a success
+                next = Application.getQueryStringValue('next')
+                next = if next and next.length then next else '/achievement/vote'
+                if (response.success)
+                    window.location.pathname = next
+                else
+                    # If response is not successful, a validation error occurred, so
+                    # add it to the error message field
+                    msg = $('#error-message')
+                        .html()
+                        .template(response.response)
+                    $(msg).appendTo('ul.messages')
+                          .on('click', 'button', (ev) -> $(this).parent().remove())
+            error: (response, textStatus, jqXHR) ->
+                console.error textStatus
 
 
 do (window, $ = window.$ || window.jQuery, Backbone = window.Backbone) ->

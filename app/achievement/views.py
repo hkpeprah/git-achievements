@@ -89,7 +89,7 @@ def create_achievement(request):
 
             achievement.badge = badge
 
-            for condition in data.get('valueconditions', []):
+            for condition in data.get('value-conditions', []):
                 method = Method.objects.get(pk=condition['method'])
                 event = Event.objects.get(pk=condition['event_type'])
                 condition = ValueCondition(description=escape(condition['description']), attribute=condition['attribute'],
@@ -98,7 +98,7 @@ def create_achievement(request):
                 condition.full_clean()
                 conditions.append(condition)
 
-            for condition in data.get('customconditions', []):
+            for condition in data.get('custom-conditions', []):
                 condition = CustomCondition.objects.get(pk=condition['id'])
                 conditions.append(condition)
 
@@ -116,6 +116,7 @@ def create_achievement(request):
 
         if badge:
             badge.save()
+            achievement.badge = badge
 
         achievement.save()
         for condition in conditions:

@@ -3,12 +3,17 @@
 {% block title %}Create New Achievement | Git Achievements{% endblock %}
 {% block content %}
     <div>
+        <script type="text/template" id="error-message">
+            <li class="bg-danger">
+                <span class="pull-left"><%= msg %></span>
+                <button type="button" class="close pull-right" aria-hidden="true">&times;</button>
+            </li>
+        </script>
         <script type="text/template" id="badge-form">
             <h3>Badge</h3>
             <label for="badge-name-<%= id %>">Name</label>
             <input type="text" name="badge-name-<%= id %>" />
             <br/>
-            <label>Description</label>
             <label for="badge-description-<%= id %>">Description</label>
             <textarea placeholder="Add a description for this badge" name="badge-description-<%= id %>"></textarea>
         </script>
