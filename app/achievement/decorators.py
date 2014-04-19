@@ -9,7 +9,7 @@ def check_read_notifications(function):
         """
         Wrapper around the request object.
         """
-        if request.user:
+        if request.user and hasattr(request.user, 'notifications'):
             notifications = request.user.notifications
 
             if request.GET.get('notification', None):

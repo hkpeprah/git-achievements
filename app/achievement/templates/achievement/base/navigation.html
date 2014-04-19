@@ -40,6 +40,9 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             {% if unread_count and unread_count > 0 %}
+                                <li class="divider"></li>
+                                <li><a href="?notification=all">Mark all Read</a></li>
+                                <li class="divider"></li>
                                 {% for notification in user.notifications.unread %}
                                     <li><a href="{{ notification.data.url }}notification={{ notification.id }}">
                                         {{ notification.description }}</a>

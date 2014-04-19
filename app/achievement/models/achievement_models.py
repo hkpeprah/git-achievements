@@ -459,7 +459,6 @@ class UserAchievement(models.Model):
     class Meta:
         app_label = "achievement"
 
-    seen_at = models.DateTimeField(default="1970-01-01 00:00:01-05:00")
     earned_at = models.DateTimeField(auto_now_add=True)
     achievement = models.ForeignKey('Achievement')
     user = models.ForeignKey('UserProfile')
