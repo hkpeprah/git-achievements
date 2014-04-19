@@ -659,7 +659,7 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         # There is a 1-to-1 relationship between qualifiers and attributes
         types = []
         length = @subviews.attribute.length
-        console.log "Filter method called"
+
         for i in [0..length - 1] by 1
             attribute = @subviews.attribute[i].getType()
             qualifier = @subviews.qualifiers[i]
