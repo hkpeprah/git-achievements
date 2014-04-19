@@ -207,40 +207,59 @@ def approve_achievement(request, achievement_id):
 
         achievement.save()
 
-        if achievement_id:
-            return redirect('approve_achievement', achievement_id=achievement_id)
-        return redirect('approve_achievement')
+        if not achievement_id:
+            return redirect('view_achievmeent', achivement_id=achievement_id)
 
-    achievement = None
-    achievements = Achievement.objects.filter(active=False)
-    if not achievement_id:
-        achievement = achievements[0] if len(achievements) > 0 else None
-    else:
+        return redirect('approve_achievement', achievement_id=achievement_id)
+
+    if achievement_id:
         achievement = get_object_or_404(Achievement, pk=achievement_id)
+        achievements = Achievement.objects.filter(active=False)
 
-    # Find the index of the curreent achievement in the achievements list
-    index = 0
-    for i, item in enumerate(achievements):
-        if item == achievement:
-            index = i
-            break
+        # Find the index of the curreent achievement in the achievements list
+        index = 0
+        for i, item in enumerate(achievements):
+            if item == achievement:
+                index = i
+                break
 
-    # Paginate by finding the next and previous achievements
-    prev_page = None if index == 0 else achievements[index - 1].pk
-    next_page = None if index == len(achievements) - 1 else achievements[index + 1].pk
-    conditions = list(condition.condition for condition in achievement.conditions.all())
+        # Paginate by finding the next and previous achievements
+        prev_page = None if index == 0 else achievements[index - 1].pk
+        next_page = None if index == len(achievements) - 1 else achievements[index + 1].pk
+        conditions = list(condition.condition for condition in achievement.conditions.all())
 
-    if achievement is None:
-        return render_to_response('achievement/achievements/no_vote.html',
-            context_instance=RequestContext(request))
+        return render_to_response('achievement/achievements/approve.html',
+            context_instance=RequestContext(request, {
+                'achievement': achievement,
+                'conditions': conditions,
+                'next_page': next_page,
+                'prev_page': prev_page
+            })
+        )
 
-    return render_to_response('achievement/achievements/approve.html',
+    # No ID was based, go to the base page for viewing achievements that need to be
+    # approved.
+    query = urllib2.unquote(request.GET.get('q', ""))
+    page = request.GET.get('page', 1)
+    achievements = Achievement.objects.filter(Q(active=False) &
+                                              (Q(name__contains=query) | Q(difficulty__name__contains=query)))
+    paginator = Paginator(achievements, 15)
+
+    try:
+        achievements = paginator.page(page)
+    except PageNotAnInteger:
+        # If the page isn't an integer, just return the first page
+        achievements = paginator.page(1)
+    except EmptyPage:
+        # Page is out of range (> # of pages), so deliver last page
+        achievements = paginator.page(paginator.num_pages)
+
+    return render_to_response('achievement/achievements/all-approve.html',
         context_instance=RequestContext(request, {
-            'achievement': achievement,
-            'conditions': conditions,
-            'next_page': next_page,
-            'prev_page': prev_page
-        }))
+            'achievements': achievements,
+            'q': query,
+        })
+    )
 
 
 @login_required

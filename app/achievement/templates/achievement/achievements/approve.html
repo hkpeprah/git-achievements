@@ -7,10 +7,11 @@
         <div class="row">
             <h2>Achievement Details</h2>
             <hr/>
-            <div class="col-xs-12" style="margin-bottom: 15px; margin-top: -5px; padding: 0px;">
+            <div class="col col-xs-12 text-center" style="margin-bottom: 15px; margin-top: -5px; padding: 0px;">
                 {% if prev_page %}
                     <a href="{% url 'approve_achievement' achievement_id=prev_page %}" class="pull-left btn btn-default">Previous</a>
                 {% endif %}
+                <a class="btn btn-default" href="{% url 'approve_achievement' %}">View All</a>
                 {% if next_page %}
                     <a href="{% url 'approve_achievement' achievement_id=next_page %}" class="pull-right btn btn-default">Next</a>
                 {% endif %}
@@ -18,8 +19,8 @@
             <div class="panel panel-default" style="border: 0px;">
                 <table class="table table-bordered col-xs-12" style="border: 1px solid #DDD;">
                     <colgroup>
-                        <col class="col-xs-4" span="1">
-                        <col class="col-xs-8" span="1">
+                        <col class="col col-xs-4" span="1">
+                        <col class="col col-xs-8" span="1">
                     </colgroup>
                     <thead>
                         <tr class="active" style="font-family: 'Bitter', serif;">
