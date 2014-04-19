@@ -193,7 +193,7 @@ ACHIEVEMENT_APPROVAL_THRESHOLD = 0
 # Override this with "True" if you're running a local/team instance
 IS_ORGANIZATION = False
 # This is where we fetch the project contributors from
-CONTRIBUTORS_URL = "https://api.github.com/orgs/git-achievements/public_members"
+CONTRIBUTORS_URL = "https://api.github.com/repos/Git-Achievements/git-achievements/contributors"
 # This tuple should contain a list of the services that you wish
 # to have support for.
 HOSTING_API_SERVICES = (
