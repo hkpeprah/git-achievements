@@ -119,4 +119,5 @@ class GithubHook():
         unlocked = []
         if event.user is not None:
             unlocked = check_for_unlocked_achievements(event_name, event, event.user)
+
         return json_response(unlocked)
