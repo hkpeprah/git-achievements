@@ -83,6 +83,9 @@ class Qualifier(BaseCallableModel):
     Defines a function that returns the attribute of a single
     argument.
     """
+    return_type = models.CharField(max_length=50, choices=BaseCallableModel.ARGUMENT_TYPES,
+        null=True, blank=True)
+
     modules = (
         str,
     )
@@ -191,7 +194,7 @@ class ValueCondition(Condition):
         return passed
 
     def to_json(self):
-        return {
+        data = {
             'description': self.description,
             'event': self.event_type.name,
             'custom': self.is_custom(),
@@ -199,6 +202,14 @@ class ValueCondition(Condition):
             'attribute': self.attribute,
             'value': self.value
         }
+
+        if self.qualifier:
+            data['qualifier'] = self.qualifier.name
+
+        if self.quantifier:
+            data['quantifier'] = self.quantifier.name
+
+        return data
 
 
 class AttributeCondition(Condition):
@@ -252,6 +263,11 @@ class AttributeCondition(Condition):
         for i, attribute in enumerate(self.attributes):
             key = 'attribute-{0}'.format(str(i + 1))
             data[key] = attribute
+
+        if len(self.qualifiers.all()) > 0:
+            for i, qualifier in enumerate(self.qualifiers.all()):
+                key = 'qualifier-{0}'.format(str(i + 1))
+                data[key] = qualifier
 
         return data
 

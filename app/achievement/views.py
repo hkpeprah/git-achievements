@@ -16,9 +16,9 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 
 from app.services.models import Event
 from app.services.utils import get_contributors, json_response
-from app.achievement.models import (Achievement, Badge, UserProfile, ValueCondition,
+from app.achievement.models import (Achievement, Badge, UserProfile, ValueCondition, Quantifier,
                                     CustomCondition, AchievementCondition, AttributeCondition,
-                                    Difficulty, AchievementType, Method, ConditionType)
+                                    Difficulty, AchievementType, Method, ConditionType, Qualifier)
 
 
 @require_http_methods(["GET"])
@@ -83,6 +83,7 @@ def create_achievement(request):
                 difficulty=difficulty, achievement_type=achievement_type, grouping=achievement['grouping'])
 
             achievement.full_clean()
+
             if badge:
                 badge = Badge(name=escape(badge['name']), description=escape(badge['description']))
                 badge.full_clean()
@@ -92,9 +93,14 @@ def create_achievement(request):
             for condition in data.get('value-conditions', []):
                 method = Method.objects.get(pk=condition['method'])
                 event = Event.objects.get(pk=condition['event_type'])
+                old_data = condition
                 condition = ValueCondition(description=escape(condition['description']), attribute=condition['attribute'],
                     value=condition['value'], method=method, condition_type=ConditionType.objects.get(pk=1),
-                    event_type=event)
+                    event_type=event, quantifier=Quantifier.objects.get(pk=condition['quantifier']))
+
+                if old_data.get('qualifier', None):
+                    condition.qualifier = Qualifier.objects.get(pk=old_data['qualifier'])
+
                 condition.full_clean()
                 conditions.append(condition)
 
@@ -105,8 +111,14 @@ def create_achievement(request):
             for condition in data.get('attribute-conditions', []):
                 method = Method.objects.get(pk=condition['method'])
                 event = Event.objects.get(pk=condition['event_type'])
+                old_data = condition
                 condition = AttributeCondition(description=escape(condition['description']), attributes=condition['attributes'],
                     method=method, condition_type=ConditionType.objects.get(pk=1), event_type=event)
+
+                if old_data.get('qualifier', None):
+                    for qualifier in old_data.get('qualifier'):
+                        condition.qualifiers.add(Qualifier.objects.get(pk=qualifier))
+
                 condition.full_clean()
                 conditions.append(condition)
 

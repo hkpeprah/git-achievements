@@ -258,21 +258,6 @@ class Application.Models.EventCollection extends Backbone.Collection
         response.objects || []
 
 
-class Application.Models.Quantifier extends Backbone.Model
-    # A quantifier indicates how to handle multiple values
-    getJSON: () ->
-        @get 'id'
-
-
-class Application.Models.QuantifierCollection extends Backbone.Collection
-    # A collection of quantifiers
-    url: API_ROOT.format('quantifier')
-    model: Application.Models.Quantifier
-
-    parse: (response) ->
-        response.objects || []
-
-
 class Application.Models.Method extends Backbone.Model
     # Different methods supported by the application, should be typechecked by the view
     # to ensure the attribute and method types match
@@ -289,6 +274,32 @@ class Application.Models.MethodCollection extends Backbone.Collection
     # Collection of methods/functions
     url: API_ROOT.format('method')
     model: Application.Models.Method
+
+    parse: (response) ->
+        response.objects || []
+
+
+class Application.Models.Quantifier extends Application.Models.Method
+    # A quantifier indicates how to handle multiple values
+
+
+class Application.Models.QuantifierCollection extends Backbone.Collection
+    # A collection of quantifiers
+    url: API_ROOT.format('quantifier')
+    model: Application.Models.Quantifier
+
+    parse: (response) ->
+        response.objects || []
+
+
+class Application.Models.Qualifier extends Application.Models.Method
+    # A qualifier indicates a function to apply to an attribute prior
+    # to checking it against the condition
+
+
+class Application.Models.QualifierCollection extends Backbone.Collection
+    url: API_ROOT.format('qualifier')
+    model: Application.Models.Qualifier
 
     parse: (response) ->
         response.objects || []
@@ -363,11 +374,16 @@ class Application.Views.EventAttributeSelect extends Backbone.View
         selected = @$('option:selected')
         if selected then selected.val() else null
 
+    getType: () ->
+        selected = @$('option:selected')
+        if selected then selected.data('type') else null
+
     onChange: () =>
         selected = @$('option:selected')
         @parent.trigger 'event:attribute:change',
             attribute: selected.val()
             type: selected.data('type')
+            view: @
 
     render: () ->
         # render, we add the attributes to the select box and initialize
@@ -422,12 +438,12 @@ class Application.Views.DifficultySelect extends Backbone.View
     getSelected: () ->
         selected = @$('option:selected')
         if !selected.length
-            selected = @$el.children().eq(0)
-            selected.prop('selected', true)
-        cid = selected.val()
-        @collection.get cid
+            null
+        else
+            cid = selected.val()
+            @collection.get cid
 
-    render: () ->
+    render: (placeholder) ->
         # The model for this is actually a collection
         @$el = $(document.createElement(@tagName))
         self = @
@@ -441,10 +457,13 @@ class Application.Views.DifficultySelect extends Backbone.View
             if self.onRender
                 self.onRender()
 
+            if placeholder
+                self.$el.prepend('<option></option>')
+
             self.$el
                 .attr('id', Application.uniqueId())
                 .select2
-                    placeholder: 'Select an option'
+                    placeholder: placeholder || 'Select an option'
 
             self.$el.on 'change', self.onChange
             self.$el.change()
@@ -459,21 +478,27 @@ class Application.Views.MethodSelect extends Application.Views.DifficultySelect
         @parent = opts.parent
         @changeTrigger = 'method:change'
 
-    filter: (type) ->
+    filter: (type, placeholder) ->
         @$el.select2('destroy')
         @$el.children().remove()
 
         for model in @collection.models
             argument_type = model.get('argument_type')
-            if type and argument_type and argument_type != type
-                continue
+            if type and argument_type
+                if $.isArray(type) and type.indexOf(argument_type) == -1
+                    continue
+                else if !$.isArray(type) and argument_type != type
+                    continue
             option = $('<option></option>')
             option.val(model.cid)
             option.text(model.get('name').toTitleCase())
             @$el.append(option)
 
+        if placeholder
+            @$el.prepend($('<option></option>'))
+
         @$el.select2
-            placeholder: 'Select a method'
+            placeholder: placeholder || 'Select an option'
         @
 
 
@@ -491,6 +516,24 @@ class Application.Views.QuantifierSelect extends Application.Views.DifficultySel
         @model = @collection
         @parent = opts.parent
         @changeTrigger = 'quantifier:change'
+
+
+class Application.Views.QualifierSelect extends Application.Views.MethodSelect
+    # TODO: As it stands, qualifiers have an argument type but not a return type, we need
+    # a return type for true type checking to take place
+    initialize: (opts) ->
+        @collection = new Application.Models.QualifierCollection()
+        @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'qualifier:change'
+
+    getSelecetd: () ->
+        selected = @$('option:selected')
+        if selected
+            cid = selected.val()
+            @collection.get cid
+        else
+            null
 
 
 class Application.Views.AchievementTypeSelect extends Application.Views.DifficultySelect
@@ -606,11 +649,24 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         'attribute': ".condition-attribute"
         'method': ".condition-method"
         'description': ".condition-description"
-        'quantifier': ".condition-quantifier"
 
     initialize: (opts) ->
         @data = {}
         @parent = opts.parent
+
+    filterMethod: () ->
+        # Filters the method based on the attributes and qualifiers
+        # There is a 1-to-1 relationship between qualifiers and attributes
+        types = []
+        length = @subviews.attribute.length
+        console.log "Filter method called"
+        for i in [0..length - 1] by 1
+            attribute = @subviews.attribute[i].getType()
+            qualifier = @subviews.qualifiers[i]
+            types.push(if qualifier && qualifier.getSelected() then qualifier.getSelected().get('return_type') else attribute)
+
+        if types.length
+            @subviews.method.filter(types)
 
     addAttribute: () =>
         # Adds the select for a new event attribute to the attribute region
@@ -620,9 +676,17 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         @subviews.attribute ?= []
         @$(@regions.attribute)
             .append(view.render().$el)
-            .append($('<br/>'))
-        view.$el.css('width', '100%')
+        view.$el.css('width', '45%')
         @subviews.attribute.push(view)
+        view.filter()
+
+        qualifierView = new Application.Views.QualifierSelect
+            parent: @
+        @subviews.qualifiers ?= []
+        @$(@regions.attribute)
+            .append(qualifierView.render('(Optional) Specify a qualifier').$el)
+        qualifierView.$el.css('width', '45%')
+        @subviews.qualifiers.push(qualifierView)
 
         # Hack because the selects aren't rendering until they're filtered on
         # for some reason.
@@ -659,19 +723,24 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         @$(@regions.method).append(view.render().$el)
         view.$el.css('width', '100%')
 
-        @on 'method:change', (method) =>
-            for select in self.subviews.attribute
-                select.filter(method.get('argument_type'))
-
-        view = new Application.Views.QuantifierSelect
-            parent: @
-        @subviews.quantifier = view
-        @$(@regions.quantifier).append(view.render().$el)
-        view.$el.css('width', '100%')
-
         view = $('<input></input>')
         @$(@regions.description).append(view)
         @subviews.description = view
+
+        # Add listeners for event and qualifier change.  When an event attribute
+        # changes, it qualifier must be cleared.  In both cases of an event attribute
+        # change or qualifier change, method must be cleared.
+        @on 'event:attribute:change', (attribute) =>
+            for i in [0..@subviews.attribute.length - 1] by 1
+                view = @subviews.attribute[i]
+                if view.cid == attribute.view.cid
+                    view = @subviews.qualifiers[i]
+                    view.filter(attribute.type, '(Optional) Specify a qualifier')
+                    break
+            self.filterMethod()
+
+        @on 'qualifier:change', (qualifier) =>
+            self.filterMethod()
 
         @
 
@@ -680,12 +749,18 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         for attribute in @subviews.attribute
             attributes.push(attribute.getSelected())
 
+        qualifiers = []
+        for qualifier in @subviews.qualifiers
+            model = qualifier.getSelected()
+            if model
+                qualifiers.push(model.get('id'))
+
         $.extend {},
             attributes: attributes
             method: @subviews.method.getSelected().get('id')
             description: @subviews.description.val()
             event_type: @model.get('id')
-            quantifier: @subviews.quantifier.getSelected().get('id')
+            qualifiers: qualifiers
 
 
 class Application.Views.ValueConditionForm extends Backbone.View
@@ -700,6 +775,7 @@ class Application.Views.ValueConditionForm extends Backbone.View
         'method': ".condition-method"
         'description': ".condition-description"
         'quantifier': ".condition-quantifier"
+        'qualifier': ".condition-qualifier"
 
     initialize: (opts) ->
         @data = {}
@@ -719,17 +795,19 @@ class Application.Views.ValueConditionForm extends Backbone.View
             @parent.trigger 'value:condition:remove', @
             @remove()
 
-        @subviews = {}
         # Render the subviews using the selected specified by the regions
+        @subviews = {}
         view = new Application.Views.EventAttributeSelect
             model: @model
             parent: @
         @subviews.attribute = view
         @$(@regions.attribute).append(view.render().$el)
         view.$el.css('width', '100%')
+        @subviews.attribute.filter()
 
         @on 'event:attribute:change', (attribute) =>
             self.subviews.method.filter(attribute.type)
+            self.subviews.qualifier.filter(attribute.type, '(Optional) Specify a qualifier')
 
         view = new Application.Views.MethodSelect
             parent: @
@@ -737,14 +815,21 @@ class Application.Views.ValueConditionForm extends Backbone.View
         @$(@regions.method).append(view.render().$el)
         view.$el.css('width', '100%')
 
-        @on 'method:change', (method) =>
-            self.subviews.attribute.filter(method.get('argument_type'))
-
         view = new Application.Views.QuantifierSelect
             parent: @
         @subviews.quantifier = view
         @$(@regions.quantifier).append(view.render().$el)
         view.$el.css('width', '100%')
+
+        view = new Application.Views.QualifierSelect
+             parent: @
+        @subviews.qualifier = view
+        @$(@regions.qualifier).append(view.render('(Optional) Specify a qualifier').$el)
+        view.$el.css('width', '100%')
+
+        @on 'qualifier:change', (qualifier) =>
+            if qualifier
+                self.subviews.method.filter(qualifier.get('return_type'))
 
         # We need to create two input objects to accept the description (name)
         # of the condition and the value it expects
