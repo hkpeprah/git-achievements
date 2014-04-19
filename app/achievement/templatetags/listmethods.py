@@ -1,4 +1,5 @@
 import json
+import collections
 
 from django import template
 from django.template.defaultfilters import stringfilter
@@ -40,3 +41,15 @@ def items(obj):
     """
     return obj.iteritems()
 
+
+@register.filter(name='sort')
+def sort_enumerable(obj):
+    """
+    Returns a sorted version of an enumerable object
+    """
+    if isinstance(obj, dict):
+        obj = collections.OrderedDict(sorted(obj.items()))
+    elif isinstance(obj, list):
+        obj = sorted(obj)
+
+    return obj

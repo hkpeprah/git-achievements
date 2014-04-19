@@ -57,7 +57,7 @@
                                 <td>Condition #{{ forloop.counter}}</td>
                                 <td>
                                     <ul class="unstyled">
-                                        {% for key,val in conditions|ith:i|to_json|items %}
+                                        {% for key,val in conditions|ith:i|to_json|sort|items %}
                                             <li><b style="text-transform: capitalize;">{{ key }}:</b> {{ val }}</li>
                                         {% endfor %}
                                     </ul>

@@ -557,6 +557,79 @@ class Application.Views.CustomConditionForm extends Backbone.View
         id: @data.condition
 
 
+class Application.Views.AttributeConditionForm extends Backbone.View
+    # Subform for creating a attribute condition.  Has select(s) for multiple
+    # attributes, and a select for the method.
+    tagName: 'fieldset'
+    template: '#attribute-condition-form'
+    className: ''
+    regions:
+        'attribute': ".condition-attribute"
+        'method': ".condition-method"
+        'description': ".condition-description"
+
+    initialize: () ->
+        @data = {}
+
+    addAttribute: () =>
+        # Adds the select for a new event attribute to the attribute region
+        view = new Application.Views.EventAttributeSelect
+            model: @model
+            parent: @
+        @subviews.attribute ?= []
+        @$(@regions.attribute)
+            .append(view.render().$el)
+            .append($('<br/>'))
+        view.$el.css('width', '100%')
+        @subviews.attribute.push(view)
+
+        @
+
+    render: () ->
+        @$el = $(document.createElement(@tagName))
+        self = @
+        @subviews = {}
+
+        for className in @className.split(' ')
+            @$el.addClass(className)
+
+        @$el.html($(@template).html().template($.extend true, {}, @model.attributes, {
+            id: @id
+        }))
+        @$el.on 'click', '.js-add-attribute', @addAttribute
+        # Need a minimum of two attributes, so lets force the condition to
+        # be populated with two selects
+        @addAttribute().addAttribute()
+
+        # Render the subviews using the selector specified by the regions
+        view = new Application.Views.MethodSelect
+            parent: @
+        @subviews.method = view
+        @$(@regions.method).append(view.render().$el)
+        view.$el.css('width', '100%')
+
+        @on 'method:change', (method) =>
+            for select in self.subviews.attribute
+                select.filter(method.get('argument_type'))
+
+        view = $('<input></input>')
+        @$(@regions.description).append(view)
+        @subviews.description = view
+
+        @
+
+    serialize: () ->
+        attributes = []
+        for attribute in @subviews.attribute
+            attributes.push(attribute.getSelected())
+
+        $.extend {},
+            attributes: attributes
+            method: @subviews.method.getSelected().get('id')
+            description: @subviews.description.val()
+            event_type: @model.get('id')
+
+
 class Application.Views.ValueConditionForm extends Backbone.View
     # Subform for creating a value condition.  Has select for event attributes,
     # methods, and input for a value.
@@ -575,6 +648,7 @@ class Application.Views.ValueConditionForm extends Backbone.View
     render: () ->
         self = @
         @$el = $(document.createElement(@tagName))
+
         for className in @className.split(' ')
             @$el.addClass(className)
 
@@ -700,6 +774,12 @@ class Application.Views.AchievementForm extends Backbone.View
                 'id': newId
                 'model': @event
             @data['value-conditions'].push(form)
+        else if name == 'attribute'
+            @data['attribute-conditions'] ?= []
+            form = new Application.Views.AttributeConditionForm
+                'id': newId
+                'model': @event
+            @data['attribute-conditions'].push(form)
         else
             console.warn 'getConditionType called with unknown condition'
 
@@ -778,7 +858,7 @@ class Application.Views.AchievementForm extends Backbone.View
         if data.badge
             data.badge = data.badge.serialize()
 
-        for condition in ['custom-conditions', 'value-conditions']
+        for condition in ['custom-conditions', 'value-conditions', 'attribute-conditions']
             if data[condition]
                 # Map each condition to the serialized data
                 data[condition] = $.map data[condition], (form) ->
@@ -792,6 +872,7 @@ class Application.Views.AchievementForm extends Backbone.View
         ev.preventDefault()
 
         data = @serialize()
+
         $.ajax
             type: @method
             url: @post || window.location.pathname

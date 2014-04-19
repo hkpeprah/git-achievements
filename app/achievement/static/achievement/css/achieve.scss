@@ -769,6 +769,11 @@ $inlines: block, table;
                     margin-right: 0px;
                 }
             }
+            .condition-attributes {
+                > select, div {
+                    margin-bottom: 10px;
+                }
+            }
         }
         div {
             > fieldset {

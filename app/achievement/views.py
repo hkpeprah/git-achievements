@@ -17,7 +17,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from app.services.models import Event
 from app.services.utils import get_contributors, json_response
 from app.achievement.models import (Achievement, Badge, UserProfile, ValueCondition,
-                                    CustomCondition, AchievementCondition,
+                                    CustomCondition, AchievementCondition, AttributeCondition,
                                     Difficulty, AchievementType, Method, ConditionType)
 
 
@@ -100,6 +100,14 @@ def create_achievement(request):
 
             for condition in data.get('custom-conditions', []):
                 condition = CustomCondition.objects.get(pk=condition['id'])
+                conditions.append(condition)
+
+            for condition in data.get('attribute-conditions', []):
+                method = Method.objects.get(pk=condition['method'])
+                event = Event.objects.get(pk=condition['event_type'])
+                condition = AttributeCondition(description=escape(condition['description']), attributes=condition['attributes'],
+                    method=method, condition_type=ConditionType.objects.get(pk=1), event_type=event)
+                condition.full_clean()
                 conditions.append(condition)
 
             if len(conditions) == 0:

@@ -36,6 +36,18 @@
                 <label>Value</label>
             </div>
         </script>
+        <script type="text/template" id="attribute-condition-form">
+            <h4>Condition #<%= id %></h4>
+            <div class="col-xs-12 condition-description">
+                <label>Describe this condition</label>
+            </div>
+            <div class="col-xs-8 condition-attribute condition-attributes">
+                <label>Attributes</label>
+            </div>
+            <div class="col-xs-4 condition-method">
+                <label>Method</label>
+            </div>
+        </script>
         <script type="text/template" id="achievement-form">
             {% csrf_token %}
             <fieldset>
@@ -78,6 +90,7 @@
                 <button class="btn btn-primary js-add-badge" type="button">Badge</button>
                 <button class="btn btn-primary js-add-condition" type="button" data-condition="custom">Custom Condition</button>
                 <button class="btn btn-primary js-add-condition" type="button" data-condition="value">Value Condition</button>
+                <button class="btn btn-primary js-add-condition" type="button" data-condition="attribute">Attribute Condition</button>
             </fieldset>
             <div id="badge" class="badge-placeholder"></div>
             <div id="conditions" class="condition-placeholder"></div>

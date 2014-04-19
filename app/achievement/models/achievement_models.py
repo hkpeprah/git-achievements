@@ -192,7 +192,7 @@ class ValueCondition(Condition):
     def to_json(self):
         return {
             'description': self.description,
-            'event': Event.objects.get(pk=self.event_type).name,
+            'event': self.event_type.name,
             'custom': self.is_custom(),
             'method': self.method.name,
             'attribute': self.attribute,
@@ -239,6 +239,20 @@ class AttributeCondition(Condition):
         # Call the method on the resultant set
         passed = self.method(*results)
         return passed
+
+    def to_json(self):
+        data = {
+            'description': self.description,
+            'event': self.event_type.name,
+            'method': self.method.name,
+            'custom': self.is_custom()
+        }
+
+        for i, attribute in enumerate(self.attributes):
+            key = 'attribute-{0}'.format(str(i + 1))
+            data[key] = attribute
+
+        return data
 
 
 class AchievementType(models.Model):
