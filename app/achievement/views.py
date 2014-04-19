@@ -7,10 +7,10 @@ from django.utils.html import escape
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.template import RequestContext
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 
@@ -135,11 +135,18 @@ def create_achievement(request):
             }, False)
 
         if badge:
+            # If a badge exists, add the badge to the achievement's foreign key
             badge.save()
             achievement.badge = badge
 
+        # Add the user as the creator of the achievement
+        profile = UserProfile.objects.get(user=request.user)
+        achievement.creator = profile
         achievement.save()
+
         for condition in conditions:
+            # Created the related table between achievements and conditions as conditions
+            # are generic.
             condition.save()
             achievement_condition = AchievementCondition(content_object=condition)
             achievement_condition.save()
