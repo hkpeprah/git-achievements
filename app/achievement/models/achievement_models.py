@@ -5,6 +5,7 @@ import re
 import jsonfield
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.utils import OperationalError
 from django.dispatch.dispatcher import receiver
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
@@ -600,8 +601,18 @@ def create_user_profile(sender, instance, created, **kwargs):
     user profile.
     """
     if created:
-        profile, created = UserProfile.objects.get_or_create(user=instance)
-        profile.save()
+        try:
+            # Wrap this in a try-except because on the first syncdb if the user chooses
+            # to create a superuser, the column for user profiles will not exist
+            profile, created = UserProfile.objects.get_or_create(user=instance)
+            profile.save()
+
+        except OperationalError as e:
+            if 'achievement_userprofile' in str(e):
+                print 'Skipping creating user profile as table does not exist.'
+            else:
+                raise e
+
 
 # Add our signals here
 # Hook to create user profiles when a user is created either through Django or Social Auth

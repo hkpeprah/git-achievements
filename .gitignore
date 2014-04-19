@@ -20,9 +20,6 @@ bin/
 include/
 lib/
 
-# Migrations
-app/**/migrations
-
 # Custom files and settings
 /static/
 gitachievements/settings/custom.py
