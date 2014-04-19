@@ -16,10 +16,12 @@
             <br/>
             <label for="badge-description-<%= id %>">Description</label>
             <textarea placeholder="Add a description for this badge" name="badge-description-<%= id %>"></textarea>
+            <button type="button" class="close js-remove" aria-hidden="true">&times;</button>
         </script>
         <script type="text/template" id="custom-condition-form">
             <h4>Condition #<%= id %></h4>
             <label>Select the custom condition</label>
+            <button type="button" class="close js-remove" aria-hidden="true">&times;</button>
         </script>
         <script type="text/template" id="value-condition-form">
             <h4>Condition #<%= id %></h4>
@@ -35,11 +37,16 @@
             <div class="col-xs-4 condition-value">
                 <label>Value</label>
             </div>
+            <button type="button" class="close js-remove" aria-hidden="true">&times;</button>
         </script>
         <script type="text/template" id="attribute-condition-form">
             <h4>Condition #<%= id %></h4>
             <div class="col-xs-12 condition-description">
                 <label>Describe this condition</label>
+            </div>
+            <div class="col-xs-12">
+                <br/>
+                <button type="button" class="btn btn-default js-add-attribute">Add Attribute</button>
             </div>
             <div class="col-xs-8 condition-attribute condition-attributes">
                 <label>Attributes</label>
@@ -47,6 +54,7 @@
             <div class="col-xs-4 condition-method">
                 <label>Method</label>
             </div>
+            <button type="button" class="close js-remove" aria-hidden="true">&times;</button>
         </script>
         <script type="text/template" id="achievement-form">
             {% csrf_token %}

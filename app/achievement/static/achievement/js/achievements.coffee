@@ -365,7 +365,7 @@ class Application.Views.EventAttributeSelect extends Backbone.View
             @$el.html(@template.template(@model.attributes))
         else
             @$el.html()
-        @$el.attr('id', @model.cid)
+        @$el.attr('id', Application.uniqueId())
         @$el.on('change', @onChange)
         @filter()
 
@@ -494,6 +494,9 @@ class Application.Views.BadgeForm extends Backbone.View
 
     attachListeners: () ->
         @$el.on 'change keyup paste', 'textarea, input', @onChange
+        @$el.on 'click', '.js-remove', () =>
+            @parent.trigger 'badge:remove', @
+            @remove()
         @
 
     initialize: (opts) ->
@@ -533,6 +536,10 @@ class Application.Views.CustomConditionForm extends Backbone.View
     regions:
         'condition': null
 
+    initialize: (opts) ->
+        @data = {}
+        @parent = opts.parent
+
     render: () ->
         @$el = $(document.createElement(@tagName))
         for className in @className.split(' ')
@@ -545,12 +552,15 @@ class Application.Views.CustomConditionForm extends Backbone.View
             parent: @
         @on 'condition:change', @conditionChange
 
+        @$el.on 'click', '.js-remove', () =>
+            @parent.trigger 'custom:condition:remove', @
+            @remove()
+
         selector.append(condition.render().$el)
 
         @
 
-    conditionChange: (model) ->
-        @data ?= {}
+    conditionChange: (model) =>
         @data.condition = model.get('id')
 
     serialize: () ->
@@ -568,8 +578,9 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         'method': ".condition-method"
         'description': ".condition-description"
 
-    initialize: () ->
+    initialize: (opts) ->
         @data = {}
+        @parent = opts.parent
 
     addAttribute: () =>
         # Adds the select for a new event attribute to the attribute region
@@ -582,6 +593,11 @@ class Application.Views.AttributeConditionForm extends Backbone.View
             .append($('<br/>'))
         view.$el.css('width', '100%')
         @subviews.attribute.push(view)
+
+        # Hack because the selects aren't rendering until they're filtered on
+        # for some reason.
+        if @subviews and @subviews.method
+            @subviews.method.onChange()
 
         @
 
@@ -597,9 +613,14 @@ class Application.Views.AttributeConditionForm extends Backbone.View
             id: @id
         }))
         @$el.on 'click', '.js-add-attribute', @addAttribute
+        @$el.on 'click', '.js-remove', () =>
+            @parent.trigger 'attribute:condition:remove', @
+            @remove()
+
         # Need a minimum of two attributes, so lets force the condition to
         # be populated with two selects
-        @addAttribute().addAttribute()
+        @addAttribute()
+        @addAttribute()
 
         # Render the subviews using the selector specified by the regions
         view = new Application.Views.MethodSelect
@@ -642,8 +663,9 @@ class Application.Views.ValueConditionForm extends Backbone.View
         'method': ".condition-method"
         'description': ".condition-description"
 
-    initialize: () ->
+    initialize: (opts) ->
         @data = {}
+        @parent = opts.parent
 
     render: () ->
         self = @
@@ -655,6 +677,9 @@ class Application.Views.ValueConditionForm extends Backbone.View
         @$el.html($(@template).html().template($.extend true, {}, @model.attributes, {
             id: @id
         }))
+        @$el.on 'click', '.js-remove', () =>
+            @parent.trigger 'value:condition:remove', @
+            @remove()
 
         @subviews = {}
         # Render the subviews using the selected specified by the regions
@@ -740,6 +765,18 @@ class Application.Views.AchievementForm extends Backbone.View
         @on 'badge:remove', () =>
             @addBadge()
 
+        @on 'custom:condition:remove', (view) =>
+            @data['custom-conditions'] = $.grep @data['custom-conditions'], (item) ->
+                item.cid != view.cid
+
+        @on 'attribute:condition:remove', (view) =>
+            @data['attribute-conditions'] = $.grep @data['attribute-conditions'], (item) ->
+                item.cid != view.cid
+
+        @on 'value:condition:remove', (view) =>
+            @data['value-conditions'] = $.grep @data['value-conditions'], (item) ->
+                item.cid != view.cid
+
         # Setup Ajax with our CSRF Token
         Application.setupAjax()
 
@@ -754,6 +791,7 @@ class Application.Views.AchievementForm extends Backbone.View
         if not @data.badge
             @data.badge = new Application.Views.BadgeForm
                 model: new Application.Models.Badge()
+                parent: @
             @regions.badge.append(@data.badge.render().$el)
         else
             @data.badge = null
@@ -766,20 +804,27 @@ class Application.Views.AchievementForm extends Backbone.View
 
         if name == 'custom'
             @data['custom-conditions'] ?= []
-            form = new Application.Views.CustomConditionForm({'id': newId})
+            form = new Application.Views.CustomConditionForm
+                id: newId
+                parent: @
             @data['custom-conditions'].push(form)
+
         else if name == 'value'
             @data['value-conditions'] ?= []
             form = new Application.Views.ValueConditionForm
-                'id': newId
-                'model': @event
+                id: newId
+                model: @event
+                parent: @
             @data['value-conditions'].push(form)
+
         else if name == 'attribute'
             @data['attribute-conditions'] ?= []
             form = new Application.Views.AttributeConditionForm
-                'id': newId
-                'model': @event
+                id: newId
+                model: @event
+                parent: @
             @data['attribute-conditions'].push(form)
+
         else
             console.warn 'getConditionType called with unknown condition'
 

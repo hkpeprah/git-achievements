@@ -774,6 +774,11 @@ $inlines: block, table;
                     margin-bottom: 10px;
                 }
             }
+            .js-remove {
+                top: 5px;
+                right: 5px;
+                position: absolute;
+            }
         }
         div {
             > fieldset {
