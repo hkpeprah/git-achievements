@@ -3,12 +3,13 @@
 {% block title %}{{ profile.username }} | Git Achievements{% endblock %}
 {% block content %}
     <div class="container rounded-box">
-        <div class="container profile-container">
-            <div class="col col-xs-12 col-sm-5">
-                <div class="row">
+        <div class="profile-container clearfix">
+            <div class="col col-xs-12 col-sm-6">
+                <div>
                     <img class="fixed-height-3 rounded-corners" src="{{ profile.attributes.avatar_url }}" />
                 </div>
-                <div class="row" style="padding-top:10px;padding-bottom:10px;">
+                <div class="vertical-divider desktop"></div>
+                <div>
                     <h3>
                         <a href="{{ profile.attributes.url }}">{{ profile.username }}</a>
                     </h3>
@@ -21,7 +22,6 @@
                     <b>Points: </b> {{ profile.points }}
                 </div>
             </div>
-            <div class="divider pull-left desktop"></div>
             <div class="col col-xs-12 col-sm-6 centered">
                 <div class="row" style="padding-left: 15px;">
                     <h4 class="inline-block"> Achievements Unlocked</h4>
@@ -38,7 +38,7 @@
                             {% for achievement in profile.achievements %}
                                 <li class="achievement-list-item">
                                     <a class="unstyled" href="{% url 'view_achievement' achievement_id=achievement.id %}">
-                                        <span class="points">{{ achievement.points }}</span><span>{{ achievement.name }}</span>
+                                        <span class="points bg-primary">{{ achievement.points }}</span><span>{{ achievement.name }}</span>
                                     </a>
                                 </li>
                             {% endfor %}
@@ -48,16 +48,40 @@
             </div>
         </div>
         <hr>
-        <div class="container text-center">
+        <div class="text-center" style="padding-top:8px;padding-bottom:8px;">
+            <h3>Achievements Created by {{ profile.username }}</h3>
+            <ul class="unstyled">
+                {% for achievement in profile.created_achievements.all %}
+                    <li class="achievement-list-item text-left">
+                        <a class="" href="{% if achievement.active %}{% url 'view_achievement' achievement_id=achievement.id %}
+                                 {% else %}{% url 'approve_achievement' achievement_id=achievement.id %}{% endif %}">
+                            {% if achievement.active %}
+                                <span class="bg-primary points">{{ achievement.earned_count }}</span>
+                                <span>(Active)</span>
+                            {% else %}
+                                <span class="points {% if achievement.approval < 0 %}bg-danger
+                                             {% elif achievement.approval == 0 %}bg-info{% else %}bg-primary{% endif %}">
+                                    {{ achievement.approval }}
+                                </span>
+                                <span>(In Voting Stage)</span>
+                            {% endif %}
+                            <span>{{ achievement.name }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <hr>
+        <div class="text-center">
             <h3>Badges Earned</h3>
         </div>
         <br>
         {% if profile.badges.all|length == 0 %}
-            <div class="container text-center">
+            <div class="text-center">
                 <p><b>{{ profile.username }}</b> hasn't earned any badges yet.</p>
             </div>
         {% else %}
-            <div class="container inline-table-list">
+            <div class="inline-table-list">
                 {% for badge in profile.ordered_badges %}
                     {% include "achievement/achievements/badge.html" with badge=badge %}
                 {% endfor %}

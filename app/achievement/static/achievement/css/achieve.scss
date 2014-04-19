@@ -56,7 +56,7 @@ section {
 
 footer {
     color: #777;
-    height: 80px;
+    height: 100px;
     padding: 10px;
     margin-top: -80px;
     background-color: #000;
@@ -79,20 +79,23 @@ footer {
 }
 
 @media screen and (max-width: 767px) {
+    kbd {
+        word-wrap: break-word;
+    }
     .desktop {
-        display: none;
+        display: none !important;
     }
     .mobile {
-        display: block;
+        display: block !important;
     }
 }
 
 @media screen and (min-width: 768px) {
     .desktop {
-        display: block;
+        display: block !important;
     }
     .mobile {
-        display: none;
+        display: none !important;
     }
 }
 
@@ -493,6 +496,12 @@ footer {
     border-radius: 4px 4px 0px 0px;
 }
 
+@media screen and (max-width: 767px) {
+    .rounded-box {
+        border-color: transparent;
+    }
+}
+
 .inline-table-list {
     > div, span {
         margin: 2px;
@@ -573,13 +582,15 @@ $inlines: block, table;
     }
 }
 
-.divider {
-    content: " ";
-    min-height: 500px;
-    margin-left: 20px;
-    margin-right: 20px;
-    position: relative;
-    border-left: 1px solid #EEE;
+.vertical-divider {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    right: 15px;
+    content: "";
+    display: block;
+    background: #EEE;
+    position: absolute;
 }
 
 .padded {
@@ -604,8 +615,26 @@ $inlines: block, table;
         border: 1px solid #2F2F2F;
     }
     .divider {
-        margin-left: 30px;
+        margin-left: 10px;
         margin-right: 10px;
+    }
+    > .col {
+        float: none;
+        position: relative;
+        > vertical-divider {
+            right: 15px;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .profile-container {
+        width: 100%;
+        display: table;
+        > .col {
+            display: table-cell;
+            vertical-align: top;
+        }
     }
 }
 
@@ -613,10 +642,19 @@ $inlines: block, table;
     .profile-container {
         max-height: none;
         overflow: inherit;
+        margin-bottom: 10px;
         ul {
             max-height: none;
         }
     }
+}
+
+.left-border {
+    border-left: 1px solid #EEE;
+}
+
+.right-border {
+    border-right: 1px solid #EEE;
 }
 
 .achievement-list-item {
@@ -632,7 +670,6 @@ $inlines: block, table;
             margin-right: 10px;
             text-align: center;
             display: inline-block;
-            background-color: #DDD;
         }
         &:hover {
             text-decoration: underline;
