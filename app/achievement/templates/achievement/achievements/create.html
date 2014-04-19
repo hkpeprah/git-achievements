@@ -37,6 +37,10 @@
             <div class="col-xs-4 condition-value">
                 <label>Value</label>
             </div>
+            <div class="col-xs-12 condition-quantifier">
+                <label>Quantifier</label>
+                <span class="text-info">If attribute is part of an array, you can specify if all values must pass the test or not.</span>
+            </div>
             <button type="button" class="close js-remove" aria-hidden="true">&times;</button>
         </script>
         <script type="text/template" id="attribute-condition-form">
@@ -51,8 +55,14 @@
             <div class="col-xs-8 condition-attribute condition-attributes">
                 <label>Attributes</label>
             </div>
-            <div class="col-xs-4 condition-method">
-                <label>Method</label>
+            <div class="col-xs-4">
+                <div class="col-xs-12 condition-method">
+                    <label>Method</label>
+                </div>
+                <div class="col-xs-12 condition-quantifier">
+                    <label>Quantifier</label>
+                    <span class="text-info">How attributes passing should be treated.</span>
+                </div>
             </div>
             <button type="button" class="close js-remove" aria-hidden="true">&times;</button>
         </script>

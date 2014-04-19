@@ -5,7 +5,8 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
 from app.services.models import Event
 from app.achievement.models import (Achievement, AchievementCondition, UserProfile, Difficulty, UserAchievement,
-                                    AchievementType, CustomCondition, ValueCondition, AttributeCondition, Method)
+                                    AchievementType, CustomCondition, ValueCondition, AttributeCondition, Method,
+                                    Quantifier, Qualifier)
 
 
 class BaseResource(ModelResource):
@@ -64,6 +65,34 @@ class UserResource(BaseResource):
         return bundle
 
 
+class QualifierResource(BaseResource):
+    """
+    A model resource representing a Qualifier
+    """
+    class Meta:
+        queryset = Qualifier.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'qualifier'
+        limit = 10
+        max_limit = 10
+        excludes = ['callablemethod']
+
+
+class QuantifierResource(BaseResource):
+    """
+    A model resource representing a Quantifier
+    """
+    class Meta:
+        queryset = Quantifier.objects.all()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'quantifier'
+        limit = 10
+        max_limit = 10
+        excludes = ['callablemethod']
+
+
 class ConditionResource(BaseResource):
     """
     A model resource that gets the underlying Condition in an
@@ -91,6 +120,7 @@ class ConditionResource(BaseResource):
         bundle.data['custom'] = condition.is_custom()
         bundle.data['type'] = condition.condition_type.name
         bundle.data['event'] = condition.event_type.name
+
         return bundle
 
 

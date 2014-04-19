@@ -258,6 +258,21 @@ class Application.Models.EventCollection extends Backbone.Collection
         response.objects || []
 
 
+class Application.Models.Quantifier extends Backbone.Model
+    # A quantifier indicates how to handle multiple values
+    getJSON: () ->
+        @get 'id'
+
+
+class Application.Models.QuantifierCollection extends Backbone.Collection
+    # A collection of quantifiers
+    url: API_ROOT.format('quantifier')
+    model: Application.Models.Quantifier
+
+    parse: (response) ->
+        response.objects || []
+
+
 class Application.Models.Method extends Backbone.Model
     # Different methods supported by the application, should be typechecked by the view
     # to ensure the attribute and method types match
@@ -346,7 +361,7 @@ class Application.Views.EventAttributeSelect extends Backbone.View
 
     getSelected: () ->
         selected = @$('option:selected')
-        selected.val()
+        if selected then selected.val() else null
 
     onChange: () =>
         selected = @$('option:selected')
@@ -405,7 +420,11 @@ class Application.Views.DifficultySelect extends Backbone.View
         @parent.trigger @changeTrigger, model
 
     getSelected: () ->
-        cid = @$('option:selected').val()
+        selected = @$('option:selected')
+        if !selected.length
+            selected = @$el.children().eq(0)
+            selected.prop('selected', true)
+        cid = selected.val()
         @collection.get cid
 
     render: () ->
@@ -424,7 +443,8 @@ class Application.Views.DifficultySelect extends Backbone.View
 
             self.$el
                 .attr('id', Application.uniqueId())
-                .select2()
+                .select2
+                    placeholder: 'Select an option'
 
             self.$el.on 'change', self.onChange
             self.$el.change()
@@ -452,7 +472,8 @@ class Application.Views.MethodSelect extends Application.Views.DifficultySelect
             option.text(model.get('name').toTitleCase())
             @$el.append(option)
 
-        @$el.select2()
+        @$el.select2
+            placeholder: 'Select a method'
         @
 
 
@@ -462,6 +483,14 @@ class Application.Views.EventSelect extends Application.Views.DifficultySelect
         @model = @collection
         @parent = opts.parent
         @changeTrigger = 'event:change'
+
+
+class Application.Views.QuantifierSelect extends Application.Views.DifficultySelect
+    initialize: (opts) ->
+        @collection = new Application.Models.QuantifierCollection()
+        @model = @collection
+        @parent = opts.parent
+        @changeTrigger = 'quantifier:change'
 
 
 class Application.Views.AchievementTypeSelect extends Application.Views.DifficultySelect
@@ -577,6 +606,7 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         'attribute': ".condition-attribute"
         'method': ".condition-method"
         'description': ".condition-description"
+        'quantifier': ".condition-quantifier"
 
     initialize: (opts) ->
         @data = {}
@@ -633,6 +663,12 @@ class Application.Views.AttributeConditionForm extends Backbone.View
             for select in self.subviews.attribute
                 select.filter(method.get('argument_type'))
 
+        view = new Application.Views.QuantifierSelect
+            parent: @
+        @subviews.quantifier = view
+        @$(@regions.quantifier).append(view.render().$el)
+        view.$el.css('width', '100%')
+
         view = $('<input></input>')
         @$(@regions.description).append(view)
         @subviews.description = view
@@ -649,6 +685,7 @@ class Application.Views.AttributeConditionForm extends Backbone.View
             method: @subviews.method.getSelected().get('id')
             description: @subviews.description.val()
             event_type: @model.get('id')
+            quantifier: @subviews.quantifier.getSelected().get('id')
 
 
 class Application.Views.ValueConditionForm extends Backbone.View
@@ -662,6 +699,7 @@ class Application.Views.ValueConditionForm extends Backbone.View
         'value': ".condition-value"
         'method': ".condition-method"
         'description': ".condition-description"
+        'quantifier': ".condition-quantifier"
 
     initialize: (opts) ->
         @data = {}
@@ -702,6 +740,12 @@ class Application.Views.ValueConditionForm extends Backbone.View
         @on 'method:change', (method) =>
             self.subviews.attribute.filter(method.get('argument_type'))
 
+        view = new Application.Views.QuantifierSelect
+            parent: @
+        @subviews.quantifier = view
+        @$(@regions.quantifier).append(view.render().$el)
+        view.$el.css('width', '100%')
+
         # We need to create two input objects to accept the description (name)
         # of the condition and the value it expects
         view = $('<input></input>')
@@ -720,6 +764,7 @@ class Application.Views.ValueConditionForm extends Backbone.View
         value: @subviews.value.val()
         event_type: @model.get('id')
         description: @subviews.description.val()
+        quantifier: @subviews.quantifier.getSelected().get('id')
 
 
 class Application.Views.AchievementForm extends Backbone.View

@@ -3,7 +3,8 @@ from django.conf.urls import patterns, include, url
 
 from app.achievement.resources import (UserResource, ConditionResource, AchievementResource, UserAchievementResource,
                                        EventResource, DifficultyResource, AchievementTypeResource, MethodResource,
-                                       CustomConditionResource, ValueConditionResource, AttributeConditionResource)
+                                       CustomConditionResource, ValueConditionResource, AttributeConditionResource,
+                                       QualifierResource, QuantifierResource)
 
 
 api = Api(api_name='v1')
@@ -18,6 +19,8 @@ api.register(ValueConditionResource())
 api.register(AttributeConditionResource())
 api.register(MethodResource())
 api.register(UserAchievementResource())
+api.register(QualifierResource())
+api.register(QuantifierResource())
 
 
 # TODO: These urls will need to be overwritten in the patch to support
