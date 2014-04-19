@@ -36,7 +36,7 @@ addresses, and list the major changes.  In addition, we use the following coding
 
 ## Contributors
 [Ford P, hkpeprah](https://github.com/hkpeprah) - Code + Design  
-[Nicholas Terwoord, nt3rp](https://github.com/nt3rp) - Idea
+[Nicholas Terwoord, nt3rp](https://github.com/nt3rp) - Idea  
 [Brian L, 1337](https://github.com/1337) - Code + Idea
 
 
