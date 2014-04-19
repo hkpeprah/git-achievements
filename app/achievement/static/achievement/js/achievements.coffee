@@ -463,6 +463,7 @@ class Application.Views.DifficultySelect extends Backbone.View
             self.$el
                 .attr('id', Application.uniqueId())
                 .select2
+                    allowClear: true
                     placeholder: placeholder || 'Select an option'
 
             self.$el.on 'change', self.onChange
@@ -482,12 +483,15 @@ class Application.Views.MethodSelect extends Application.Views.DifficultySelect
         @$el.select2('destroy')
         @$el.children().remove()
 
+        if $.isArray(type) and type.length == 1
+            type = type[0]
+
         for model in @collection.models
             argument_type = model.get('argument_type')
             if type and argument_type
-                if $.isArray(type) and type.indexOf(argument_type) == -1
+                if $.isArray(type)
                     continue
-                else if !$.isArray(type) and argument_type != type
+                else if argument_type != type
                     continue
             option = $('<option></option>')
             option.val(model.cid)
@@ -498,6 +502,7 @@ class Application.Views.MethodSelect extends Application.Views.DifficultySelect
             @$el.prepend($('<option></option>'))
 
         @$el.select2
+            allowClear: true
             placeholder: placeholder || 'Select an option'
         @
 
@@ -661,12 +666,19 @@ class Application.Views.AttributeConditionForm extends Backbone.View
         length = @subviews.attribute.length
 
         for i in [0..length - 1] by 1
-            attribute = @subviews.attribute[i].getType()
             qualifier = @subviews.qualifiers[i]
-            types.push(if qualifier && qualifier.getSelected() then qualifier.getSelected().get('return_type') else attribute)
+            type = @subviews.attribute[i].getType()
+
+            if qualifier and qualifier.getSelected()
+                type = qualifier.getSelected().get('return_type')
+
+            if types.indexOf(type) == -1
+                types.push(type)
 
         if types.length
             @subviews.method.filter(types)
+
+        @
 
     addAttribute: () =>
         # Adds the select for a new event attribute to the attribute region
@@ -740,6 +752,9 @@ class Application.Views.AttributeConditionForm extends Backbone.View
             self.filterMethod()
 
         @on 'qualifier:change', (qualifier) =>
+            self.filterMethod()
+
+        @on 'method:change', () =>
             self.filterMethod()
 
         @
