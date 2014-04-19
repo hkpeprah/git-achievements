@@ -4,10 +4,11 @@ import operator
 import re
 import jsonfield
 from django.db import models
-from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from django.dispatch.dispatcher import receiver
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.signals import post_save, pre_delete, post_delete
 
 from app.services.models import Event
 import app.achievement.lib as custom_methods
@@ -300,6 +301,9 @@ class AchievementCondition(models.Model):
         """
         return self.content_object
 
+    def __unicode__(self):
+        return "AchievementCondition: %s" % self.content_object.description
+
 
 class Achievement(BaseModel):
     """
@@ -442,6 +446,59 @@ class UserAchievement(models.Model):
     earned_at = models.DateTimeField(auto_now_add=True)
     achievement = models.ForeignKey('Achievement')
     user = models.ForeignKey('UserProfile')
+
+    def __unicode__(self):
+        return "User: %s, Achievement: %s" % (self.user, self.achievement.name)
+
+
+@receiver(pre_delete, sender=Achievement)
+def _achievement_pre_delete(sender, instance, **kwargs):
+    """
+    When deleting an achievement, the respective UserAchievement has to also
+    be deleted if it exists, and the users who've earned this achievement lose
+    the points that came from it.
+
+    @param sender: The model that triggers the signal
+    @param instance: Instance of the sender
+    @param kwargs: Dictionary of key-value arguments
+    """
+    try:
+        achievement = UserAchievement.objects.filter(achievement=instance)
+        for a in achievement:
+            a.delete()
+    except UserAchievement.DoesNotExist:
+        pass
+
+
+@receiver(post_delete, sender=Achievement)
+def _achievement_post_delete(sender, instance, *args, **kwargs):
+    """
+    Achievements have a OneToOne relation with a badge, which we now need to
+    cleanup.
+
+    @param sender: The model that triggers the signal
+    @param instance: Instance of the sender
+    @param args: list of arguments
+    @param kwargs: Dictionary of key-value arguments
+    """
+    if instance.badge:
+        instance.badge.delete()
+
+
+@receiver(pre_delete, sender=UserAchievement)
+def _user_achievement_delete(sender, instance, **kwargs):
+    """
+    When deleting a user achievement, decrement the user's points to reflect the
+    change.
+
+    @param sender: The model that triggers the signal
+    @param instance: Instance of the sender
+    @param kwargs: Dictionary of key-value arguments
+    """
+    points = instance.achievement.points
+    user = instance.user
+    user.points -= points
+    user.save()
 
 
 class UserProfile(models.Model):

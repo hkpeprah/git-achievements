@@ -108,3 +108,21 @@ class AchievementAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Achievement, AchievementAdmin)
+
+
+class UserAchievementAdmin(admin.ModelAdmin):
+    """
+    Admin for User Achievements.
+    """
+    pass
+
+admin.site.register(UserAchievement, AchievementAdmin)
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    """
+    Admin for user profiles.
+    """
+    pass
+
+admin.site.register(UserProfile, UserProfileAdmin)
