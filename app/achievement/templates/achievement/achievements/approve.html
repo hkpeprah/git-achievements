@@ -82,7 +82,6 @@
                 {% endwith %}
             </div>
             <input class="btn btn-primary btn-submit" name="vote" type="submit" value="downvote" />
-            <br/>
             {% if user.is_superuser or user.moderator %}
                 <input class="btn btn-info btn-submit" name="vote" type="submit" value="approve" />
             {% endif %}

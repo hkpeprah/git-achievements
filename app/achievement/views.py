@@ -169,7 +169,7 @@ def approve_achievement(request, achievement_id):
             else:
                 achievement.downvoters.add(profile)
 
-        elif vote == "approved" and (request.user.is_superuser or profile.moderator):
+        elif vote == "approve" and (request.user.is_superuser or profile.moderator):
             achievement.active = True
             achievement_id = None
 
