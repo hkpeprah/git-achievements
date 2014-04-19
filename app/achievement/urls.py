@@ -38,8 +38,9 @@ urlpatterns = patterns('app.achievement.views',
     url(r'^profile/?$', 'view_own_profile', name='view_own_profile'),
     url(r'^users/(?P<username>\w+)/?$', 'view_profile', name='view_profile'),
 
-    # Information related urls
+    # Information related urls and per user configurations
     url(r'^about/faq/', 'faq', name='faq'),
+    url(r'^settings/', 'user_settings', name='user_settings'),
 
     # The following urls require the user to be authenticated, as
     # such, they should redirect to the login page if the user isn't authenticated

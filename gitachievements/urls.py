@@ -16,6 +16,11 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^services/', include('app.services.urls'), name='services'),
     url(r'', include('social.apps.django_app.urls', namespace='social'), name='social'),
+
+    # Uncomment the following line to use the notification urls from the django-notifications
+    # application.
+    # url(r'^inbox/notifications/', include('notifications.urls', namespace='notifications'), name='notifications'),
+
     # If all else fails, delegate to the achievements application
     # as that is most likely where the url is pointing.
     url(r'', include('app.achievement.urls', app_name='achievements')),

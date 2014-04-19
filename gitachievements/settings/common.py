@@ -97,8 +97,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Third party applications
     'social.apps.django_app.default',
-    'tastypie',
     'south',
+    'tastypie',
+    'notifications',
     # Add custom apps here
     'app.services',
     'app.achievement',
@@ -118,6 +119,8 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 ROOT_URLCONF = 'gitachievements.urls'
 WSGI_APPLICATION = 'gitachievements.wsgi.application'
 
+# All notifications to pass our JSON via the .data attribute
+NOTIFY_USE_JSONFIELD = True
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

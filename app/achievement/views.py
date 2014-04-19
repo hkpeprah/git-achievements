@@ -15,12 +15,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 
 from app.services.models import Event
+from app.achievement.decorators import check_read_notifications
 from app.services.utils import get_contributors, json_response
 from app.achievement.models import (Achievement, Badge, UserProfile, ValueCondition, Quantifier,
                                     CustomCondition, AchievementCondition, AttributeCondition,
                                     Difficulty, AchievementType, Method, ConditionType, Qualifier)
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def index_view(request):
     """
@@ -39,6 +41,7 @@ def index_view(request):
     )
 
 
+@check_read_notifications
 @require_http_methods(["GET", "POST"])
 def login_view(request):
     """
@@ -60,6 +63,7 @@ def login_view(request):
 
 
 @login_required
+@check_read_notifications
 @require_http_methods(["GET", "POST"])
 def create_achievement(request):
     """
@@ -160,6 +164,7 @@ def create_achievement(request):
 
 
 @login_required
+@check_read_notifications
 @require_http_methods(["GET", "POST"])
 def approve_achievement(request, achievement_id):
     """
@@ -239,6 +244,7 @@ def approve_achievement(request, achievement_id):
 
 
 @login_required
+@check_read_notifications
 @require_http_methods(["GET", "POST"])
 def edit_achievement(request, achievement_id):
     """
@@ -252,6 +258,7 @@ def edit_achievement(request, achievement_id):
     return HttpResponse("Achievement edit page.")
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def view_achievement(request, achievement_id):
     """
@@ -275,6 +282,7 @@ def view_achievement(request, achievement_id):
     )
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def view_achievements(request):
     """
@@ -307,6 +315,7 @@ def view_achievements(request):
     )
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def view_profile(request, username):
     """
@@ -326,6 +335,7 @@ def view_profile(request, username):
     )
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def view_own_profile(request):
     """
@@ -341,6 +351,7 @@ def view_own_profile(request):
     return redirect('/users')
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def view_profiles(request):
     """
@@ -371,6 +382,7 @@ def view_profiles(request):
     )
 
 
+@check_read_notifications
 @require_http_methods(["GET"])
 def faq(request):
     """
@@ -381,3 +393,14 @@ def faq(request):
             'contributors': get_contributors(),
         })
     )
+
+
+@login_required
+@check_read_notifications
+@require_http_methods(["GET", "POST"])
+def user_settings(request):
+    """
+    User settings page.
+    """
+    return render_to_response("achievement/about/settings.html",
+        context_instance=RequestContext(request))

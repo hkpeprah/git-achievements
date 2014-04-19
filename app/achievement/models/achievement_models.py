@@ -14,6 +14,7 @@ from app.services.models import Event
 import app.achievement.lib as custom_methods
 from app.achievement.utils import find_nested_json
 from app.achievement.models.base_models import BaseModel, BaseCallableModel, BaseTypeModel
+from app.achievement.models.signals import notify_achievement_approved, notify_achievement_unlocked
 
 
 class Difficulty(models.Model):
@@ -603,4 +604,9 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile, created = UserProfile.objects.get_or_create(user=instance)
         profile.save()
 
-post_save.connect(create_user_profile, sender=User) # Add post-save hook to create profile when user is made
+# Add our signals here
+# Hook to create user profiles when a user is created either through Django or Social Auth
+# Notification signals to send emails/notifications to users
+post_save.connect(create_user_profile, sender=User)
+post_save.connect(notify_achievement_approved, sender=Achievement)
+post_save.connect(notify_achievement_unlocked, sender=UserAchievement)

@@ -2,6 +2,9 @@ import re
 import json
 import collections
 
+from django.http import QueryDict
+from django.core.urlresolvers import reverse
+
 
 def is_callable(function):
     return hasattr(function, '__call__')
@@ -70,3 +73,23 @@ def populate_profile_fields(strategy, details, response, uid, user, *args, **kwa
 
     user.profile.attributes = attributes
     user.profile.save()
+
+
+def reverse_with_query_params(view, params=None, *args, **kwargs):
+    """
+    Creates a reverse for a url with added query string
+    parameters.
+
+    @param view: The view function to create the url for
+    @param params: List of key-value arguments to add in the parameters
+    @param args: List of arguments to use in creating the reversed url
+    @param kwargs: List of keyvalue arguments to use in creating the reversed url
+    """
+    if not params:
+        params = {}
+
+    reversed_url = reverse(view, args=args, kwargs=kwargs)
+    query_params = QueryDict('', mutable = True)
+    query_params.update(params)
+
+    return "{0}?{1}".format(reversed_url, query_params.urlencode())
