@@ -28,7 +28,7 @@ Besides those two guides, if you're familiar with setting up a Django applicatio
 ## Contributing
 Contributing to Git Achievements is simple; fork the repository, make your changes, and submit a pull request.  To help your pull request make it easily into the repository, add tests, describe in full what issue your pull request
 addresses, and list the major changes.  In addition, we use the following coding style:
-* CoffeeScript is indented with `4` spaces as opposed to the traditional 2.
+* CoffeeScript is indented with `4` spaces as opposed to the traditional `2`.
 * Camel-casing for CoffeeScript.
 * Underscores for function names in Python (e.g. `get_last_object` instead of `getLastObject` or `getlastobject`)
 * Avoid JavaScript if at all possible, instead favour CoffeeScript.
