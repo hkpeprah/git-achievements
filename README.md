@@ -3,7 +3,9 @@ Git Achievements
 ## Development Setup
 1. [Set up a virtual environment](http://virtualenvwrapper.readthedocs.org/en/latest/) for the project.
 1. Enable the virtual environment and run `pip install -r requirements/dev.txt` from the project directory.
-1. Run `python manage.py syncdb` to load the events and `python manage.py add_sample_data` to load the initial data.
+1. Run `python manage.py syncdb` to initialize the database.
+1. Run `python manage.py migrate` to forward the database.
+1. Run `python manage.py add_sample_data` to load the initial data.
 1. Run `python manage.py runserver` to launch the server.
 1. Add social auth key/secret pair if you want to login as your Github profile, otherwise you can login via the admin page `/admin`, then navigate to the root.
 1. [Set up a watcher to convert all SCSS files to CSS files](http://www.jetbrains.com/webstorm/webhelp/transpiling-sass-less-and-scss-to-css.html#d128011e807).
@@ -21,7 +23,9 @@ Besides those two guides, if you're familiar with setting up a Django applicatio
 1. You need to have `psycopg2`, `python-dev` and `nginx` installed which you should have from prior steps (if on Mac, you can replace `sudo apt-get install` with `brew install` using [brew](http://brew.sh/)).
 1. Generate a secret key/id pair by [registering a new application on Github](https://github.com/settings/applications/new).
 1. Copy the `samples/settings/custom.py` settings file to `gitachievements/settings/custom.py` and fill it in the with the relevant information you obtained from the above steps.
-1. Run `python manage.py syncdb` to load in the events, and if you want to have initial data, then run `python manage.py add_sample_data` as well.
+1. Run `python manage.py syncdb` to initialize the database.
+1. Run `python manage.py migrate` to migrate forward the database.
+1. If you want to have initial data, then run `python manage.py add_sample_data` as well.
 1. You will need `coffee` and `sass` to compile the `.coffeescript` and `.scss`, you can install coffeescript via [npm](https://www.npmjs.org/package/coffee-script) and sass via [gem](https://rubygems.org/gems/sass)
 1. A convenience script in included in `samples/bin` called `gunicorn_start`, you can fill that in and give it as passenger's command.
 
