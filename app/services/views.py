@@ -89,5 +89,6 @@ def web_local_hook(request):
     """
     data = json.loads(request.body)
     data = check_for_unlocked_achievements(data.get('event'), data.get('payload'))
+
     return HttpResponse(json.dumps(data), status=200,
         content_type="application/json")

@@ -16,63 +16,48 @@ class EventData(object):
         'author.username',
         'creator.login',
         'creator.username',
-        'sendor.login',
+        'sender.login',
     )
+
+    USER_KEY_PATTERNS = {
+        'follow': 'target.login',
+        'fork': 'forkee.owner.login',
+        'issues': {
+            'closed': 'issue.closed_by.login',
+            'default': 'issue.user.login'
+        },
+        'member': 'member.login',
+        'page_build': 'build.pusher.login',
+        'pull_request': {
+            'opened': 'pull_request.user.login',
+            'default': 'sender.login'
+        },
+        'push': 'commits.author.username',
+        'release_event': 'release.author.login',
+        'team_add': 'user.login'
+    }
 
     def __init__(self, event_type, *args, **kwargs):
         self.payload = kwargs
         # Find the individual aspects of a payload.  These vary depending on
         # the hook that was triggered.
         self.user = None
-        if "_comment" in event_type:
-            self.user = kwargs['comment']['user']['login']
-            self.body = kwargs['comment']['body']
-            self.url = kwargs['comment']['url']
-        elif event_type == "follow":
-            self.user = kwargs['target']['login']
-        elif event_type == "fork":
-            self.user = kwargs['forkee']['owner']['login']
-            self.url = kwargs['forkee']['url']
-            self.original_user = kwargs['forkee']['source']['owner']['login']
-            self.original_url = kwargs['forkee']['source']['url']
-        elif event_type == "issues":
-            self.action = kwargs['action']
-            self.user = kwargs['issue']['closed_by']['login'] if self.action == 'closed' else \
-                kwargs['issue']['user']['login']
-            self.url = kwargs['issue']['url']
-        elif event_type == "member":
-            self.user = kwargs['member']['login']
-            self.action = kwargs['action']
-        elif event_type == "page_build":
-            self.user = kwargs['build']['pusher']['login']
-            self.url = kwargs['build']['url']
-        elif event_type == "pull_request":
-            self.action = kwargs['action']
-            self.number = kwargs['number']
-            self.url = kwargs['pull_request']['url']
-            self.sha = kwargs['pull_request']['head']['sha']
-            if self.action == 'closed':
-                self.user = kwargs['pull_request']['closed_by']['login']
-            elif self.action == 'synchronize':
-                self.user = kwargs['pull_request']['merged_by']['login']
+        key_pattern = EventData.USER_KEY_PATTERNS.get(event_type, None)
+
+        if key_pattern is not None:
+            # If a key pattern exists, find the user using that key
+            # pattern
+            if isinstance(key_pattern, str):
+                user = find_nested_json(kwargs, key_pattern.split('.'))
+                if isinstance(user, list):
+                    self.user = user[0]
+                elif user:
+                    self.user = user
             else:
-                self.user = kwargs['pull_request']['user']['login']
-        elif event_type == "push":
-            self.sha = kwargs['head']
-            self.url = kwargs['commits'][0]['url']
-            self.user = kwargs['commits'][0]['author']['login']
-        elif event_type == "release_event":
-            self.user = kwargs['release']['author']['login']
-            self.assets = kwargs['release']['assets']
-            self.url = kwargs['release']['url']
-        elif event_type == "status":
-            self.sha = kwargs['sha']
-            self.url = kwargs['target_url']
-        elif event_type == "team_add":
-            if 'user' in kwargs and 'login' in kwargs['user']:
-                self.user = kwargs['user']['login']
-            if 'repository' in kwargs:
-                self.url = kwargs['repository']['url']
+                key_pattern = key_pattern.get(kwargs.get('action', ''), key_pattern['default'])
+                user = find_nested_json(kwargs, key_pattern.split('.'))
+                if user:
+                    self.user = user[0] if isinstance(user, list) else user
 
         # Ensure we got a user object, otherwise try to find one using
         # a generic key list of potential user locations
