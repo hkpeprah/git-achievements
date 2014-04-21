@@ -193,7 +193,6 @@ def approve_achievement(request, achievement_id):
             # added as active
             if achievement.approval >= threshold and threshold > 0:
                 achievement.active = True
-                achievement_id = None
 
         elif vote == "downvote":
             if profile in achievement.upvoters.all():
@@ -203,12 +202,11 @@ def approve_achievement(request, achievement_id):
 
         elif vote == "approve" and (request.user.is_superuser or profile.moderator):
             achievement.active = True
-            achievement_id = None
 
         achievement.save()
 
-        if not achievement_id:
-            return redirect('view_achievmeent', achivement_id=achievement_id)
+        if achievement.active:
+            return redirect('view_achievement', achievement_id=achievement_id)
 
         return redirect('approve_achievement', achievement_id=achievement_id)
 
