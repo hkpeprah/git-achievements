@@ -20,7 +20,7 @@ def notify_achievement_approved(sender, instance, created, **kwargs):
             # Only notify if there's actually a creator attached to the achievement
             notify.send(instance, recipient=creator.user, verb='was approved.',
                 description='Your achievement, {0} was approved.'.format(instance.name),
-                url=reverse('view_achievement', achievement_id=instance.pk))
+                url=reverse('view_achievement', achievement_id=instance.achievement.pk))
 
     return None
 
@@ -43,6 +43,6 @@ def notify_achievement_unlocked(sender, instance, created, **kwargs):
 
     notify.send(instance, recipient=instance.user.user, verb='was unlocked',
         description='You have unlocked "{0}"'.format(instance.achievement.name),
-        url=reverse('view_achievement', achievement_id=instance.pk))
+        url=reverse('view_achievement', achievement_id=instance.achievement.pk))
 
     return None
