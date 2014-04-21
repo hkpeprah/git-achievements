@@ -381,7 +381,7 @@ def view_profiles(request):
     """
     query = urllib2.unquote(request.GET.get("q", ""))
     page = request.GET.get('page', 1)
-    users = UserProfile.objects.filter(user__username__contains=query)
+    users = UserProfile.objects.order_by('-points').filter(user__username__contains=query)
     paginator = Paginator(users, 15)
 
     try:
