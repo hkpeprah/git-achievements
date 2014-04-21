@@ -38,9 +38,5 @@ def check_for_unlocked_achievements(event, payload, user=None):
             if user:
                 unlocked_achievement = UserAchievement(achievement=achievement, user=user)
                 unlocked_achievement.save()
-                user.points = user.points + achievement.points
-
-    if user:
-        user.save()
 
     return unlocked_achievements

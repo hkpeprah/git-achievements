@@ -38,6 +38,9 @@ def notify_achievement_unlocked(sender, instance, created, **kwargs):
     if not created:
         return None
 
+    instance.user.points += instance.achievement.points
+    instance.user.save()
+
     notify.send(instance, recipient=instance.user.user, verb='was unlocked',
         description='You have unlocked "{0}"'.format(instance.achievement.name),
         url=reverse('view_achievement', achievement_id=instance.pk))

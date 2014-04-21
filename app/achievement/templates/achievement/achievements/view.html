@@ -42,7 +42,7 @@
         </div>
         <div class="row">
             {% for user in achievement.users %}
-                <div class="user">
+                <div class="user inline-block">
                     <a class="img-overlay" href="{% url 'view_profile' username=user.username %}">
                         <img src="{{ user.attributes.avatar_url }}" />
                         <div class="overlay">
