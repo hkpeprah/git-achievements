@@ -22,8 +22,6 @@ def notify_achievement_approved(sender, instance, created, **kwargs):
                 description='Your achievement, {0} was approved.'.format(instance.name),
                 url=reverse('view_achievement', achievement_id=instance.achievement.pk))
 
-    return None
-
 
 def notify_achievement_unlocked(sender, instance, created, **kwargs):
     """
@@ -39,10 +37,38 @@ def notify_achievement_unlocked(sender, instance, created, **kwargs):
         return None
 
     instance.user.points += instance.achievement.points
+    instance.user.badges.add(instance.achievement.badge)
     instance.user.save()
 
     notify.send(instance, recipient=instance.user.user, verb='was unlocked',
         description='You have unlocked "{0}"'.format(instance.achievement.name),
         url=reverse('view_achievement', achievement_id=instance.achievement.pk))
 
-    return None
+
+def on_achievement_deleted(sender, instance, *args, **kwargs):
+    """
+    Achievements have a OneToOne relation with a badge, which we now need to
+    cleanup.
+
+    @param sender: The model that triggers the signal
+    @param instance: Instance of the sender
+    @param args: list of arguments
+    @param kwargs: Dictionary of key-value arguments
+    """
+    if instance.badge:
+        instance.badge.delete()
+
+
+def before_userachievement_deleted(sender, instance, **kwargs):
+    """
+    When deleting a user achievement, decrement the user's points to reflect the
+    change.
+
+    @param sender: The model that triggers the signal
+    @param instance: Instance of the sender
+    @param kwargs: Dictionary of key-value arguments
+    """
+    points = instance.achievement.points
+    user = instance.user
+    user.points -= points
+    user.save()

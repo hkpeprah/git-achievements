@@ -50,26 +50,30 @@
         <hr>
         <div class="text-center" style="padding-top:8px;padding-bottom:8px;">
             <h3>Achievements Created by {{ profile.username }}</h3>
-            <ul class="unstyled">
-                {% for achievement in profile.created_achievements.all %}
-                    <li class="achievement-list-item text-left">
-                        <a class="" href="{% if achievement.active %}{% url 'view_achievement' achievement_id=achievement.id %}
-                                 {% else %}{% url 'approve_achievement' achievement_id=achievement.id %}{% endif %}">
-                            {% if achievement.active %}
-                                <span class="bg-primary points">{{ achievement.earned_count }}</span>
-                                <span>(Active)</span>
-                            {% else %}
-                                <span class="points {% if achievement.approval < 0 %}bg-danger
-                                             {% elif achievement.approval == 0 %}bg-info{% else %}bg-primary{% endif %}">
-                                    {{ achievement.approval }}
-                                </span>
-                                <span>(In Voting Stage)</span>
-                            {% endif %}
-                            <span>{{ achievement.name }}</span>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% if profile.created_achievements.all|length == 0 %}
+                <p>{{ profile.username }} hasn't created any achievements.</p>
+            {% else %}
+                <ul class="unstyled">
+                    {% for achievement in profile.created_achievements.all %}
+                        <li class="achievement-list-item text-left">
+                            <a class="" href="{% if achievement.active %}{% url 'view_achievement' achievement_id=achievement.id %}
+                                              {% else %}{% url 'approve_achievement' achievement_id=achievement.id %}{% endif %}">
+                                {% if achievement.active %}
+                                    <span class="bg-primary points">{{ achievement.earned_count }}</span>
+                                    <span>(Active)</span>
+                                {% else %}
+                                    <span class="points {% if achievement.approval < 0 %}bg-danger
+                                                 {% elif achievement.approval == 0 %}bg-info{% else %}bg-primary{% endif %}">
+                                        {{ achievement.approval }}
+                                    </span>
+                                    <span>(In Voting Stage)</span>
+                                {% endif %}
+                                <span>{{ achievement.name }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
         <hr>
         <div class="text-center">
