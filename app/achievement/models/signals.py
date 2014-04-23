@@ -36,8 +36,9 @@ def notify_achievement_unlocked(sender, instance, created, **kwargs):
     if not created:
         return None
 
+    if instance.achievement.badge:
+        instance.user.badges.add(instance.achievement.badge)
     instance.user.points += instance.achievement.points
-    instance.user.badges.add(instance.achievement.badge)
     instance.user.save()
 
     notify.send(instance, recipient=instance.user.user, verb='was unlocked',
