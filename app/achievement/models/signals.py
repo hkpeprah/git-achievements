@@ -70,5 +70,5 @@ def before_userachievement_deleted(sender, instance, **kwargs):
     """
     points = instance.achievement.points
     user = instance.user
-    user.points -= points
+    user.points = max(user.points - points, 0)
     user.save()
