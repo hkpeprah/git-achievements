@@ -1,5 +1,10 @@
 Git Achievements
 ===================
+## Using Git Achievements
+* Head to www.git-achievements.com and register through OAuth.
+* Add `www.git-achievements.com/services/hooks/web` as a webhook in your repository
+* Done
+
 ## Development Setup
 1. [Set up a virtual environment](http://virtualenvwrapper.readthedocs.org/en/latest/) for the project.
 1. Enable the virtual environment and run `pip install -r requirements/dev.txt` from the project directory.
