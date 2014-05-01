@@ -34,7 +34,8 @@ class EventData(object):
         },
         'push': 'commits.author.username',
         'release_event': 'release.author.login',
-        'team_add': 'user.login'
+        'team_add': 'user.login',
+        'watch': 'sender.login'
     }
 
     def __init__(self, event_type, *args, **kwargs):
@@ -66,6 +67,7 @@ class EventData(object):
             for user_key in user_keys:
                 self.user = find_nested_json(kwargs, user_key.split('.'))
                 if self.user is not None:
+                    self.user = self.user[0] if isinstance(self.user, list) else self.user
                     break
 
     def __len__(self):
