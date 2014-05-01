@@ -18,7 +18,7 @@ def find_nested_json(obj, keys):
 
     @param obj: json
     @param keys: list of string
-    @return: object
+    @return: list of objects
     """
     enqueued = collections.deque([(obj, keys)])
     results = []
