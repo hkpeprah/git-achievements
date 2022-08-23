@@ -1,8 +1,8 @@
 Git Achievements
 ===================
 ## Using Git Achievements
-* Head to www.git-achievements.com and register through OAuth.
-* Add `www.git-achievements.com/services/hooks/web` as a webhook in your repository
+* Register through OAuth.
+* Add `services/hooks/web` as a webhook in your repository.
 * Done
 
 ## Development Setup
